@@ -1,0 +1,322 @@
+@charset "UTF-8";
+/*
+* 新版登录样式（sass版），将各登录模块的可变部分抽象成变量的形式
+* 初版，有待持续优化
+*/
+.main-content-box {
+  z-index: 100;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.login-bg-1 {
+  z-index: 50;
+  position: absolute;
+  left: -88px;
+  top: -102px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  opacity: 0.1;
+  background-image: -webkit-linear-gradient(60deg, #58D0A6 8%, #009688 95%);
+  box-shadow: 0 5px 19px 0 rgba(78, 201, 162, 0.43);
+}
+
+.login-bg-2 {
+  z-index: 50;
+  position: absolute;
+  right: -45px;
+  top: -45px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  opacity: 0.1;
+  background-image: -webkit-linear-gradient(29deg, #FF7C56 4%, #ED1C24 80%);
+  box-shadow: 0 -6px 15px 0 rgba(255, 196, 57, 0.46);
+}
+
+.login-bg-3 {
+  z-index: 50;
+  position: absolute;
+  right: 2%;
+  bottom: -70px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  opacity: 0.1;
+  background-image: -webkit-linear-gradient(49deg, #ED1C24 18%, #FF7C56 81%);
+  box-shadow: 0 -6px 15px 0 rgba(255, 196, 57, 0.46);
+}
+
+.login-head {
+  width: 100%;
+  padding-top: 15%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.login-head .title {
+  font-size: 26px;
+  color: #333;
+  margin-top: 20px;
+}
+
+.login-head .sub-title {
+  font-size: 16px;
+  color: #333;
+  margin-top: 5px;
+}
+
+.login-senguo-logo {
+  width: 100px;
+  box-shadow: 0 2px 8px 0 rgba(0, 91, 171, 0.2);
+  border-radius: 10px;
+}
+
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+  color: #333 !important;
+  background-color: transparent !important;
+}
+
+.zb-tip {
+  width: 70%;
+  max-width: 700px;
+  position: fixed;
+  left: 50%;
+  top: 20%;
+  -webkit-transform: translate(-50%, -50%);
+  z-index: 10000;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 8px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 26px;
+  background-color: rgba(255, 105, 105, 0.8);
+}
+
+.forbid {
+  background-color: #ccc !important;
+  border-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.login-title {
+  font-size: 26px;
+  color: #fff;
+  text-align: center;
+  padding: 40px 0 110px 0;
+  background: #005BAB;
+}
+
+.goods-item-list > li {
+  position: relative;
+  min-height: 40px;
+  padding: 3px 10px;
+  border: 2px solid #DBDBDB;
+  border-radius: 100px;
+  text-align: right;
+}
+
+.goods-item-list .left-span {
+  color: #9f9f9f;
+  font-size: 16px;
+  position: absolute;
+  left: 18px;
+  top: 14px;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.goods-item-list .right-div {
+  min-height: 40px;
+  display: inline-block;
+  max-width: 230px;
+  font-size: 0;
+}
+
+.goods-item-list .hover-li {
+  border-color: #005BAB;
+}
+
+.goods-item-list .hover-li .left-span {
+  color: #005BAB;
+}
+
+.get-verifycode {
+  display: inline-block;
+  color: #005BAB;
+  border-left: 2px solid #DBDBDB;
+  background-color: #fff;
+  vertical-align: middle;
+  width: 48px;
+  text-align: center;
+  height: 36px;
+  line-height: 36px;
+  padding-left: 10px;
+  font-size: 14px;
+}
+
+.get-verifycode-forbid {
+  color: #666;
+  border-color: #666;
+}
+
+.wrap-lbtn {
+  margin-top: 15px;
+  text-align: center;
+  padding: 0 4px;
+}
+
+.wrap-lbtn > a {
+  display: inline-block;
+  font-size: 20px;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  color: #fff;
+  background-image: -webkit-linear-gradient(-135deg, #4EC4DB 0%, #005BAB 100%);
+  box-shadow: 0 2px 6px 0 rgba(0, 91, 171, 0.5);
+  border-radius: 100px;
+}
+
+.wx-head-btn {
+  display: inline-block;
+  width: 60px;
+  text-align: center;
+}
+
+.wx-login-btn {
+  position: relative;
+  top: 0;
+  display: block;
+  width: 60px;
+  text-align: center;
+  margin: 24px auto 0 auto;
+  z-index: 99;
+}
+
+.wx-login-btn img {
+  border-radius: 50%;
+  width: 50px;
+}
+
+.right-ipt {
+  height: 40px;
+  vertical-align: middle;
+  width: 140px;
+  text-align: right;
+  font-size: 20px;
+  color: #333;
+  padding: 0 10px;
+}
+
+.hover-li .right-ipt {
+  background-color: transparent;
+}
+
+.login-type-list > li {
+  float: left;
+  width: 50%;
+  text-align: center;
+  height: 36px;
+  vertical-align: bottom;
+}
+
+.login-type-list .item {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  color: #fff;
+  opacity: .4;
+  font-size: 16px;
+}
+
+.login-type-list > .active .item {
+  border-bottom: 4px solid #fff;
+  opacity: 1;
+}
+
+.wrap-login-div {
+  position: relative;
+}
+
+.wrap-login-box {
+  padding: 0 10px;
+}
+
+.wrap-login-wx {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.wrap-login-wx > .title {
+  font-size: 30px;
+  color: #333;
+  margin-top: 20px;
+}
+
+.wrap-login-wx > .sub-title {
+  font-size: 16px;
+  color: #333;
+  margin-top: 5px;
+}
+
+.login-senguo-logo {
+  width: 100px;
+  box-shadow: 0 2px 8px 0 rgba(0, 91, 171, 0.2);
+  border-radius: 10px;
+}
+
+.wrap-big-wxlogin {
+  padding: 0 20px;
+  margin-top: 16%;
+}
+
+.big-wxlogin-btn {
+  line-height: 50px;
+  background: #03C434;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 20px;
+}
+
+.icon-wx-white {
+  margin-right: 6px;
+  display: inline-block;
+  width: 38px;
+  height: 32px;
+  background: url("../../images/wx_white.png") no-repeat center/38px;
+  vertical-align: -9px;
+}
+
+.arr-righ {
+  display: inline-block;
+  vertical-align: -2px;
+  width: 8px;
+  height: 14px;
+  background: url("../../common/img/arr_right.png") no-repeat center/8px;
+}
+
+.wrap-fixed-register {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+}
+
+.login-out {
+  background: #AE5051 !important;
+  color: #fff !important;
+  text-align: center;
+}
+
+.font-color {
+  color: #005BAB;
+}

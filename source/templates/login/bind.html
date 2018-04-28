@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title%}果蔬库存管理-绑定手机号{%end %}
+{% block head%}<link rel="stylesheet" href="{{static_url('login/css/main.css')}}"/>{%end %}
+{% block content %}
+<div class="login-title" style="padding-bottom: 40px;">
+    <a href="javascript:;" class="wx-head-btn">
+        <img src="{{user_info['imgurl'] or static_url('common/img/person.png')}}" style="width:60px;" alt="头像">
+    </a>
+    <p class="cfff f16 mt10">{{user_info['nickname'] or '无昵称'}}</p>
+</div>
+<div class="wrap-login-div">
+    <div class="wrap-login-box mt20">
+        <ul class="goods-item-list">
+            <li class="price_item_li mb10">
+                <span class="left-span">姓名</span>
+                <div class="right-div">
+                    <input type="text" placeholder="输入姓名" id="name" class="right-ipt goods-ript user_name" value="">
+                </div>
+            </li>
+            <li class="price_item_li mb10">
+                <span class="left-span">绑定手机号</span>
+                <div class="right-div">
+                    <input type="tel" placeholder="输入手机号" id="phone" class="right-ipt goods-ript user_phone" value="">
+                </div>
+            </li>
+            <li class="price_item_li mb10">
+                <span class="left-span">验证码</span>
+                <div class="right-div">
+                    <input type="tel" placeholder="输入验证码" id="code" class="right-ipt goods-ript user_code" value="">
+                    <a href="javascript:;" class="get-verifycode get_code" data-action="bind">发送</a>
+                </div>
+            </li>
+        </ul>
+        <div class="wrap-lbtn">
+            <a href="javascript:;" class="finish-btn forbid" id="finishBind">完成</a>
+        </div>
+    </div>
+</div>
+{% end %}
+{% block bottom %}
+<script src="{{static_url('login/js/m_login.js')}}"></script>
+{% end %}

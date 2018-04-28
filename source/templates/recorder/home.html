@@ -1,0 +1,408 @@
+{% extends 'base.html' %}
+{% block title %}主页{% end %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{{static_url('common/js/mcalendar/mcalendar.css')}}">
+<!-- <link rel="stylesheet" type="text/css" href="{{static_url('kaipiao/css/main.css')}}"> -->
+{% end %}
+{% block header %}
+{% end %}
+{% block setcontent %}
+{% set tab = 0 %}
+<div class="container pt0">
+    <div class="page_item page-data hide">
+        <div class="goods-head-box">
+            <div class="goods-head group">
+                <div class="shop-img-box pull-left">
+                    <img class="cur_shop_img" src="../../static/images/shop_picture.png" alt="">
+                </div>
+                <div class="pull-left">
+                    <div class="shop-name switch_shop">
+                        <p class="cur_shop_name">家乐福光谷广场店</p>
+                        <i class="hide"></i>
+                    </div>
+                    <div class="switch-type switch_type">
+                        <span class="switch-fruit pull-left switch_fruit active" data-type="1">水果</span>
+                        <span class="switch-vegetable switch_vegetable pull-right" data-type="2">蔬菜</span>
+                    </div>
+                </div>
+            </div>
+            <div class="search-box">
+                <div class="search-input go_search_goods">搜索</div>
+            </div>
+        </div>
+
+        <div class="goods-list" id="wrapper1">
+            <div id="scroller1">
+                <div class="pull-down-refresh hide"></div>
+                <ul class="goods-list-box goods_list_box fruit_goods_list_box" >
+
+                </ul>
+                <ul class="goods-list-box goods_list_box vegetable_goods_list_box hide">
+
+                </ul>
+            </div>
+        </div>
+        <div class="fix-manage-div">
+            <a href="javascript:;" class="goods-scan goods_scan"></a>
+        </div>
+    </div>
+    <div class="page_item page-goods hide">
+        <div class="fixnav top-mnav">
+            <div class="wrap-pgoods-title">
+                <span class="font-color f18">记录</span>
+            </div>
+        </div>
+        <div class="record-box">
+            <div class="record-box-head">
+                <div class="wrap-date-btn">
+                    <input type="text" class="date-ipt-btn choose_date" readonly="true" onclick="initMCalendar({sureDate:function(){}},$(this));">
+                    <i></i>
+                </div>
+                <span class="ml20 record_weather_span">周四，晴，2~13℃</span>
+            </div>
+            <div class="record-list-box" id="wrapper" style="position:relative;bottom: 0;">
+                <div class="cur-day-record-list cur_day_record_list" style="width: 680px;" id="scroller">
+                    <ul class="record-list-header">
+                            <li class="li-item-1">商品名</li>
+                            <li >单位</li>
+                            <li>订货</li>
+                            <li><span class="four-num">昨日损耗</span></li>
+                            <li><span class="four-num">昨日销量</span></li>
+                            <li><span class="four-num">今日到货</span></li>
+                            <li><span class="four-num">今日进价</span></li>
+                            <li><span class="four-num">今日售价</span></li>
+                            <li><span class="four-num">当前库存</span></li>
+                            <li class="li-item-2"><span class="four-num">提交时间</span></li>
+                            <li class="li-item-3">提交人</li>
+                    </ul>
+                    <!-- <ul class="cur_day_record_list_item">
+                        <li class="li-item-1">哈哈</li>
+                        <li>kg</li>
+                        <li>1000</li>
+                        <li>20</li>
+                        <li>800</li>
+                        <li>12.5</li>
+                        <li>15</li>
+                        <li>19</li>
+                        <li>50</li>
+                        <li class="li-item-2">2014.12.45</li>
+                        <li class="li-item-3">65165165165</li>
+                    </ul> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page_item page-profile {% if tab!=3 %}hide{% end %}">
+        <div class="fixnav top-mnav">
+            <div class="wrap-pgoods-title">
+                <span class="font-color f18">个人中心</span>
+            </div>
+        </div>
+        <div class="wrap-profile-list">
+            <ul class="goods-item-list profile-list">
+                <li>
+                    <span class="left-span">头像</span>
+                    <div class="right-div">
+                        <img class="person-headimg user_head_img" src="../../static/common/img/person.png" id="profile_img" url="" alt="头像">
+                        <i class="i-edit r10 hide"></i>
+                    </div>
+                </li>
+                <li>
+                    <span class="left-span">昵称</span>
+                    <div class="right-div">
+                        <p class="supply-name pr0 user_nick_name"></p>
+                        <i class="i-edit r10 hide"></i>
+                    </div>
+                </li>
+                <li>
+                    <span class="left-span">性别</span>
+                    <div class="right-div">
+                        <p class="supply-name pr0 user_sex"></p>
+                        <i class="i-edit r10 hide"></i>
+                    </div>
+                </li>
+                <li>
+                    <span class="left-span">手机号绑定</span>
+                    <div class="right-div">
+                        <p class="supply-name reset_phone">
+                            <span class="user_phone"></span>
+                            <a href="javascript:;" class="reset-button ml10"></a>
+                        </p>
+                        <i class="i-edit r10"></i>
+                    </div>
+                </li>
+                <li>
+                    <span class="left-span">角色切换</span>
+                    <div class="right-div">
+                        <p class="supply-name go_to_admin">进入管理端</p>
+                        <i class="i-edit r10"></i>
+                    </div>
+                </li>
+                <li class="update_li" id="check_update">
+                    <span class="left-span">检查更新</span>
+                    <div class="right-div">
+                        <!-- <p class="supply-name reset_password"><a href="javascript:;" class="reset-button">重置</a></p> -->
+                        <i class="i-edit r10"></i>
+                    </div>
+                </li>
+                <li class="hide">
+                    <span class="left-span">密码管理</span>
+                    <div class="right-div">
+                        <p class="supply-name reset_password"><a href="javascript:;" class="reset-button">重置</a></p>
+                        <i class="i-edit r10"></i>
+                    </div>
+                </li>
+            </ul>
+            
+            <ul class="goods-item-list profile-list mt10">
+                <li class="txt-center">
+                    <a href="/logout" class="logout-btn">退出登录</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="fixnav bmnav bm_nav">
+    <ul class=" bm_tab_list footer-tab group footer-tab">
+        <li class="{% if tab==0%}active{% end %}">
+            <i class="i-goods"></i>
+            <p>录数据</p>
+        </li>
+        <li class="{% if tab==1%}active{% end %}">
+            <i class="i-record"></i>
+            <p>记录</p>
+        </li>
+        <!-- <li class="{% if tab==2%}active{% end %} man-li">
+            <i class="i-setting"></i>
+            <p>设置</p>
+        </li> -->
+        <li class="{% if tab==3%}active{% end %}">
+            <i class="i-center"></i>
+            <p>个人中心</p>
+        </li>
+    </ul>
+</div>
+
+<div class="pop-bwin pop-phone hide">
+    <div class="pop-content">
+        <div class="pop-content-box">
+            <p class="content-title">更换手机号</p>
+            <div class="wrap-profile-cbox">
+                <input type="text" class="print-pipt profile-ipt profile_tel" placeholder="输入手机号" id="phone">
+                <div class="wrap-profile-code mt10">
+                    <input type="text" class="print-pipt profile-ipt profile_code" placeholder="输入验证码" id="code">
+                    <a href="javascript:;" class="get-code get_code" data-action="bind">获取验证码</a>
+                </div>
+            </div>
+        </div>
+        <div class="pop-btns-group no-shadow">
+            <div class="wrap-gbtns group">
+                <a href="javascript:;" class="cancel-btn closewin grey_btn">取消</a>
+                <a href="javascript:;" class="ok-btn ok_phone grey_btn">完成</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="pop-bwin pop-password hide">
+    <div class="pop-content">
+        <div class="pop-content-box">
+            <p class="content-title">重置密码</p>
+            <div class="wrap-profile-cbox">
+                <input type="text" class="print-pipt profile-ipt" readonly="readonly" placeholder="输入原密码" id="pass_phone" value="">
+                <div class="wrap-profile-code mt10">
+                    <input type="text" class="print-pipt profile-ipt profile_code" placeholder="输入验证码" id="pass_code">
+                    <a href="javascript:;" class="get-code get_code" data-action="modify_password">获取验证码</a>
+                </div>
+                <div class="wrap-profile-code mt10">
+                    <input type="password" class="print-pipt profile-ipt" placeholder="输入新密码" id="new_password">
+                </div>
+                <div class="wrap-profile-code mt10">
+                    <input type="password" class="print-pipt profile-ipt" placeholder="重复新密码" id="new_password2">
+                </div>
+            </div>
+        </div>
+        <div class="pop-btns-group no-shadow">
+            <div class="wrap-gbtns group">
+                <a href="javascript:;" class="cancel-btn closewin grey_btn">取消</a>
+                <a href="javascript:;" class="ok-btn ok_password grey_btn">完成</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="pop-bwin pop-switch-shop hide">
+    <div class="pop-content pop-goods-content">
+        <ul class="more-shop-list more_shop_list">
+            <li><a class="goods-edit-btn f18 c999">切换店铺</a></li>
+            <li class="item" data-id="101"><a class="goods-edit-btn f16" href="javascript:;">[小华的]森果测试果行</a></li>
+        </ul>
+    </div>
+</div>
+<!-- 设置预定量系数 -->
+<div class="pop-bwin hide" id="pop_entering_keyboard" style="bottom: 0;">
+    <div class="pop-keyboard-content">
+        <div class="keyboard-nav">
+            <div class="wrap-keyboard">
+                <div class="group keyboard-box-title">
+                    <span class="pull-left">预订量系数设置</span>
+                    <span class="pull-right close-keyb close_keyb"></span>
+                </div>
+                <div class="" style="padding: 10px 30px;">
+                    <input class="modify-coefficient float_num_ipt modify-coefficient-active" readonly="readonly" placeholder="输入系数">
+                </div>
+                <div class="wrap-keyboard-tb">
+                    <table class="keyboard-tb keyboard_tb">
+                        <tr>
+                            <td data-key="1">1</td>
+                            <td data-key="2">2</td>
+                            <td data-key="3">3</td>
+                            <td class="operate-tr" style="position: relative;">
+                                <div class="keyboard-operate keyboard_cancel">取消</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-key="4">4</td>
+                            <td data-key="5">5</td>
+                            <td data-key="6">6</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td data-key="7">7</td>
+                            <td data-key="8">8</td>
+                            <td data-key="9">9</td>
+                            <td class="operate-tr"style="position: relative;">
+                                <div class="keyboard-operate set_keyboard_sure bg-sure">确认</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-grey" data-key="点">.</td>
+                            <td data-key="0">0</td>
+                            <td class="td-grey delete_key" data-key="删除"><img class="delete-kimg" src="/static/kaipiao/img/delete.png" alt="删除"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 录入商品 -->
+<div class="pop-bwin hide" id="pop_entering_goods" style="bottom: 0;">
+    <div class="entering-goods-content">
+        <div class="keyboard-nav">
+            <div class="wrap-keyboard">
+                <div class="entering-head-box group">
+                    <div class="left">
+                        <span class="goods-name clip" id="cur_entering_goods_id">哈哈</span>
+                        <span class="goods-unit">单位：<span class="goods_unit">kg</span></span>
+                        <span class="goods-promotion goods_promotion">促销</span>
+                        <span class="pull-right close-recorder-keyb close_keyb"></span>
+                    </div>
+                </div>
+                <div class="group" style="padding: 10px 10px 0;">
+                    <div class="entering-item entering_item auto_write_item entering-item-active">
+                        <span class="title">昨日损耗</span>
+                        <input class="yesterday_wasted float_num_ipt listening_the_input" readonly="readonly">
+                        <span class="unit">kg</span>
+                    </div>
+                    <div class="entering-item entering_item auto_write_item" style="margin: 0 2%;">
+                        <span class="title">昨日销量</span>
+                        <input class="yesterday_sale float_num_ipt listening_the_input" readonly="readonly">
+                        <span class="unit">kg</span>
+                    </div>
+                    <div class="entering-item entering_item auto_write_item">
+                        <span class="title">当前库存</span>
+                        <input class="current_stock float_num_ipt listening_the_input" readonly="readonly">
+                        <span class="unit">kg</span>
+                    </div>
+                    <!-- <div class="entering-item">
+                        <span class="title">明日预定量</span>
+                        <input type="text" id="order_amount" class="float_num_ipt" readonly="readonly">
+                        <span class="unit">kg</span>
+                    </div> -->
+                    <div class="entering-item entering_item">
+                        <span class="title">今日到货</span>
+                        <input class="today_arrival float_num_ipt" readonly="readonly">
+                        <span class="unit">kg</span>
+                    </div>
+                    <div class="entering-item entering_item" style="margin: 0 2%;">
+                        <span class="title">今日进价</span>
+                        <input class="today_purchase_price float_num_ipt" readonly="readonly" style="width: 63%;">
+                        <span class="unit">元/kg</span>
+                    </div>
+                    <div class="entering-item entering_item">
+                        <span class="title">今日售价</span>
+                        <input class="today_price float_num_ipt" readonly="readonly"  style="width: 63%;">
+                        <span class="unit">元/kg</span>
+                    </div>
+                </div>
+                <div class="photo-upload-box group">
+                    <span class="photo-upload photo_upload">拍照传图</span> 
+                    <div class="entering-item entering_item mb0 order_amount" style="height: 35px;float: right;">
+                        <input type="text" id="order_amount" class="float_num_ipt" readonly="readonly">
+                        <span class="unit">kg</span>
+                    </div>
+                    <div class="title fl" style="height: 35px;line-height: 35px;margin: 0 10px 0 15px;float: right;">明日预定量：</div>                    
+                </div>
+                <div class="wrap-keyboard-tb">
+                    <table class="keyboard-tb keyboard_tb">
+                        <tr>
+                            <td data-key="1">1</td>
+                            <td data-key="2">2</td>
+                            <td data-key="3">3</td>
+                            <td class="operate-tr" style="position: relative;">
+                                <div class="keyboard-operate next_entering_item">下一项</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-key="4">4</td>
+                            <td data-key="5">5</td>
+                            <td data-key="6">6</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td data-key="7">7</td>
+                            <td data-key="8">8</td>
+                            <td data-key="9">9</td>
+                            <td class="operate-tr"style="position: relative;">
+                                <div class="keyboard-operate sure_entering_goods bg-sure">确认</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-grey" data-key="点">.</td>
+                            <td data-key="0">0</td>
+                            <td class="td-grey delete_key" data-key="删除"><img class="delete-kimg" src="/static/kaipiao/img/delete.png" alt="删除"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}
+
+{% block js %}
+<script type="text/javascript" src="{{static_url('common/js/jquery-fastclick-lazyload-template.js')}}"></script>
+{% end %}
+{% block bottom %}
+<script src="{{static_url('common/js/echarts.min.js')}}"></script>
+<script src="{{static_url('common/js/mcalendar/mcalendar.js')}}"></script>
+<script src="{{static_url('common/js/iscroll.js')}}"></script>
+<script src="{{static_url('common/js/sha256.js')}}"></script>
+<script src="{{static_url('kaipiao/js/kaipiao.js')}}"></script>
+<script src="{{static_url('kaipiao/js/profile.js')}}"></script>
+<script src="{{static_url('recorder/js/home.js')}}"></script>
+<script>
+    $(document).ready(function(){
+        if(navigator.userAgent.toLowerCase().indexOf("android")>-1){
+            $(".update_li").removeClass("hide");
+        }
+        $("#check_update").on("click",function(){
+            var ua = navigator.userAgent;
+            if(ua.indexOf("senguo:androidcfapp")>-1){  // 检查更新
+                window.NativeApi.checkUpdate()
+            }
+        });
+    });
+</script>
+{% include 'goods-search.html' %}
+{% end %}

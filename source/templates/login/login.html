@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block title%}果蔬库存管理{%end %}
+{% block head%}
+<link rel="stylesheet" href="{{static_url('login/css/main.css')}}"/>
+{%end %}
+{% block content %}
+<div class="main-content-box">
+    <div class="login-head">
+        <div><img class="login-senguo-logo" src="{{static_url('login/img/logo.png')}}" alt="log"/></div>
+        <div class="title">家乐福华中区</div>
+        <p class="sub-title">蔬果管理系统</p>
+    </div>
+    <div class="wrap-login-wx">
+        <!-- <div><img class="login-senguo-logo" src="{{static_url('login/img/logo.png')}}" alt="log"/></div>
+        <div class="title">蔬果管理系统</div>
+        <p class="sub-title">家乐福华中区</p> -->
+        <div class="wrap-big-wxlogin"><div class="big-wxlogin-btn wx_login"><i class="icon-wx-white"></i>微信登录</div></div>
+        <div class="c999 mt20 f16"><span class="go_login_password">手机号 + 验证码登录  <i class="arr-righ"></i></span></div>
+    </div>
+    <div class="wrap-login-password hide">
+            <div class="wrap-login-div">
+                <!-- <ul class="login-type-list login_type_list mt10 group">
+                    <li class="active"><a class="item" href="javascript:;">密码登录</a></li>
+                    <li><a class="item" href="javascript:;">验证码登录</a></li>
+                </ul> -->
+                <div class="wrap-login-box mt10">
+                    <ul class="goods-item-list ">
+                        <li class="price_item_li mb10">
+                            <span class="left-span">请输入手机号</span>
+                            <div class="right-div">
+                                <input type="tel" autocomplete="off" placeholder="" id="phone" class="right-ipt goods-ript goods_price" value="">
+                            </div>
+                        </li>
+                        <li class="price_item_li code_type">
+                            <span class="left-span">请输入验证码</span>
+                            <div class="right-div right_ipt_div">
+                                <input type="tel" placeholder="" id="code" class="right-ipt goods-ript goods_price" value="">
+                                <a href="javascript:;" class="get-verifycode get_code" data-action="login">发送</a>
+                            </div>
+                        </li>
+                        <li class="price_item_li pass_type hide">
+                            <span class="left-span">密码</span>
+                            <div class="right-div right_ipt_div">
+                                <input type="password" autocomplete="off" placeholder="输入密码" id="password" class="right-ipt goods-ript goods_price" value="">
+                            </div>
+                        </li>
+
+                    </ul>
+                    <div class="wrap-lbtn">
+                        <a href="javascript:;" class="finish-btn forbid" id="phoneLogin">确认</a>
+                    </div>
+                </div>
+            </div>
+            <a href="javascript:;" class="wx-login-btn wx_login">
+                <img src="{{static_url('login/img/wx.png')}}" alt="微信登录">
+                <p class="c666 mt10">微信登录</p>
+            </a>
+    </div>
+    <div class="wrap-register-staff mt20 hide">
+        <!-- <div class="login-title" style="padding-bottom: 40px;">新用户注册</div> -->
+        <div class="wrap-login-div">
+            <div class="wrap-login-box ">
+                <ul class="goods-item-list">
+                    <li class="price_item_li mb10">
+                        <span class="left-span">姓名</span>
+                        <div class="right-div">
+                            <input type="text" placeholder="输入姓名" id="new_name" class="right-ipt goods-ript user_name" value="">
+                        </div>
+                    </li>
+                    <li class="price_item_li mb10">
+                        <span class="left-span">手机号</span>
+                        <div class="right-div">
+                            <input type="tel" placeholder="输入手机号" id="new_phone" class="right-ipt goods-ript user_phone" value="">
+                        </div>
+                    </li>
+                    <li class="price_item_li mb10">
+                        <span class="left-span">验证码</span>
+                        <div class="right-div">
+                            <input type="tel" placeholder="输入验证码" id="new_code" class="right-ipt goods-ript user_code" value="">
+                            <a href="javascript:;" class="get-verifycode get_code" data-type="regist" data-action="register">发送</a>
+                        </div>
+                    </li>
+                </ul>
+                <div class="wrap-lbtn">
+                    <a href="javascript:;" class="finish-btn forbid" id="finishRegist">注册</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrap-fixed-register txt-center c999 f16"><span class="go_register_staff" style="border-bottom: 1px solid;">手机注册</span></div>
+</div>
+<div class="login-bg login-bg-1"></div>
+<div class="login-bg login-bg-2"></div>
+<div class="login-bg login-bg-3"></div>
+{% end %}
+{% block fix %}
+{% end %}
+{% block bottom %}
+<script src="{{static_url('common/js/sha256.js')}}"></script>
+<script src="{{static_url('login/js/m_login.js')}}"></script>
+{% end %}

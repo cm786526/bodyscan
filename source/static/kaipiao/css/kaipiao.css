@@ -1,0 +1,64 @@
+/*商品支付弹出层*/
+.wrap-fruit-pay-layer{width:100%;position: absolute;bottom:0px;left:0px;background:#fff;}
+.position-fruit-pay-layer{width:100%;height:100%;position: relative;}
+.fruit-pay-close{width:25px;height:25px;background:url('../img/close.png') no-repeat left top;background-size:cover;position: absolute;right:10px;top:10px;z-index:99;}
+.fruit-pay-icon{width:50px;height:50px;background-repeat:no-repeat;background-position:center center;background-color:#fff;background-size:30px;position:absolute;left:10px;top:-10px;border-radius:8px;border:1px solid #efefef;}
+.fruit-pay-icon-wx{background:url('../img/icon_wx.png');}
+.fruit-pay-icon-shop{background:url('../img/icon_shop.png');}
+.fruit-pay-icon-cash{background:url('../img/icon_cash.png');background-repeat:no-repeat;background-position:center center;background-color:#ffffff;background-size:30px 30px;}
+.fruit-pay-icon-alipay{background:url('../img/icon_alipay.png');}
+.fruit-pay-icon-balance{background:url('../img/icon_balance.png');}
+.fruit-pay-form,.fruit-pay-form2{width:100%;min-height:40px;position: relative;}
+.fruit-pay-form-group{position: relative;padding-left: 60px;height: 40px;}
+.fruit-pay-cash-group{position: relative;height: 40px;padding: 0 10px;}
+.fruit-pay-label{width:60px;color:#000;white-space: nowrap;position: absolute;left: 0;top: 0;height: 40px;line-height: 40px;}
+.fruit-pay-input-box{position: relative;padding-right: 20px;}
+.fruit-pay-input{width:100%;height:40px;font-size:18px;border:1px solid #bcbcbc;border-radius: 5px;text-align: right;padding-right:30px;color:#999999;padding: 0 6px;-webkit-box-sizing:border-box;}
+.fruit-pay-input-unit{position: absolute;right:18px;margin-top:-8px;top: 50%;}
+.fruit-pay-return{color:#e73f58;border:0px;line-height: 32px;}
+.order-discount-rate-unit{right: 6px !important;}
+.wrap-fruit-pay-ipt{position: relative;padding: 0 10px;width: 50%;}
+.fruit-pay-cash-input{width: 100%;-webkit-box-sizing:border-box;padding: 0 26px 0 6px;height: 40px;background-color: #EEF2EE;border-radius: 4px;border:2px solid #ddd;}
+.pay-cash-ipt-focus{border-color: #48b6a4;}
+.wrap-long-fruit-ipt{width: 100%;padding:0;}
+.remoney-box{line-height: 40px;padding-right: 12px;width: 50%;white-space: nowrap;overflow: hidden;text-align: right;}
+.wrap-fruit-pay-btn{padding: 0 10px;}
+.fruit-pay-btn{width:auto;height:40px;line-height:40px;text-align: center;background:#48b6a4;color:#ffffff;border-radius:5px;}
+.fruit-pay-other-way{width:100%;background:#f4f7f4;}
+.pay-other-way-tit{width:auto;margin-left:10px;height:30px;line-height:30px;color:#999999;font-size:14px;}
+.pay-other-way-box>li{width:50%;float: left;opacity: 0.5;text-align: center;padding: 6px 0;height: 62px;line-height: 50px;}
+.pay-other-way-box>li.active{opacity: 1;background-color: #fff;}
+.pay-other-way-icon{display: inline-block; width:26px;height:26px;background:url('../img/7.png') no-repeat;background-size:158px;vertical-align: middle;}
+.pay-other-way-tip-box{display: inline-block;height: 100%;padding: 6px 0;box-sizing: border-box;vertical-align: middle;}
+.pay-other-way-content{display:inline-block;height:22px;line-height:22px;text-align: center;color:#333333;vertical-align: middle;}
+.pay-other-way-content-tip{width:100%;height:18px;line-height:18px;text-align: center;color:#999999;font-size:12px;margin-top: -2px;}
+.pay-by-cash{background-position: 0px 1px;}
+.pay-by-balance{background-position: -58px 0px;}
+.pay-by-shop-scan{background-position: -66px 1px;}
+.pay-by-customer-scan-wx{background-position: -176px 0px;}
+.pay-by-customer-scan-alipay{background-position: -236px 0px;}
+.fruit-pay-money{width:60%;height:50px;line-height:50px;margin-left:25%;color:#333;font-size:16px;}
+.fruit-pay-form-code-box{width:140px;height:140px;margin:0 auto;}
+.fruit-pay-type-box{padding: 12px 0 20px 0;}
+.now-balance{color:#5abdb0;border:0px;}
+.fruit-pay-shop-scan-box{width:100%;height:70px;line-height:70px;text-align: center;color:#666666;font-size:15px;}
+.form-shop-code-box{padding:16px 0px 0px 0px;}
+.wrap-pay-code-ipt{padding: 0 10px;}
+.fruit-pay-code-input{width:75%;height:38px;padding:0 6px; -webkit-box-sizing:border-box;border:2px solid #999;border-right: none; background:#ffffff;border-top-left-radius:5px;border-bottom-left-radius:5px;border-color: #48b6a4;}
+.fruit-pay-code-btn{width:25%;height:38px;-webkit-box-sizing:border-box;border:1px solid #48b6a4;background:#48b6a4;color:#ffffff;border-top-right-radius:5px;border-bottom-right-radius:5px;}
+.error_txt{width:100%;text-align:center;}
+.lh32{line-height: 32px;}
+.orange-btn-hover{background-color: #ef4311;}
+/*键盘*/
+.wrap-key-board{padding-top: 10px;}
+.key-tb{width: 100%;table-layout: fixed;border-collapse: collapse;}
+.key-tb td{border-collapse: collapse;border:1px solid #ddd;text-align: center;height: 50px;vertical-align: middle; color: #000;background-color: #fff;font-size: 20px;}
+.key-tb .key-finish{background-color: #47B8A0;color: #fff;border-right: none;}
+.key-delete{width:35px;height:20px;background:url('../img/delete.png') no-repeat;background-size: 35px 20px;vertical-align: middle;}
+.key-tb .hover{background-color: #47B8A0;color: #fff;}
+.key-tb .bmnone{border-bottom: none;}
+.key-tb .td-grey{background-color: #ebebeb;}
+/*搜索*/
+.wrap-kaipiao-search{padding: 6px 12px;border-bottom: 1px solid #ccc;}
+.kaipiao-search-goods{line-height: 34px;border: 1px solid #ddd;border-radius: 18px;background: #EFF2F4;text-align: center;}
+.pb0{padding-bottom: 0;}

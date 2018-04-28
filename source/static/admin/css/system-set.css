@@ -1,0 +1,29 @@
+.header{background-color: #018E81;color: #fff;}
+.header .back{color: #fff;background-image: url(../img/back-white@2x.png);}
+.shop-info-back{height: 44px;}
+.shop-logo-img{width: 50px;height: 50px;display: block;}
+.wrap-shop-info-top{height:auto; background-color:#018E81;position: relative !important;}
+.wrap-shop-info-top-logo{padding: 20px 0;}
+.shop-info-img-box{text-align: left;padding-left:10px;}
+.shop-info-img-box .img-border{display: inline-block;border: 2px solid #ffffff;border-radius:0px;line-height: 1;}
+.shop-info-change-name-box{height: 52px;padding-left: 10px;width: 70%;text-align: left;}
+.shop-name-change{color:#ffffff;font-size:18px;display: inline-block;vertical-align: middle;}
+.shop-info-change-logo{font-size:12px;height:30px;line-height:30px;text-align: center;background:#ffc107;border-radius:4px;width:100px;}
+.shop-name-change .text-left{line-height: 20px; background:url('../img/edit_text.png') no-repeat left center;background-size:20px 20px;padding-left:24px;text-align: left;}
+.wrap-shop-info .text-left{color:#666666 !important;}
+.shop-info-img-wrap{display: block;line-height: 1;}
+.shop-info-img-wrap span{max-width: 100%!important;}
+.data-list{background-color: #fff;padding: 0 10px;}
+.data-list>li{border-bottom:1px solid #e7e7e7;font-size: 16px;color: #333;}
+.data-list>li>a{display: block;height: 60px;line-height: 60px;color: #333;font-size: 16px;position: relative;padding-left: 80px;}
+.data-list>li:last-child{border-bottom: none;}
+.left-span-text{position: absolute;left: 0px;top:0; display: block;width: 80px;height: 60px;line-height: 60px; white-space: nowrap;overflow:hidden;}
+.data-list .shopInfo{display: inline-block;line-height: 18px;vertical-align: middle;}
+
+.data-list .text-left{color: #999;}
+.data-list .info-li{position: relative;vertical-align: middle;}
+.shop-info-list{background: url('../img/arr_right.png') no-repeat;background-size: 8px 12px;background-position: right center;}
+
+.shop-auth-span{display: inline-block;vertical-align: middle;border:1px solid #018E81;padding:0 4px;line-height: 18px;color: #018E81;font-size: 12px;border-radius: 2px;}
+.red-auth{color: #ff6666;border-color: #ff6666;}
+.yellow-auth{color: #F5C168;border-color: #F5C168;}
