@@ -1,99 +1,79 @@
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy import or_
 import dal.models as models
-from handlers.base.pub_web import RecordBaseHandler
+from handlers.base.pub_web import OperatorBaseHandler
 from handlers.base.pub_func import QuryListDictFunc, TimeFunc, check_float
 from settings import XINZHI_KEY
 import requests, json ,datetime
 from handlers.common import UpdateWebSocket
 
 
-class Home(RecordBaseHandler):
+class Home(OperatorBaseHandler):
     def get(self):
         return self.render("operator/index.html")
 
-class GoodsManage(RecordBaseHandler):
-    """商品管理
-    """
-    def get(self):
-        return self.render("recorder/home.html")
-
-    @RecordBaseHandler.check_arguments("action:str")
+    @OperatorBaseHandler.check_arguments("action:str")
     def post(self):
-        action = self.args["action"]
-        if action=="get_all_goods":
-            return self.get_all_goods_by_classify()
-        elif action=="get_all_shops":
-            return self.get_all_shops()
+        action=self.args["action"]
+        if action in ["add_handler","edit_handler"]:
+            return self.add_or_edit_analyze(action)
+        elif action=="get_handler_list":
+            return self.get_handler_list()
         else:
-            return self.send_error(404)
+            return self.send_fail(403)
 
-    @RecordBaseHandler.check_arguments("classify:int")
-    def get_all_goods_by_classify(self):
-        """根据分类获取商品信息
-        """
-        session = self.session
-        classify = self.args["classify"]
-        if classify==3:
-            #　表示获取水果和蔬菜
-            classify_list=[1,2]
+    # 操作员添加检测记录　对应操作员认领任务,编辑任务状态等
+    @OperatorBaseHandler.check_arguments("handler_id?:int","analyze_id:int","status?:int")
+    def add_or_edit_analyze(self,action):
+        current_user_id=self.current_user.id
+        session=self.session
+        analyze_id=self.args["analyze_id"]
+        OperatorHandlerRecord=models.OperatorHandlerRecord
+        if action=="add_handler":
+            analyze_record=OperatorHandlerRecord(analyze_id=analyze_id,\
+                                                operator_id=current_user_id)
         else:
-            classify_list=[classify]
-        all_goods_list =[]
-        Goods=models.Goods
-        ShopGoods=models.ShopGoods
-        HireLink=models.HireLink
-        current_user_id=self.current_user.id
-        hire_link =session.query(HireLink)\
-                            .filter_by(staff_id=current_user_id,\
-                                active_recorder=1)\
-                            .first()
-        all_goods= session.query(Goods,ShopGoods)\
-                            .join(ShopGoods,Goods.id==ShopGoods.goods_id)\
-                            .filter(ShopGoods.status!=-1,\
-                                    ShopGoods.shop_id==hire_link.shop_id,\
-                                    Goods.classify.in_(classify_list))\
-                            .all()
-        for each_element in all_goods:
-            each_goods=each_element[0]
-            each_shop_goods=each_element[1]
-            each_goods_dict ={
-                "shop_goods_id":each_shop_goods.id,
-                "goods_id":each_goods.id,
-                "goods_name":each_goods.goods_name,
-                "goods_code":each_goods.goods_code,
-                "unit":each_goods.unit_text,
-                "reserve_ratio":each_shop_goods.reserve_ratio,
-                "reserve_cycle":each_shop_goods.reserve_cycle,
-                "discount":each_shop_goods.discount
-            }
-            all_goods_list.append(each_goods_dict)
-        return self.send_success(all_goods=all_goods_list)
+            handler_id=self.args.get("handler_id")
+            status=self.args.get("status",0)
+            analyze_record=session.query(OperatorHandlerRecord).filter_by(id=handler_id).first()
+            analyze_record.status=status
+        session.commit()
+        return self.send_success()
 
-    def get_all_shops(self):
-        """获取录入员所在的所有店铺(当前逻辑实际上一个录入员只属于一个店铺,接口按照多个店铺设计)
-        """
-        session = self.session
-        Shop = models.Shop
-        HireLink=models.HireLink
-        current_user_id=self.current_user.id
-        data_list=[]
-        shoplist=[]
-        hire_link =session.query(HireLink)\
-                            .filter_by(staff_id=current_user_id,\
-                                active_recorder=1)\
-                            .all()
-        for each_hire_link in hire_link:
-            shoplist.append(each_hire_link.shop_id)
-        all_shops = session.query(Shop)\
-                            .filter(Shop.id.in_(shoplist))\
-                            .all()
-        for each_shop in all_shops:
-            each_shop_dict ={
-                "id":each_shop.id,
-                "shop_name":each_shop.shop_name,
-                "shop_trademark_url":each_shop.shop_trademark_url,
-                "city_code":each_shop.shop_city
+    # 获取所有的操作记录
+    @OperatorBaseHandler.check_arguments("operator_id?:int","status?:int","page:int")
+    def get_analyze_list(self):
+        session=self.session
+        operator_id=self.args.get("operator_id",0)
+        status=self.args.get("status",0)
+        page=self.args.args["page"]
+        page_num=10
+        status_list=[]
+        if not status:
+            status_list=[0,1,2,3]
+        else:
+            status_list.append(status)
+        OperatorHandlerRecord=models.OperatorHandlerRecord
+        AnalyzeRequestRecord=models.AnalyzeRequestRecord
+        record_base=session.query(OperatorHandlerRecord,AnalyzeRequestRecord)\
+                            .join(AnalyzeRequestRecord,OperatorHandlerRecord.analyze_id==AnalyzeRequestRecord.id)\
+                            .filter(OperatorHandlerRecord.status.in_(status_list))
+        if operator_id:
+            # 获取某个法医上传的数据
+            all_records=record_base.filter_by(operator_id=operator_id)
+        all_records=all_records.offset(page*page_num).limit(page_num).all()
+        data_lis=[]
+        for handler,analyze in all_records:
+            record_dict={
+                "id":handler.id,
+                "doctor_id":analyze.doctor_id,
+                "patient_name":analyze.patient_name,
+                "patinet_idnumber":analyze.patinet_idnumber,
+                "patient_sex_text":analyze.patient_sex_text,
+                "describe":analyze.describe,
+                "create_date":analyze.create_date.strftime("%Y-%m-%d %H:%M:%S"),
+                "get_date":handler.get_date.strftime("%Y-%m-%d %H:%M:%S"),
+                "handler_date":handler.create_date.strftime("%Y-%m-%d %H:%M:%S")
             }
-            data_list.append(each_shop_dict)
+            data_list.append(record_dict)
         return self.send_success(data_list=data_list)

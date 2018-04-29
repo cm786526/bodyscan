@@ -279,8 +279,38 @@ class UserRole(MapBase,_AccountApi):
 
     __tablename__="user_role"
     id = Column(Integer, primary_key=True, nullable=False,autoincrement=True)
-    userId   = Column(Integer, ForeignKey(Accountinfo.id),nullable=False)            # 用户id
+    user_id   = Column(Integer, ForeignKey(Accountinfo.id),nullable=False)            # 用户id
     role      = Column(TINYINT, nullable=False,default=0)                            # 用户角色  1:superadmin 2：法医 3：处理人员
+
+# 法医上传的检测记录
+class AnalyzeRequestRecord(MapBase,_AccountApi):
+    __tablename__="analyze_request_record"
+
+    id = Column(Integer, primary_key=True, nullable=False,autoincrement=True)
+    doctor_id=Column(Integer, ForeignKey(Accountinfo.id),nullable=False,default=0)            # 法医id
+    patient_name=Column(String(128),nullable=False,default="")                      # 病人姓名
+    patient_sex=Column(TINYINT,nullable=False,default=0)                            # 病人性别
+    patient_idnumber=Column(String(16),nullable=False,default="")                   # 病人身份证号
+    describe=Column(String(128),nullable=False,default="")                          # 情况描述
+    file_name=Column(String(128),nullable=False,default="")                          # 文件名称
+    create_date=Column(DateTime,nullable=False,default=func.now())                  # 创建时间
+    status=Column(TINYINT,nullable=False,default=0)                                 # 记录状态
+
+    @property
+    def patient_sex_text(self):
+        sex_list={0:"未知",1:"男",2:"女"}
+        return sex_list.get(self.patient_sex,"未知")
+
+# 处理员处理的检测记录
+class OperatorHandlerRecord(MapBase,_AccountApi):
+
+    __tablename__="operator_handler_record"
+    id = Column(Integer, primary_key=True, nullable=False,autoincrement=True)
+    analyze_id=Column(Integer,ForeignKey(AnalyzeRequestRecord.id),nullable=False)             # 操作员处理的记录id
+    operator_id=Column(Integer,nullable=False,default=0)                                     # 处理人员id
+    get_date=Column(DateTime,nullable=False,default=func.now())                  # 领取时间
+    handler_date=Column(DateTime,nullable=False,default="")                         # 任务处理时间
+    status=Column(TINYINT,nullable=False,default=0)                                 # 记录状态
 
 # 验证码用途
 class VerifyCodeUse:

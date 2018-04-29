@@ -1,6 +1,7 @@
 # 头部引入handlers中的模块
 import handlers.login
 import handlers.common
+import handlers.super
 import handlers.admin
 import handlers.operator
 # urls.py
@@ -15,12 +16,10 @@ handlers = [
     (r"/updatewebsocket", handlers.common.UpdateWebSocket, {}, 'commonUpdateWebSocket'),                   # websocket获取更新数据
     (r"/fileupload", handlers.common.FileUploadHandler, {}, 'commonFileUploadHandler'),                    # 上传文件接口
     (r"/filedownload", handlers.common.FileDownloadHandler, {}, 'commonFileDownloadHandler'),              # 上传下载接口
+    # 超级管理员
+    (r"/super", handlers.super.Home, {}, "superhome"),                                                     # 超管首页
     #管理员
-    (r"/admin", handlers.admin.Home, {}, "adminhome"),                                                       # 管理员首页
-    (r"/admin/staffmanage", handlers.admin.StaffManage, {}, "staffmanage"),                                  # 员工管理                                       # 员工管理
-
+    (r"/admin", handlers.admin.Home, {}, "adminhome"),                                                     # 管理员首页
     #操作员
-    (r"/operator", handlers.operator.Home, {}, "recorderhome"),                                             # 操作员首页
-    (r"/operator/goodsmanage", handlers.operator.GoodsManage, {}, "recordergoodsmanage"),                   # 录入员-商品管理
-
+    (r"/operator", handlers.operator.Home, {}, "recorderhome"),                                            # 操作员首页
     ]
