@@ -134,10 +134,10 @@ class Login(_AccountBaseHandler):
             return self.send_fail("用户名或密码错误")
         self.set_current_user(u, domain=ROOT_HOST_NAME)
         # 判断用户角色
-        userRole=session.query(func.min(models.UserRole.role)).filter_by(userId=account_info.id)\
+        userRole=session.query(func.min(models.UserRole.role)).filter_by(user_id=u.id)\
                                                 .first()
         role=3
-        if userRole:
+        if userRole[0]:
             role=userRole[0]
         return self.send_success(role=role)
 
@@ -329,7 +329,7 @@ class Login(_AccountBaseHandler):
         self.set_current_user(account_info,domain=ROOT_HOST_NAME)
         session.commit()
         # 判断用户角色
-        userRole=session.query(func.min(models.UserRole.role)).filter_by(userId=account_info.id)\
+        userRole=session.query(func.min(models.UserRole.role)).filter_by(user_id=account_info.id)\
                                                 .first()
         role=3
         if userRole:

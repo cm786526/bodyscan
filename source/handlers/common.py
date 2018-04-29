@@ -266,7 +266,7 @@ class FileUploadHandler(GlobalBaseHandler):
         return self.send_success()
 
 
-    @GlobalBaseHandler.check_arguments(""file_name:str","total_chunk:int""):
+    @GlobalBaseHandler.check_arguments("file_name:str","total_chunk:int")
     def merge_file(self,path_base,temp_path):
         # 上传完成之后合并文件
         file_name=self.args["file_name"]
@@ -276,7 +276,7 @@ class FileUploadHandler(GlobalBaseHandler):
         if len(chunk_files)!=total_chunk:
             return self.send_fail("文件合并失败")
         with open(file_path, 'wb') as new_file:
-            for i range(total_chunk):
+            for i in range(total_chunk):
                 one_file=temp_path+file_name+'.part'+i
                 with open(one_file,'rb') as chunk_one:
                     new_file.write(chunk_one)
