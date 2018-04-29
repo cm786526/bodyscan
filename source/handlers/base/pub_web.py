@@ -189,7 +189,7 @@ class Emoji():
         else:
             return False
 # 录入员基类及方法
-class RecordBaseHandler(_AccountBaseHandler):
+class OperatorBaseHandler(_AccountBaseHandler):
     def get_user_role(self):
         return ""
 

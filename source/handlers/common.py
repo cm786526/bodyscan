@@ -228,34 +228,81 @@ class UpdateWebSocket(WebSocketHandler,_AccountBaseHandler):
         parsed_origin = urllib.parse.urlparse(origin)
         return parsed_origin.netloc.index(".senguo.cc")!=-1
 
-class FileUploadHandler(tornado.web.RequestHandler):
+class FileUploadHandler(GlobalBaseHandler):
     def get(self):
-        return self.render(".....")
+        return self.render("recorder/upload-file.html")
+
+    @GlobalBaseHandler.check_arguments("action:str")
     def post(self):
-        ret = {'result': 'OK'}
+        action=self.args["action"]
+        # 获取上级目录
+        path_base=os.path.join(os.path.dirname(__file__),"../utils/uploadfiles/")
+        temp_path=os.path.join(path_base,"/temp_files/")
+        if action=="chunk_upload":
+            return self.chunk_upload(path_base,temp_path)
+        elif action=="merge_file":
+            return self.merge_file(path_base,temp_path)
+        else:
+            return self.send_fail(403)
+
+    def chunk_upload(self,path_base,temp_path):
+        # 分片上传 暂时存入临时文件夹中
         file_metas = self.request.files.get('file', None)  # 提取表单中‘name’为‘file’的文件元数据
         if not file_metas:
             return  self.send_fail("缺少文件")
-        # 获取上级目录
-        path_base=os.path.abspath(os.path.join(os.path.dirname(__file__),".."))
+        # 判断文件夹是否存在，没有则创建
+        if not os.path.exists(temp_path):
+            os.makedirs(temp_path)
         for meta in file_metas:
-            filename = (meta['filename'])
-            file_path = path_base +'/utils/uploadfile/'+filename
+            # 实际上只运行一次 只有一个文件
+            filename =meta["filename"]
+            chunk_num=meta["chunk_num"]
+            file_path = temp_path+filename+'.part'+chunk_num
             # 判断文件是否存在
             if os.path.exists(file_path):
                 return self.send_fail("文件已经上传，请勿重复操作")
-            new_file=open(file_path, 'wb')
-            new_file.write(meta['body'])
-            new_file.close()
+            with  open(file_path, 'wb') as new_file:
+                new_file.write(meta['body'])
         return self.send_success()
 
 
-class FileDownloadHandler(tornado.web.RequestHandler):
+    @GlobalBaseHandler.check_arguments(""file_name:str","total_chunk:int""):
+    def merge_file(self,path_base,temp_path):
+        # 上传完成之后合并文件
+        file_name=self.args["file_name"]
+        total_chunk=self.args["total_chunk"]
+        chunk_files=[]
+        file_path=path_base+file_name
+        if len(chunk_files)!=total_chunk:
+            return self.send_fail("文件合并失败")
+        with open(file_path, 'wb') as new_file:
+            for i range(total_chunk):
+                one_file=temp_path+file_name+'.part'+i
+                with open(one_file,'rb') as chunk_one:
+                    new_file.write(chunk_one)
+                chunk_files.append(one_file)
+        # 删除碎片文件
+        for _file in chunk_files:
+            os.remove(_file)
+        return self.send_success()
+
+
+class FileDownloadHandler(GlobalBaseHandler):
+    @GlobalBaseHandler.check_arguments("filename:str")
     def get(self):
-        path_base=os.path.abspath(os.path.join(os.path.dirname(__file__),".."))
-        file_path = path_base +'/utils/uploadfile/gitkraken-amd64.deb'
-        with open(file_path, 'rb') as target_file:          # 读取文件内容
-            data = target_file.read()
-        # response = self.response(data, content_type='application/octet-stream') # 响应指明类型，写入内容
+        filename=self.args["filename"]
+        path_base=os.path.abspath(os.path.join(os.path.dirname(__file__),"../utils/uploadfiles/"))
+        file_path = path_base + filename
+        # 判断文件是否存在
+        if os.path.exists(file_path):
+            return self.send_fail("文件不存在")
+
+        def send_chunk():                                       # 流式读取
+            with open(file_path, 'rb') as target_file:
+                while True:
+                    chunk = target_file.read(20 * 1024 * 1024)  # 每次读取20M
+                    if not chunk:
+                        break
+                    yield chunk
         self.set_header("Content-Type","application/octet-stream")
-        return self.write(data)
+        return self.write(send_chunk())
