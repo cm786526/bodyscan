@@ -6,6 +6,7 @@ import dal.models as models
 from handlers.base.pub_web import _AccountBaseHandler,Emoji
 from handlers.base.pub_wx_web import WxOauth2,WxTicketUrl
 from handlers.base.pub_func import Emoji
+from libs.senguo_encrypt import SimpleEncrypt
 from settings import ROOT_HOST_NAME
 class Login(_AccountBaseHandler):
     """登录
@@ -17,12 +18,22 @@ class Login(_AccountBaseHandler):
     def get(self):
         next_url = self.get_argument("next", "")
         if self._action == "login":
+            data_dict={}
             if self.current_user:
                 Accountinfo=models.Accountinfo
                 account_info = self.session.query(Accountinfo).filter_by(id = self.current_user.id).first()
-                self.which_staff_belong("get",account_info)
+                data_dict={
+                    "usename":"",
+                    "isAdmin":True,
+                    "id":""
+                }
             else:
-                return self.render("login/login.html")
+                data_dict={
+                    "usename":"",
+                    "isAdmin":True,
+                     "id":""
+                }
+                return self.render("main/index.html",data_dict=data_dict)
         # 管理员后台退出登录
         elif self._action == "logout":
             self.clear_current_user()
@@ -74,6 +85,8 @@ class Login(_AccountBaseHandler):
         action = self.args["action"]
         if action == "phone_password":
             return self.login_by_phone_password()
+        elif action == "username_password":
+            return self.login_by_username_password()
         elif action == "phone_code":
             return self.login_by_phone_code()
         elif action == "wx_ticket":
@@ -84,6 +97,8 @@ class Login(_AccountBaseHandler):
             return self.login_bind_phone()
         elif action == "phone_regist":
             return self.phone_regist()
+        elif action == "usename_regist":
+            return self.username_regist()
         else:
             return self.send_fail(404)
 
@@ -102,6 +117,29 @@ class Login(_AccountBaseHandler):
             return self.send_fail("用户名或密码错误")
         self.set_current_user(u, domain=ROOT_HOST_NAME)
         self.which_staff_belong("post",u)
+
+
+    @_AccountBaseHandler.check_arguments("username:str","password:str")
+    def login_by_username_password(self):
+        """手机号+密码登录
+            phone:手机号
+            password:密码
+        """
+        session = self.session
+        username = self.args["username"]
+        password = self.args["password"]
+        password=SimpleEncrypt.encrypt(password)
+        u = models.Accountinfo.login_by_username_password(session, username, password)
+        if not u:
+            return self.send_fail("用户名或密码错误")
+        self.set_current_user(u, domain=ROOT_HOST_NAME)
+        # 判断用户角色
+        userRole=session.query(func.min(models.UserRole.role)).filter_by(userId=account_info.id)\
+                                                .first()
+        role=3
+        if userRole:
+            role=userRole[0]
+        return self.send_success(role=role)
 
     @_AccountBaseHandler.check_arguments("phone:str","code:str")
     def login_by_phone_code(self):
@@ -267,52 +305,36 @@ class Login(_AccountBaseHandler):
         Accountinfo.init_recorder_settings(session,account_info.id)
         session.commit()
         return self.send_success()
-    # 判断是属于哪种类型用户,并且进行相应的跳转
-    def which_staff_belong(self,request_type,account_info):
-        # 判断当前用户有没有被添加为员工
-        current_user_id=account_info.id
-        session=self.session
-        HireLink=models.HireLink
-        max_staff=session.query(func.max(HireLink.active_admin),\
-                                func.max(HireLink.active_recorder))\
-                        .filter_by(staff_id=current_user_id)\
-                        .first()
-        #获取个人信息
-        account_info_dict={
-            "id":account_info.id,
-            "headimgurl":account_info.headimgurl,
-            "phone":account_info.phone,
-            "nickname":account_info.nickname
-        }
-        # 如果是get请求　则可以后台跳转
-        if request_type=="get":
-            if max_staff:
-                # 管理员
-                if max_staff[0]==1:
-                    return self.redirect(self.reverse_url("shopmanage"))
-                # 录入员
-                elif max_staff[1]==1:
-                    return self.redirect(self.reverse_url("recordergoodsmanage"))
-                else:
-                # 都不是则直接跳转到提示页面
-                    return self.render("login/login-tip.html",account_info_dict=account_info_dict)
-            # 直接跳转到提示页面
-            else:
-                return self.render("login/login-tip.html",account_info_dict=account_info_dict)
-        # post请求则只能前端进行跳转
-        else:
-            next_url=""
-            if max_staff:
-                if max_staff[0]==1:
-                    # 管理员
-                    next_url=self.reverse_url("shopmanage")
-                elif max_staff[1]==1:
-                    # 录入员
-                    next_url=self.reverse_url("recordergoodsmanage")
-                else:
-                    next_url=self.reverse_url("Login")
-            # 对于post请求需要前端做跳转
-            return self.send_success(next_url=next_url)
+
+    # 使用用户名注册账户
+    @_AccountBaseHandler.check_arguments("username:str","password:str")
+    def username_regist(self):
+        filter_emoji = Emoji.filter_emoji
+        username = filter_emoji(self.args["username"].strip())
+        password = filter_emoji(self.args["password"].strip())
+        password=SimpleEncrypt.encrypt(password)
+        session = self.session
+        exist_account = session.query(models.Accountinfo).filter_by(username = username).first()
+        if exist_account:
+            return self.send_fail("该用户名已经注册，请直接登录或者更换用户名")
+
+        Accountinfo=models.Accountinfo
+        account_info = Accountinfo(
+                username  = username,
+                password = password
+            )
+
+        session.add(account_info)
+        session.flush()
+        self.set_current_user(account_info,domain=ROOT_HOST_NAME)
+        session.commit()
+        # 判断用户角色
+        userRole=session.query(func.min(models.UserRole.role)).filter_by(userId=account_info.id)\
+                                                .first()
+        role=3
+        if userRole:
+            role=userRole[0]
+        return self.send_success(role=role)
 
 
 class PhoneBind(_AccountBaseHandler):

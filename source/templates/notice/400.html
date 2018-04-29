@@ -1,0 +1,29 @@
+<!DOCT/cssYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telphone=no, email=no" />
+    <meta name="full-screen" content="yes">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="keywords" content="森果,水果商城,水果O2O,微信卖水果,水果系统,森果后台,微信商城运营,生鲜商城,线上水果">
+    <meta name="description" content="森果是帮助商家在微信上搭建微信商城的平台，提供店铺、商品、订单、消息和客户的管理模块，同时还提供丰富的营销应用和活动插件。">
+    <title>500 森果批发系统</title>
+    <link rel="stylesheet" type="text/css" href="{{static_url('notice/css/reset.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{static_url('notice/css/static-wrong.css')}}" />
+</head>
+<body>
+    <div class="content">
+        <div class="wrong-pic">
+            <img src="{{static_url('notice/img/400.png')}}" />
+        </div>
+        <div class="warn-wrap">
+            <p class="warn-text">哎呀~{{error_msg or '您访问的地址已经改变或移除'}}</p>
+            <p class="warn-text">{{error_deal or '请返回首页再试一下'}}</p>
+            <P class="warn-button"><a href="{{reverse_url('Logout')}}" class="return-btn">返回登录页</a></P>
+        </div>
+    </div>
+</body>
+</html>

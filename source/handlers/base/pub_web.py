@@ -201,8 +201,8 @@ class RecordBaseHandler(_AccountBaseHandler):
         """
             所有用户都必须要有手机号,没有手机号需重定向至手机号绑定页面
         """
-        if not self.current_user.phone:
-            return self.redirect(self.reverse_url("PhoneBind"))
+        pass
+
 # 录入员基类及方法
 class AdminBaseHandler(_AccountBaseHandler):
     def get_user_role(self):
@@ -216,5 +216,4 @@ class AdminBaseHandler(_AccountBaseHandler):
         """
             所有用户都必须要有手机号,没有手机号需重定向至手机号绑定页面
         """
-        if not self.current_user.phone:
-            return self.redirect(self.reverse_url("PhoneBind"))
+        pass

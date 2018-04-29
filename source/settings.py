@@ -1,22 +1,22 @@
 # cookie域名
-ROOT_HOST_NAME = "carrefourzone.senguo.cc"
+ROOT_HOST_NAME = "bodyscan.com.cn"
 
 TEMPLATE_PATH = "templates"   # 本地模版路径配置
 #STATIC_PATH_URL = "https://static.caigou.senguo.cc/static/"
 STATIC_PATH_URL = "/static/"  # 本地静态资源配置
 # mysql数据库相关
 # MYSQL_SERVER = "rdskv5duww6l0ov2384a.mysql.rds.aliyuncs.com:3306"
-# MYSQL_SERVER = "127.0.0.1:3306"  # 本地数据库配置
-# MYSQL_USERNAME = "root"
-# MYSQL_PASSWORD      = "123456"
+MYSQL_SERVER = "127.0.0.1:3306"  # 本地数据库配置
+MYSQL_USERNAME = "root"
+MYSQL_PASSWORD      = "123456"
 # sunmenghua的数据库
-MYSQL_SERVER = "192.168.2.234:3306"
+# MYSQL_SERVER = "192.168.2.234:3306"
 MYSQL_DRIVER        = "mysqlconnector"
-MYSQL_USERNAME      = "monk"
-MYSQL_PASSWORD = "test123"
-# MYSQL_PASSWORD      = "Rri9$sW)09z^_2q!"
-DB_NAME             = "senguocf"
-DB_STATISTIC_NAME   = "senguocf"
+# MYSQL_USERNAME      = "monk"
+# MYSQL_PASSWORD = "test123"
+# # MYSQL_PASSWORD      = "Rri9$sW)09z^_2q!"
+DB_NAME             = "bodyscan"
+DB_STATISTIC_NAME   = "bodyscan"
 # DB_STATISTIC_NAME   = "senguocg_statistic"
 # DB_CHARSET        = "utf8mb4"
 DB_CHARSET          = "utf8"  # 如果你的电脑不支持utf8mb4，请使用utf8

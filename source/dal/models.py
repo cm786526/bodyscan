@@ -52,12 +52,6 @@ class _AccountApi(_CommonApi):
                 token = ""
         return token
 
-# shop封装一层,便于测试
-class ShopMarket(MapBase,_CommonApi):
-    __tablename__ = "shop_market"
-    id                  = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
-    market_name         = Column(String(128),nullable=False,default="")                                    # 市场名称
-
 # 拼接图片域名
 class AddImgDomain():
     @classmethod
@@ -106,13 +100,14 @@ class AddImgDomain():
     def add_domain_shop(cls,img):
         """为店铺图片添加图床域名"""
         return cls.add_domain(img) or "/static/images/shop_picture.png"
-
+# 账号信息
 class Accountinfo(MapBase, _AccountApi):
     """用户的基本信息表
     """
     __tablename__ = "account_info"
 
     id = Column(Integer, primary_key=True, nullable=False,autoincrement=True)
+    username   = Column(String(128), unique = True)                   # 用户名
     phone      = Column(String(32), unique = True)                    # 手机号
     email      = Column(String(64), unique = True)                    # E-mail
     password   = Column(String(128), default = None)                  # 密码（密文）
@@ -173,6 +168,18 @@ class Accountinfo(MapBase, _AccountApi):
             except NoResultFound:
                 u = None
         return u
+
+    # 用户名和密码登录
+    @classmethod
+    def login_by_username_password(cls, session, username, password):
+        if not username or not password:
+            return None
+        try:
+            u = session.query(Accountinfo).filter_by(username = username, password = password).one()
+        except NoResultFound:
+            u = None
+        return u
+
     #每当有一个新用户注册的时候，就要对应的增加录入设置的信息
     @classmethod
     def init_recorder_settings(cls,session,staff_id):
@@ -267,6 +274,14 @@ class Accountinfo(MapBase, _AccountApi):
             temp_name += chars[random.randint(0,len(chars)-1)]
         return temp_name
 
+# 用户角色
+class UserRole(MapBase,_AccountApi):
+
+    __tablename__="user_role"
+    id = Column(Integer, primary_key=True, nullable=False,autoincrement=True)
+    userId   = Column(Integer, ForeignKey(Accountinfo.id),nullable=False)            # 用户id
+    role      = Column(TINYINT, nullable=False,default=0)                            # 用户角色  1:superadmin 2：法医 3：处理人员
+
 # 验证码用途
 class VerifyCodeUse:
     # 非登录状态获取验证码用途
@@ -304,21 +319,6 @@ class VerifyCodeUse:
             return cls.operation_verify_code_use.get(key)
         else:
             return None
-#门店
-class Shop(MapBase, _CommonApi):
-    __tablename__         = "shop"
-    id                    = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
-    admin_id              = Column(Integer, ForeignKey(Accountinfo.id), nullable=False)           # 店铺超级管理员ID
-    shop_name             = Column(String(50),nullable=False,default="")                          # 商品名称
-    shop_trademark_url    = Column(String(256), nullable=False, default="")                       # 店铺Logo
-    # 店铺地址
-    shop_province         = Column(Integer, nullable=False, default =0)                           # 省份
-    shop_city             = Column(Integer, nullable=False, default =0)                           # 城市
-    shop_region           = Column(String(50),nullable=False,default="")                          # 店铺区域
-    shop_city_carrefour   = Column(String(50),nullable=False,default="")                          # 家乐福的城市分区
-    fruit_count           = Column(Integer,nullable=False,default=0)                              # 水果数量
-    vegetables_count      = Column(Integer,nullable=False,default=0)                              # 蔬菜数量
-    market_id             = Column(Integer,ForeignKey(ShopMarket.id),nullable=False,default=0)    # 市场id
 
 # 数据库初始化
 def init_db_data():

@@ -71,5 +71,5 @@ if __name__ == "__main__":
         debug_str = "in debug mode"
     else:
         debug_str = "in production mode"
-    print("running human.digital.cc {0} @ {1}...".format(debug_str,options.port))
+    print("running bodyscan.com.cn {0} @ {1}...".format(debug_str,options.port))
     tornado.ioloop.IOLoop.instance().start()

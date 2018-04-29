@@ -2,7 +2,7 @@
 import handlers.login
 import handlers.common
 import handlers.admin
-import handlers.recorder
+import handlers.operator
 # urls.py
 handlers = [
     # 登录
@@ -16,13 +16,11 @@ handlers = [
     (r"/fileupload", handlers.common.FileUploadHandler, {}, 'commonFileUploadHandler'),                    # 上传文件接口
     (r"/filedownload", handlers.common.FileDownloadHandler, {}, 'commonFileDownloadHandler'),              # 上传下载接口
     #管理员
-    (r"/admin/shopmanage", handlers.admin.ShopManage, {}, "shopmanage"),                                    # 门店管理
-    (r"/admin/goodsmanage", handlers.admin.GoodsManage, {}, "admingoodsmanage"),                            # 管理员-商品管理
-    (r"/admin/staffmanage", handlers.admin.StaffManage, {}, "staffmanage"),                                 # 员工管理                                       # 员工管理
+    (r"/admin", handlers.admin.Home, {}, "adminhome"),                                                       # 管理员首页
+    (r"/admin/staffmanage", handlers.admin.StaffManage, {}, "staffmanage"),                                  # 员工管理                                       # 员工管理
 
-    #录入员
-    (r"/recorder/goodsmanage", handlers.recorder.GoodsManage, {}, "recordergoodsmanage"),                   # 录入员-商品管理
-    (r"/recorder/record", handlers.recorder.Record, {}, "record"),                                          # 记录
-    (r"/recorder/settings", handlers.recorder.Settings, {}, 'settings'),                                    # 设置
-    (r"/recorder/enteringgoods", handlers.recorder.EnteringGoods, {}, 'recorderenteringgoods'),             # 商品录入
-]
+    #操作员
+    (r"/operator", handlers.operator.Home, {}, "recorderhome"),                                             # 操作员首页
+    (r"/operator/goodsmanage", handlers.operator.GoodsManage, {}, "recordergoodsmanage"),                   # 录入员-商品管理
+
+    ]
