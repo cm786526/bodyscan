@@ -4,7 +4,7 @@ import dal.models as models
 from handlers.base.pub_web import AdminBaseHandler
 from handlers.base.pub_func import QuryListDictFunc, TimeFunc, check_float, PubMethod
 import requests, json , datetime
-from handlers.celery_autowork_task import export_statistic_data_and_mail
+from handlers.celery_autowork_task import send_email
 from handlers.common import UpdateWebSocket
 
 class Home(AdminBaseHandler):

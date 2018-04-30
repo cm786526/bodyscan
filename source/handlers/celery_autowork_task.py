@@ -107,19 +107,6 @@ def update_current_weather(self):
 def send_email(email_receivers):
     """ 发送邮件
     """
-    goods_classify=["fruit","vegetables"]
-    path_base='../utils/exportdata/'
-    path_fruit=path_base+goods_classify[0]+'/'
-    path_vegetables=path_base+goods_classify[1]+'/'
-    today=datetime.date.today()
-    weekday=today.weekday()
-    dayscount = datetime.timedelta(days=today.isoweekday())
-    dayfrom = today - dayscount + datetime.timedelta(days=1)
-    dayto = today - dayscount + datetime.timedelta(days=7)
-    file_name_fruit=str(dayfrom)+"~"+str(dayto)+"."+goods_classify[0]
-    file_name_vegetables=str(dayfrom)+"~"+str(dayto)+"."+goods_classify[1]
-    file_fruit=path_fruit+file_name_fruit+'.xls'
-    file_vegetables=path_vegetables+file_name_vegetables+'.xls'
 
     smtpserver = SMTP_SERVER
     password = EMAIL_PASSWORD
@@ -135,15 +122,6 @@ def send_email(email_receivers):
     # 下面是文字部分，也就是纯文本
     puretext = MIMEText(EMAIL_BODY)
     msg.attach(puretext)
-
-    # 下面是附件部分
-    # xlsx类型的附件
-    xlsxpart_fruit = MIMEApplication(open(file_fruit, 'rb').read())
-    xlsxpart_fruit.add_header('Content-Disposition', 'attachment', filename=file_name_fruit+'.xls')
-    xlsxpart_vegetables = MIMEApplication(open(file_vegetables, 'rb').read())
-    xlsxpart_vegetables.add_header('Content-Disposition', 'attachment', filename=file_name_vegetables+'.xls')
-    msg.attach(xlsxpart_fruit)
-    msg.attach(xlsxpart_vegetables)
     try:
         smtpObj = smtplib.SMTP_SSL()
         smtpObj.connect(smtpserver,465) # SMTP协议默认端口是25  但是如果是SSL 则是465 或者587
@@ -155,44 +133,3 @@ def send_email(email_receivers):
         print(e.message)
         print("发送邮件失败")
         return False
-
-@AutoWork.task(bind=True,name="export_statistic_data_only")
-def export_statistic_data_only(self):
-    """ 每天晚上23点50分导出订货统计信息
-    """
-    # 导出数据之前　一定要更新一波数据
-    pub_statistic.Statistic.demand_statistic(session,statistic_session)
-
-    market_id=1
-    all_shops=session.query(Shop).filter_by(market_id=market_id).order_by(Shop.id).all()
-    all_goods=session.query(Goods).filter_by(market_id=market_id).order_by(Goods.id)
-    print("正在导出水果统计excel......")
-    fruit_goods=all_goods.filter_by(classify=1).all()
-    if export_goods(0,all_shops,fruit_goods):
-        print("成功导出水果统计excel")
-    print("正在导出蔬菜统计excel......")
-    vegetables_goods=all_goods.filter_by(classify=2).all()
-    if export_goods(1,all_shops,vegetables_goods):
-        print("成功导出蔬菜统计excel")
-
-
-@AutoWork.task(bind=True,name="auto_work.export_statistic_data_and_mail")
-def export_statistic_data_and_mail(self,email_receivers,market_id):
-    """ 管理员手动导出订货统计信息 并且发送邮件
-    """
-    # 导出数据之前　一定要更新一波数据
-    pub_statistic.Statistic.demand_statistic(session,statistic_session)
-
-    all_shops=session.query(Shop).filter_by(market_id=market_id).order_by(Shop.id).all()
-    all_goods=session.query(Goods).filter_by(market_id=market_id).order_by(Goods.id)
-    print("正在导出水果统计excel......")
-    fruit_goods=all_goods.filter_by(classify=1).all()
-    if export_goods(0,all_shops,fruit_goods):
-        print("成功导出水果统计excel")
-    print("正在导出蔬菜统计excel......")
-    vegetables_goods=all_goods.filter_by(classify=2).all()
-    if export_goods(1,all_shops,vegetables_goods):
-        print("成功导出蔬菜统计excel")
-    # 发送邮件
-    if send_email(email_receivers):
-        print("发送邮件成功")
