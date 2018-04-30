@@ -1,4 +1,3 @@
-
 var cur_action = $.getUrlParam('action');
 var cur_staff_id = $.getUrlParam('id');
 $(document).ready(function() {

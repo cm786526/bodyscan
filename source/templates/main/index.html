@@ -3,10 +3,10 @@
 <head>
     <script src="{{static_url('js/jquery-3.3.1.js')}}"></script>
     <meta charset="UTF-8">
-    <title>博客</title>
+    <title>后台管理</title>
     <link rel="stylesheet" href="{{static_url('css/bootstrap.css')}}" type="text/css" />
     <link rel="stylesheet" href="{{static_url('css/bootstrap-theme.css')}}" type="text/css" />
-    <link rel="stylesheet" href="{{static_url('css/main.css')}}" type="text/css" />
+    <link rel="stylesheet" href="{{static_url('css/login.css')}}" type="text/css" />
     <script src="{{static_url('js/bootstrap.js')}}"></script>
     <script src="{{static_url('js/index.js')}}"></script>
 </head>
@@ -37,20 +37,22 @@
                 </div>
                 {% else %}
                 <div class="rightBox" id="loginBox">
+                    <div class="title"><span>登录</span></div>
                     <span class="colDark"></span><input type="text" name="username" placeholder="用户名" class="form-control name-input"/>
                     <span class="colDark"></span><input type="password" name="password" placeholder="密码" class="form-control password-input">
                     <button class="form-control button-login">登 录</button>
                     <p class="textRight">还没注册？<a href="javascript:;" class="colMint">马上注册</a></p>
                     <p class="colWarning textCenter"></p>
+                    <a href="/operator">管理</a>
                 </div>
 
                 <div class="rightBox" id="registerBox" style="display: none">
                     <div class="title"><span>注册</span></div>
-                    <div class="line"><span class="colDark">用户名：</span><input type="text" name="username"></div>
-                    <div class="line"><span class="colDark">密码：</span><input type="password" name="password"></div>
-                    <div class="line"><span class="colDark">确认：</span><input type="password" name="repassword"></div>
+                    <span class="colDark"></span><input type="text" name="username" placeholder="用户名" class="form-control name-input"/>
+                    <span class="colDark"></span><input type="password" name="password" placeholder="密码" class="form-control password-input">
+                    <span class="colDark"></span><input type="password" name="repassword" placeholder="确认密码" class="form-control password-input">
                     <div class="line"><span class="colDark"></span>
-                        <button>注 册</button>
+                        <button class="form-control button-login">注 册</button>
                     </div>
                     <p class="textRight">已有账号？<a href="javascript:;" class="colMint">马上登录</a></p>
                     <p class="colWarning textCenter"></p>
