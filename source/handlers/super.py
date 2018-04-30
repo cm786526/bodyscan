@@ -7,4 +7,4 @@ import requests, json , datetime
 
 class Home(AdminBaseHandler):
     def get(self):
-        return self.render("admin/index.html")
+        return self.render("super/layout.html")

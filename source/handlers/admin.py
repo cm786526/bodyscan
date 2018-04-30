@@ -9,7 +9,7 @@ from handlers.common import UpdateWebSocket
 
 class Home(AdminBaseHandler):
     def get(self):
-        return self.render("admin/index.html")
+        return self.render("admin/HomePage.html")
 
     @AdminBaseHandler.check_arguments("action:str")
     def post(self):

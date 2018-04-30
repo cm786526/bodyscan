@@ -10,7 +10,7 @@ from handlers.common import UpdateWebSocket
 
 class Home(OperatorBaseHandler):
     def get(self):
-        return self.render("operator/index.html")
+        return self.render("operator/HomePage.html")
 
     @OperatorBaseHandler.check_arguments("action:str")
     def post(self):
