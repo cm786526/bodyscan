@@ -312,7 +312,7 @@ class Login(_AccountBaseHandler):
         filter_emoji = Emoji.filter_emoji
         username = filter_emoji(self.args["username"].strip())
         password = filter_emoji(self.args["password"].strip())
-        password=SimpleEncrypt.encrypt(password)
+        # password=SimpleEncrypt.encrypt(password)
         session = self.session
         exist_account = session.query(models.Accountinfo).filter_by(username = username).first()
         if exist_account:

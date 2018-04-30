@@ -58,13 +58,13 @@ $(function(){
                 if(result.success){
                     //登录成功
                     if(result.role===1){
-                        window.location.href="/admin";
+                        window.location.href="/super";
                     }
                     else if(result.role===2) {
                         window.location.href = "/operator";
                     }
                     else if(result.role===3) {
-                        window.location.href = "/uploads";
+                        window.location.href = "/admin";
                     }
                 }
             }
