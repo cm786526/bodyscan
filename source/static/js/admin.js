@@ -8,7 +8,15 @@ $(function() {
     //上传新数据
     $('#upload-btn').bind("click",function(){
         $('.data-div').css("display","none");
+        $('.form-me').css("display","none");
         $('.form-div').css("display","block");
+    });
+
+    //个人中心
+    $('#me-btn').bind("click",function(){
+        $('.data-div').css("display","none");
+        $('.form-me').css("display","block");
+        $('.form-div').css("display","none");
     });
 
     var $formDiv = $('#form-div');
@@ -26,7 +34,8 @@ $(function() {
                 describe: $formDiv.find('#Input3').val(),
                 measuring_position: $formDiv.find('#Input4').val(),
                 measuring_method: $formDiv.find('#Input5').val(),
-                measuring_date: $formDiv.find('#Input6').val()
+                measuring_date: $formDiv.find('#Input6').val(),
+                file_name: $formDiv.find('#InputFile').val()
             },
             dataType:'json',
             success:function (result) {
@@ -49,7 +58,7 @@ $(function() {
         //通过ajax提交请求
         $.ajax({
             type: 'post',
-            url: '/admin/me',
+            url: '/common/profile',
             data: {
                 action:"add_admin_request",
                 admin_name: $meDiv.find('#Me-Input1').val(),
@@ -58,6 +67,7 @@ $(function() {
                 admin_affiliation: $meDiv.find('#Me-Input3').val(),
                 admin_describe: $meDiv.find('#Me-Input4').val(),
                 admin_pic:$meDiv.find('#InputPic').val()
+
             },
             dataType:'json',
             success:function (result) {
@@ -177,3 +187,19 @@ function merge_file(filename,totalPieces){
         }
     })
 }
+
+$(function(){
+    $.ajax({
+        type: 'post',
+        url: '/admin',
+        data: {
+            action:"add_analyze_request"
+        },
+        dataType:'json',
+        success:function (result) {
+            if(result.success){
+                
+            }
+        }
+    })
+});
