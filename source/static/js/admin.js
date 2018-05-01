@@ -193,24 +193,25 @@ $(function(){
         type: 'post',
         url: '/admin',
         data: {
-            action:"add_analyze_request"
+            action:"get_analyze_list",
+            page:0
         },
         dataType:'json',
         success:function (result) {
             if(result.success){
-                var data_list = result.data_list;
+                $('.data_list').empty();
                 var record_item = '{{each data_list as data}}'+
                     '<tr>' +
-                    '<li>{{data["id"}}</li>' +
-                    '<li>{{data["patient_name"}}</li>' +
-                    '<li>{{data[status}}</li>' +
-                    '<li><a>下载</a></li>' +
+                    '<td>{{data["id"]}}</td>' +
+                    '<td>{{data["patient_name"]}}</td>' +
+                    '<td>{{data["status"]}}</td>' +
+                    '<td><a>下载</a></td>' +
                     '</tr>' +
                     '{{/each}}';
 
                 var render = template.compile(record_item);
-                var html = render(res);
-                $('data_list').append(html);
+                var html = render(result);
+                $('.data_list').append(html);
             }
         }
     })

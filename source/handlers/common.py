@@ -43,8 +43,8 @@ class Profile(_AccountBaseHandler):
         """
             所有用户都必须要有手机号,没有手机号需重定向至手机号绑定页面
         """
-        if not self.current_user.phone:
-            return self.redirect(self.reverse_url("PhoneBind"))
+        # if not self.current_user.phone:
+        #     return self.redirect(self.reverse_url("PhoneBind"))
 
     def get(self):
         #获取个人信息
@@ -83,7 +83,7 @@ class Profile(_AccountBaseHandler):
             "headimgurl":account_info.headimgurl,
             "sex_text":account_info.sex_text
         }
-        return self.send_success(account_dict=account_dict)
+        return self.send_success(data_dict=account_dict)
 
     @_AccountBaseHandler.check_arguments("password:str")
     def set_password(self):
