@@ -72,7 +72,7 @@ $(function() {
             dataType:'json',
             success:function (result) {
                 $meDiv.find('.help-block').html('上传成功');
-                if(!result.code){
+                if(result.success){
                     //上传成功
                     setTimeout(function(){
                         $('.data-div').css("display","block");
@@ -188,18 +188,18 @@ function merge_file(filename,totalPieces){
     })
 }
 
-$(function(){
-    $.ajax({
-        type: 'post',
-        url: '/admin',
-        data: {
-            action:"add_analyze_request"
-        },
-        dataType:'json',
-        success:function (result) {
-            if(result.success){
-                
-            }
-        }
-    })
-});
+// $(function(){
+//     $.ajax({
+//         type: 'post',
+//         url: '/admin',
+//         data: {
+//             action:"add_analyze_request"
+//         },
+//         dataType:'json',
+//         success:function (result) {
+//             if(result.success){
+
+//             }
+//         }
+//     })
+// });

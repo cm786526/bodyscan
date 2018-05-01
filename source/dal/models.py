@@ -293,6 +293,9 @@ class AnalyzeRequestRecord(MapBase,_AccountApi):
     patient_idnumber=Column(String(16),nullable=False,default="")                   # 病人身份证号
     describe=Column(String(128),nullable=False,default="")                          # 情况描述
     file_name=Column(String(128),nullable=False,default="")                          # 文件名称
+    measuring_position=Column(String(128),nullable=False,default="")                 # 测量位置
+    measuring_method=Column(String(128),nullable=False,default="")                          # 测量方法
+    measuring_date=Column(DateTime,nullable=True)                          # 测量时间
     create_date=Column(DateTime,nullable=False,default=func.now())                  # 创建时间
     status=Column(TINYINT,nullable=False,default=0)                                 # 记录状态
 

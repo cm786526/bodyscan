@@ -23,30 +23,39 @@ class Home(AdminBaseHandler):
 
     # 法医添加或者编辑记录
     @AdminBaseHandler.check_arguments("analyze_id?:int","patient_name:str",\
-                                        "patinet_idnumber:str","describe:str"\
-                                        "file_name:str")
+                                        "patient_idnumber:str","describe:str",\
+                                        "file_name:str","measuring_position:str",\
+                                        "measuring_method:str","measuring_date:str")
     def add_or_edit_analyze(self,action):
         current_user_id=self.current_user.id
-        patinet_idnumber=self.args["patinet_idnumber"]
+        patient_idnumber=self.args["patient_idnumber"]
         patient_name=self.args["patient_name"]
         describe=self.args["describe"]
         file_name=self.args["file_name"]
+        measuring_position=self.args["measuring_position"]
+        measuring_method=self.args["measuring_method"]
+        measuring_date=self.args["measuring_date"]
         session=self.session
         AnalyzeRequestRecord=models.AnalyzeRequestRecord
         if action=="add_analyze_request":
             analyze_record=AnalyzeRequestRecord(doctor_id=current_user_id)
+            session.add(analyze_record)
         else:
             analyze_record=session.query(AnalyzeRequestRecord).filter_by(id=analyze_id).first()
-        sex=int(patinet_idnumber[16])
+        sex=3
+        # sex=int(patient_idnumber[16])
         if sex%2:
             sex=1
         else:
             sex=2
         analyze_record.patient_name=patient_name
-        analyze_record.patinet_idnumber=patinet_idnumber
+        analyze_record.patient_idnumber=patient_idnumber
         analyze_record.describe=describe
         analyze_record.patient_sex=sex
         analyze_record.file_name=file_name
+        analyze_record.measuring_position=measuring_position
+        analyze_record.measuring_method=measuring_method
+        # analyze_record.measuring_date=measuring_date
         session.commit()
         return self.send_success()
 
