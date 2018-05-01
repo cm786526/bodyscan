@@ -188,18 +188,30 @@ function merge_file(filename,totalPieces){
     })
 }
 
-// $(function(){
-//     $.ajax({
-//         type: 'post',
-//         url: '/admin',
-//         data: {
-//             action:"add_analyze_request"
-//         },
-//         dataType:'json',
-//         success:function (result) {
-//             if(result.success){
+$(function(){
+    $.ajax({
+        type: 'post',
+        url: '/admin',
+        data: {
+            action:"add_analyze_request"
+        },
+        dataType:'json',
+        success:function (result) {
+            if(result.success){
+                var data_list = result.data_list;
+                var record_item = '{{each data_list as data}}'+
+                    '<tr>' +
+                    '<li>{{data["id"}}</li>' +
+                    '<li>{{data["patient_name"}}</li>' +
+                    '<li>{{data[status}}</li>' +
+                    '<li><a>下载</a></li>' +
+                    '</tr>' +
+                    '{{/each}}';
 
-//             }
-//         }
-//     })
-// });
+                var render = template.compile(record_item);
+                var html = render(res);
+                $('data_list').append(html);
+            }
+        }
+    })
+});
