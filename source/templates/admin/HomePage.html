@@ -1,246 +1,120 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>BodyScan</title>
-    <link rel="stylesheet" href="{{static_url('css/bootstrap.css')}}" type="text/css" />
-    <link rel="stylesheet" href="{{static_url('css/bootstrap-theme.css')}}" type="text/css" />
-    <link rel="stylesheet" href="{{static_url('css/admin.css')}}" type="text/css" />
-    <script src="{{static_url('js/jquery-3.3.1.js')}}"></script>
-    <script src="{{static_url('js/bootstrap.js')}}"></script>
-    <script src="{{static_url('js/admin.js')}}"></script>
-</head>
-<body>
-<div class="div-container">
-    <div class="div-center">
-            <image class="box-image" src="../../../static/images/me.jpg"></image>
-            <div class="box-middle">
-                <h1>欢迎您, 邹琪珺!</h1>
-                <p class="btn"><a class="btn btn-primary btn-lg" id="upload-btn" role="button">上传新数据</a></p>
-                <p class="btn"><a class="btn btn-primary btn-lg" id="me-btn" role="button">个人中心</a></p>
-            </div>
-            <div class="box-right">
-                <p>正在处理 2 例</p>
-                <p>本月已处理 2 例</p>
-                <p>总共已处理 2 例</p>
-            </div>
-    </div>
-    <div class="data-div">
-        <ul class="nav nav-tabs nav-justified">
-            <li class="nav-tabs-li active"><a>全部</a></li>
-            <li class="nav-tabs-li"><a>上传中</a></li>
-            <li class="nav-tabs-li"><a>处理中</a></li>
-            <li class="nav-tabs-li"><a>待确认</a></li>
-            <li class="nav-tabs-li"><a>已处理</a></li>
+{% extends 'base.html' %}
+{% block div %}
+<div class="data-div">
+    <ul class="nav nav-tabs nav-justified">
+        <li class="nav-tabs-li active"><a>全部</a></li>
+        <li class="nav-tabs-li"><a>上传中</a></li>
+        <li class="nav-tabs-li"><a>处理中</a></li>
+        <li class="nav-tabs-li"><a>待确认</a></li>
+        <li class="nav-tabs-li"><a>已处理</a></li>
+    </ul>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td style="width: 180px">编号</td>
+            <td style="width: 200px">病人姓名</td>
+            <td style="width: 200px">状态</td>
+            <td style="width: 200px">操作</td>
+        </tr>
+        </thead>
+        <tbody class="data_list">
+        <tr>
+            <td>001</td>
+            <td>路人甲</td>
+            <td>上传中（已上传50%）</td>
+            <td><a>取消上传</a></td>
+        </tr>
+        <tr>
+            <td>002</td>
+            <td>路人甲</td>
+            <td>上传中（已上传50%）</td>
+            <td><a>取消上传</a></td>
+        </tr>
+        <tr>
+            <td>003</td>
+            <td>路人乙</td>
+            <td>处理中</td>
+            <td><a>修改数据&nbsp&nbsp<a>联系操作员</a></a></td>
+        </tr>
+        <tr>
+            <td>004</td>
+            <td>路人乙</td>
+            <td>处理中</td>
+            <td><a>修改数据&nbsp&nbsp<a>联系操作员</a></a></td>
+        </tr>
+        <tr>
+            <td>005</td>
+            <td>路人丙</td>
+            <td>待确认</td>
+            <td><a>下载</a>&nbsp&nbsp<a>重新修改</a>&nbsp&nbsp<a>确认</a></td>
+        </tr>
+        <tr>
+            <td>006</td>
+            <td>路人丙</td>
+            <td>待确认</td>
+            <td><a>下载</a>&nbsp&nbsp<a>重新修改</a>&nbsp&nbsp<a>确认</a></td>
+        </tr>
+        <tr>
+            <td>007</td>
+            <td>路人丁</td>
+            <td>已处理</td>
+            <td><a>查看</a></td>
+        </tr>
+        <tr>
+            <td>008</td>
+            <td>路人丁</td>
+            <td>已处理</td>
+            <td><a>查看</a></td>
+        </tr>
+        <tr>
+            <td>009</td>
+            <td>路人丁</td>
+            <td>已处理</td>
+            <td><a>查看</a></td>
+        </tr>
+        <tr>
+            <td>010</td>
+            <td>路人丁</td>
+            <td>已处理</td>
+            <td><a>查看</a></td>
+        </tr>
+        <tr>
+            <td>011</td>
+            <td>路人丁</td>
+            <td>已处理</td>
+            <td><a>查看</a></td>
+        </tr>
+        <tr>
+            <td>012</td>
+            <td>路人丁</td>
+            <td>已处理</td>
+            <td><a>查看</a></td>
+        </tr>
+        <tr>
+            <td>013</td>
+            <td>路人丁</td>
+            <td>已处理</td>
+            <td><a>查看</a></td>
+        </tr>
+        <tr>
+            <td>014</td>
+            <td>路人丁</td>
+            <td>已处理</td>
+            <td><a>查看</a></td>
+        </tr>
+        <tr>
+            <td>015</td>
+            <td>路人丁</td>
+            <td>已处理</td>
+            <td><a>查看</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <nav aria-label="...">
+        <ul class="pager">
+            <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> 上一页</a></li>
+            <li class="next"><a href="#">下一页 <span aria-hidden="true">&rarr;</span></a></li>
         </ul>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <td style="width: 180px">编号</td>
-                <td style="width: 200px">病人姓名</td>
-                <td style="width: 200px">状态</td>
-                <td style="width: 200px">操作</td>
-            </tr>
-            </thead>
-            <tbody class="data_list">
-            <tr>
-                <td>001</td>
-                <td>路人甲</td>
-                <td>上传中（已上传50%）</td>
-                <td><a>取消上传</a></td>
-            </tr>
-            <tr>
-                <td>002</td>
-                <td>路人甲</td>
-                <td>上传中（已上传50%）</td>
-                <td><a>取消上传</a></td>
-            </tr>
-            <tr>
-                <td>003</td>
-                <td>路人乙</td>
-                <td>处理中</td>
-                <td><a>修改数据&nbsp&nbsp<a>联系操作员</a></a></td>
-            </tr>
-            <tr>
-                <td>004</td>
-                <td>路人乙</td>
-                <td>处理中</td>
-                <td><a>修改数据&nbsp&nbsp<a>联系操作员</a></a></td>
-            </tr>
-            <tr>
-                <td>005</td>
-                <td>路人丙</td>
-                <td>待确认</td>
-                <td><a>下载</a>&nbsp&nbsp<a>重新修改</a>&nbsp&nbsp<a>确认</a></td>
-            </tr>
-            <tr>
-                <td>006</td>
-                <td>路人丙</td>
-                <td>待确认</td>
-                <td><a>下载</a>&nbsp&nbsp<a>重新修改</a>&nbsp&nbsp<a>确认</a></td>
-            </tr>
-            <tr>
-                <td>007</td>
-                <td>路人丁</td>
-                <td>已处理</td>
-                <td><a>查看</a></td>
-            </tr>
-            <tr>
-                <td>008</td>
-                <td>路人丁</td>
-                <td>已处理</td>
-                <td><a>查看</a></td>
-            </tr>
-            <tr>
-                <td>009</td>
-                <td>路人丁</td>
-                <td>已处理</td>
-                <td><a>查看</a></td>
-            </tr>
-            <tr>
-                <td>010</td>
-                <td>路人丁</td>
-                <td>已处理</td>
-                <td><a>查看</a></td>
-            </tr>
-            <tr>
-                <td>011</td>
-                <td>路人丁</td>
-                <td>已处理</td>
-                <td><a>查看</a></td>
-            </tr>
-            <tr>
-                <td>012</td>
-                <td>路人丁</td>
-                <td>已处理</td>
-                <td><a>查看</a></td>
-            </tr>
-            <tr>
-                <td>013</td>
-                <td>路人丁</td>
-                <td>已处理</td>
-                <td><a>查看</a></td>
-            </tr>
-            <tr>
-                <td>014</td>
-                <td>路人丁</td>
-                <td>已处理</td>
-                <td><a>查看</a></td>
-            </tr>
-            <tr>
-                <td>015</td>
-                <td>路人丁</td>
-                <td>已处理</td>
-                <td><a>查看</a></td>
-            </tr>
-            </tbody>
-        </table>
-        <nav aria-label="...">
-            <ul class="pager">
-                <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> 上一页</a></li>
-                <li class="next"><a href="#">下一页 <span aria-hidden="true">&rarr;</span></a></li>
-            </ul>
-        </nav>
-    </div>
-    <div class="form-div" id="form-div">
-        <form>
-            <div class="form-float">
-                <div class="form-group">
-                    <label for="Input1">测量对象</label>
-                    <input type="text" class="form-control" id="Input1" placeholder="姓名">
-                </div>
-            </div>
-            <div class="form-float">
-                <label>性别</label>
-                <div>
-                    <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 男
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 女
-                    </label>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <input type="text" class="form-control" id="Input2" placeholder="身份证号">
-            </div>
-
-            <div class="form-group">
-                <label for="Input3">基本情况</label>
-                <input type="text" class="form-control" id="Input3">
-            </div>
-            <div class="form-group">
-                <label for="Input4">测量部位</label>
-                <input type="text" class="form-control" id="Input4">
-            </div>
-            <div class="form-group">
-                <label for="Input5">测量方法</label>
-                <input type="text" class="form-control" id="Input5">
-            </div>
-            <div class="form-group">
-                <label for="Input6">测量日期</label>
-                <input type="text" class="form-control" id="Input6">
-            </div>
-
-            <div class="form-group">
-                <label for="InputFile">上传文件</label>
-                <input type="file" id="InputFile">
-                <p class="help-block">包括STL文件、照片和描述文件的压缩包</p>
-            </div>
-            <div class="btn-div">
-                <button type="button" class="btn btn-default" id="btn-submit">确认</button>
-                <button type="reset" class="btn btn-default">重置</button>
-                <button type="submit" class="btn btn-default">取消</button>
-            </div>
-        </form>
-    </div>
-    <div class="form-me" id="form-me">
-        <form>
-            <div class="form-float">
-                <div class="form-group">
-                    <label for="Me-Input1">真实姓名</label>
-                    <input type="text" class="form-control" id="Me-Input1" placeholder="姓名">
-                </div>
-            </div>
-            <div class="form-float">
-                <label>性别</label>
-                <div>
-                    <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option"> 男
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option"> 女
-                    </label>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <input type="text" class="form-control" id="Me-Input2" placeholder="身份证号">
-            </div>
-
-            <div class="form-group">
-                <label for="Me-Input3">所处机构</label>
-                <input type="text" class="form-control" id="Me-Input3">
-            </div>
-            <div class="form-group">
-                <label>个人签名</label>
-                <textarea class="form-control" rows="3"></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="InputPic">上传头像</label>
-                <input type="file" id="InputPic" accept="image/*">
-                <p class="help-block">包括STL文件、照片和描述文件的压缩包</p>
-            </div>
-            <div class="btn-div">
-                <button type="button" class="btn btn-default" id="btn-submit-me">确认</button>
-                <button type="reset" class="btn btn-default">重置</button>
-                <button type="submit" class="btn btn-default">取消</button>
-            </div>
-        </form>
-    </div>
+    </nav>
 </div>
-
-</body>
-</html>
+{% end %}
