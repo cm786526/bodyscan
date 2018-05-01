@@ -72,6 +72,7 @@ a{
     width: 1190px;
     margin-left: auto;
     margin-right: auto;
+    height: 40px;
 }
 .btn{
     float: left;
@@ -80,4 +81,20 @@ a{
 .form-me{
     display: none;
     margin-top: 20px;
+}
+.zb-tip{
+    width: 80%;
+    max-width:600px;
+    position: fixed;
+    left: 50%;
+    top: 0;
+    -webkit-transform:translate(-50%,0);
+    z-index:10000;
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px 8px;
+    text-align: center;
+    font-size: 16px;
+    line-height:26px;
+    background-color: rgba(255,105,105,.8);
 }
