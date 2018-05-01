@@ -8,8 +8,15 @@ from handlers.celery_autowork_task import send_email
 from handlers.common import UpdateWebSocket
 
 class Home(AdminBaseHandler):
+    @AdminBaseHandler.check_arguments("action?:str")
     def get(self):
-        return self.render("admin/HomePage.html")
+        action=self.args.get("action","")
+        if action=="add_record":
+            return self.render("admin/add_record.html")
+        elif action=="edit_record":
+            return self.render("admin/edit_record.html")
+        else:
+            return self.render("admin/HomePage.html")
 
     @AdminBaseHandler.check_arguments("action:str")
     def post(self):
