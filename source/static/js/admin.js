@@ -13,11 +13,11 @@ $(function() {
 
     var $formDiv = $('#form-div');
     //提交表单
-    $formDiv.find('.btn-submit').on('click',function () {
+    $formDiv.find('#btn-submit').on('click',function () {
         //通过ajax提交请求
         $.ajax({
             type: 'post',
-            url: '/admin/upload',
+            url: '/admin',
             data: {
                 action:"add_analyze_request",
                 patient_name: $formDiv.find('#Input1').val(),
@@ -31,7 +31,7 @@ $(function() {
             dataType:'json',
             success:function (result) {
                 $formDiv.find('.help-block').html('上传成功');
-                if(!result.code){
+                if(result.success){
                     //注册成功
                     setTimeout(function(){
                         $('.data-div').css("display","block");
@@ -67,8 +67,8 @@ $(function() {
             // 加到dom
             console.log(file);
             /*********************************************尝试分片，创建多个上传的xhr对象****************************************/
-            var bytesPerPiece = 1024 * 1024; // 每个文件切片大小定为1MB
-            var totalPieces;
+            var bytesPerPiece = 5 * 1024 * 1024; // 每个文件切片大小定为1MB
+            var totalPieces,sended_num;
             var blob = file;
             var start = 0;
             var end;
@@ -78,6 +78,7 @@ $(function() {
 
             //计算文件切片总数
             totalPieces = Math.ceil(filesize / bytesPerPiece);
+            sended_num=0;
             while(start < filesize) {
                 //判断是否是最后一片文件，如果是最后一篇就说明整个文件已经上传完成
                 if (index === totalPieces) {
@@ -109,10 +110,15 @@ $(function() {
                         console.log('----进度-----')
                     }
                 }, false);
-                url = 'http://bodyscan.com.cn:9999/admin';
+                url = 'http://bodyscan.com.cn:9999/fileupload?action=chunk_upload';
                 xhr.open('post', url, true);
                 console.log(5);
                 xhr.onload = function () {
+                    sended_num++;
+                    if (sended_num===totalPieces){
+                        // 给后台发送合并文件请求
+                        merge_file(filename,totalPieces);
+                    }
                     console.log(45)
                 };
                 xhr.send(formData);
@@ -124,5 +130,20 @@ $(function() {
     });
 });
 
-
+// 发送文件合并请求
+function merge_file(filename,totalPieces){
+    var url = "/fileupload";
+    var args = {
+        action: 'merge_file',
+        file_name: filename,
+        total_chunk:totalPieces
+    }
+    $.post(url, args, function(res){
+        if(res.success){
+            alert("成功上传文件");
+        }else{
+            alert(res.error_text);
+        }
+    })
+}
 
