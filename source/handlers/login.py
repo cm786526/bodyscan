@@ -111,7 +111,7 @@ class Login(_AccountBaseHandler):
         session = self.session
         phone = self.args["phone"]
         password = self.args["password"]
-        password=SimpleEncrypt.encrypt(password)
+        # password=SimpleEncrypt.encrypt(password)
         u = models.Accountinfo.login_by_phone_password(session, phone, password)
         if not u:
             return self.send_fail("用户名或密码错误")
@@ -128,7 +128,7 @@ class Login(_AccountBaseHandler):
         session = self.session
         username = self.args["username"]
         password = self.args["password"]
-        password=SimpleEncrypt.encrypt(password)
+        # password=SimpleEncrypt.encrypt(password)
         u = models.Accountinfo.login_by_username_password(session, username, password)
         if not u:
             return self.send_fail("用户名或密码错误")

@@ -237,7 +237,7 @@ class FileUploadHandler(GlobalBaseHandler):
         action=self.args["action"]
         # 获取上级目录
         path_base=os.path.join(os.path.dirname(__file__),"../utils/uploadfiles/")
-        temp_path=os.path.join(path_base,"/temp_files/")
+        temp_path=os.path.join(path_base,"temp_files/")
         if action=="chunk_upload":
             return self.chunk_upload(path_base,temp_path)
         elif action=="merge_file":
@@ -248,6 +248,7 @@ class FileUploadHandler(GlobalBaseHandler):
     def chunk_upload(self,path_base,temp_path):
         # 分片上传 暂时存入临时文件夹中
         file_metas = self.request.files.get('file', None)  # 提取表单中‘name’为‘file’的文件元数据
+        chunk_num = self.request.body_arguments["index"][0].decode('utf-8')
         if not file_metas:
             return  self.send_fail("缺少文件")
         # 判断文件夹是否存在，没有则创建
@@ -256,8 +257,7 @@ class FileUploadHandler(GlobalBaseHandler):
         for meta in file_metas:
             # 实际上只运行一次 只有一个文件
             filename =meta["filename"]
-            chunk_num=meta["chunk_num"]
-            file_path = temp_path+filename+'.part'+chunk_num
+            file_path = temp_path+filename+'.part'+str(chunk_num)
             # 判断文件是否存在
             if os.path.exists(file_path):
                 return self.send_fail("文件已经上传，请勿重复操作")
@@ -273,36 +273,40 @@ class FileUploadHandler(GlobalBaseHandler):
         total_chunk=self.args["total_chunk"]
         chunk_files=[]
         file_path=path_base+file_name
-        if len(chunk_files)!=total_chunk:
-            return self.send_fail("文件合并失败")
-        with open(file_path, 'wb') as new_file:
-            for i in range(total_chunk):
-                one_file=temp_path+file_name+'.part'+i
-                with open(one_file,'rb') as chunk_one:
-                    new_file.write(chunk_one)
-                chunk_files.append(one_file)
-        # 删除碎片文件
-        for _file in chunk_files:
-            os.remove(_file)
-        return self.send_success()
+        try:
+            with open(file_path, 'wb') as new_file:
+                for i in range(total_chunk):
+                    one_file=temp_path+file_name+'.part'+str(i)
+                    with open(one_file,'rb') as chunk_one:
+                        new_file.write(chunk_one.read())
+                    chunk_files.append(one_file)
+            # 删除碎片文件
+            for _file in chunk_files:
+                os.remove(_file)
+            return self.send_success()
+        except:
+            return self.send_fail("合并文件失败，请联系管理员")
+
 
 
 class FileDownloadHandler(GlobalBaseHandler):
     @GlobalBaseHandler.check_arguments("filename:str")
     def get(self):
         filename=self.args["filename"]
-        path_base=os.path.abspath(os.path.join(os.path.dirname(__file__),"../utils/uploadfiles/"))
+        path_base=os.path.join(os.path.dirname(__file__),"../utils/uploadfiles/")
         file_path = path_base + filename
+        print(path_base,file_path,os.path.exists(file_path))
         # 判断文件是否存在
-        if os.path.exists(file_path):
+        if not os.path.exists(file_path):
             return self.send_fail("文件不存在")
-
-        def send_chunk():                                       # 流式读取
-            with open(file_path, 'rb') as target_file:
-                while True:
-                    chunk = target_file.read(20 * 1024 * 1024)  # 每次读取20M
-                    if not chunk:
-                        break
-                    yield chunk
-        self.set_header("Content-Type","application/octet-stream")
-        return self.write(send_chunk())
+        self.set_header ('Content-Type', 'application/octet-stream')
+        self.set_header ('Content-Disposition', 'attachment; filename='+filename)
+        # 流式读取
+        with open(file_path, 'rb') as target_file:
+            while True:
+                chunk = target_file.read(10 * 1024 * 1024)  # 每次读取10M
+                if not chunk:
+                    break
+                self.write(chunk)
+        #记得有finish哦
+        return self.finish()

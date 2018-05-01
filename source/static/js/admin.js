@@ -8,24 +8,16 @@ $(function() {
     //上传新数据
     $('#upload-btn').bind("click",function(){
         $('.data-div').css("display","none");
-        $('.form-me').css("display","none");
         $('.form-div').css("display","block");
     });
 
-    //个人中心
-    $('#me-btn').bind("click",function(){
-        $('.data-div').css("display","none");
-        $('.form-div').css("display","none");
-        $('.form-me').css("display","block");
-    });
-
     var $formDiv = $('#form-div');
-    //提交数据表单
-    $formDiv.find('.btn-submit').on('click',function () {
+    //提交表单
+    $formDiv.find('#btn-submit').on('click',function () {
         //通过ajax提交请求
         $.ajax({
             type: 'post',
-            url: '/common/profile',
+            url: '/admin',
             data: {
                 action:"add_analyze_request",
                 patient_name: $formDiv.find('#Input1').val(),
@@ -39,6 +31,37 @@ $(function() {
             dataType:'json',
             success:function (result) {
                 $formDiv.find('.help-block').html('上传成功');
+                if(result.success){
+                    //注册成功
+                    setTimeout(function(){
+                        $('.data-div').css("display","block");
+                        $('.form-div').css("display","none");
+                    },1000);
+                    window.location.reload();
+                }
+            }
+        })
+    });
+
+    var $meDiv = $('#form-me');
+    //提交个人中心表单
+    $meDiv.find('.btn-submit-me').on('click',function () {
+        //通过ajax提交请求
+        $.ajax({
+            type: 'post',
+            url: '/admin/me',
+            data: {
+                action:"add_admin_request",
+                admin_name: $meDiv.find('#Me-Input1').val(),
+                admin_idnumber: $meDiv.find('#Me-Input2').val(),
+                admin_sex:$meDiv.find('[value="option"]:checked').val(),
+                admin_affiliation: $meDiv.find('#Me-Input3').val(),
+                admin_describe: $meDiv.find('#Me-Input4').val(),
+                admin_pic:$meDiv.find('#InputPic').val()
+            },
+            dataType:'json',
+            success:function (result) {
+                $meDiv.find('.help-block').html('上传成功');
                 if(!result.code){
                     //上传成功
                     setTimeout(function(){
@@ -75,8 +98,8 @@ $(function() {
             // 加到dom
             console.log(file);
             /*********************************************尝试分片，创建多个上传的xhr对象****************************************/
-            var bytesPerPiece = 1024 * 1024; // 每个文件切片大小定为1MB
-            var totalPieces;
+            var bytesPerPiece = 5 * 1024 * 1024; // 每个文件切片大小定为1MB
+            var totalPieces,sended_num;
             var blob = file;
             var start = 0;
             var end;
@@ -86,6 +109,7 @@ $(function() {
 
             //计算文件切片总数
             totalPieces = Math.ceil(filesize / bytesPerPiece);
+            sended_num=0;
             while(start < filesize) {
                 //判断是否是最后一片文件，如果是最后一篇就说明整个文件已经上传完成
                 if (index === totalPieces) {
@@ -117,10 +141,15 @@ $(function() {
                         console.log('----进度-----')
                     }
                 }, false);
-                url = 'http://bodyscan.com.cn:9999/admin';
+                url = 'http://bodyscan.com.cn:9999/fileupload?action=chunk_upload';
                 xhr.open('post', url, true);
                 console.log(5);
                 xhr.onload = function () {
+                    sended_num++;
+                    if (sended_num===totalPieces){
+                        // 给后台发送合并文件请求
+                        merge_file(filename,totalPieces);
+                    }
                     console.log(45)
                 };
                 xhr.send(formData);
@@ -130,38 +159,21 @@ $(function() {
             /*********************************************尝试分片****************************************/
         })
     });
-
-    var $meDiv = $('#form-me');
-    //提交个人中心表单
-    $meDiv.find('.btn-submit-me').on('click',function () {
-        //通过ajax提交请求
-        $.ajax({
-            type: 'post',
-            url: '/admin/me',
-            data: {
-                action:"add_admin_request",
-                admin_name: $meDiv.find('#Me-Input1').val(),
-                admin_idnumber: $meDiv.find('#Me-Input2').val(),
-                admin_sex:$meDiv.find('[value="option"]:checked').val(),
-                admin_affiliation: $meDiv.find('#Me-Input3').val(),
-                admin_describe: $meDiv.find('#Me-Input4').val(),
-                admin_pic:$meDiv.find('#InputPic').val()
-            },
-            dataType:'json',
-            success:function (result) {
-                $meDiv.find('.help-block').html('上传成功');
-                if(!result.code){
-                    //上传成功
-                    setTimeout(function(){
-                        $('.data-div').css("display","block");
-                        $('.form-div').css("display","none");
-                    },1000);
-                    window.location.reload();
-                }
-            }
-        })
-    });
 });
 
-
-
+// 发送文件合并请求
+function merge_file(filename,totalPieces){
+    var url = "/fileupload";
+    var args = {
+        action: 'merge_file',
+        file_name: filename,
+        total_chunk:totalPieces
+    };
+    $.post(url, args, function(res){
+        if(res.success){
+            alert("成功上传文件");
+        }else{
+            alert(res.error_text);
+        }
+    })
+}
