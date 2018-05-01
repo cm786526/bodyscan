@@ -3,13 +3,7 @@ $(function() {
     $(".nav-tabs-li").bind("click", function () {
         $(".nav-tabs-li").removeClass('active');
         $(this).addClass('active');
-    });
-
-    //上传新数据
-    $('#upload-btn').bind("click",function(){
-        $('.data-div').css("display","none");
-        $('.form-me').css("display","none");
-        $('.form-div').css("display","block");
+        $('#form-div').reload();
     });
 
     //个人中心
@@ -22,6 +16,9 @@ $(function() {
     var $formDiv = $('#form-div');
     //提交表单
     $formDiv.find('#btn-submit').on('click',function () {
+        var str = $formDiv.find('#InputFile').val();
+        var index = str.lastIndexOf("\\");
+        str = str.substring(index + 1,str.length);
         //通过ajax提交请求
         $.ajax({
             type: 'post',
@@ -35,18 +32,14 @@ $(function() {
                 measuring_position: $formDiv.find('#Input4').val(),
                 measuring_method: $formDiv.find('#Input5').val(),
                 measuring_date: $formDiv.find('#Input6').val(),
-                file_name: $formDiv.find('#InputFile').val()
+                file_name: str
             },
             dataType:'json',
             success:function (result) {
                 $formDiv.find('.help-block').html('上传成功');
                 if(result.success){
                     //注册成功
-                    setTimeout(function(){
-                        $('.data-div').css("display","block");
-                        $('.form-div').css("display","none");
-                    },1000);
-                    window.location.reload();
+                    window.location.href = "/admin";
                 }
             }
         })
@@ -153,14 +146,12 @@ $(function() {
                 }, false);
                 url = 'http://bodyscan.com.cn:9999/fileupload?action=chunk_upload';
                 xhr.open('post', url, true);
-                console.log(5);
                 xhr.onload = function () {
                     sended_num++;
                     if (sended_num===totalPieces){
                         // 给后台发送合并文件请求
                         merge_file(filename,totalPieces);
                     }
-                    console.log(45)
                 };
                 xhr.send(formData);
                 start = end;
@@ -181,20 +172,31 @@ function merge_file(filename,totalPieces){
     };
     $.post(url, args, function(res){
         if(res.success){
-            alert("成功上传文件");
+            Tip("成功上传文件");
         }else{
-            alert(res.error_text);
+            Tip(res.error_text);
         }
     })
 }
 
+//提示框
+function Tip(text){
+    var tip = '<div class="zb-tip" id="zb-tip">'+text+'</div>';
+    $("body").append(tip);
+    zb_timer = setTimeout(function(){
+        $("#zb-tip").css("display","none");
+    },2000);
+}
+
+//渲染页面
 $(function(){
     $.ajax({
         type: 'post',
         url: '/admin',
         data: {
             action:"get_analyze_list",
-            page:0
+            page:0,
+            tab:$('.nav').find('.active').val()
         },
         dataType:'json',
         success:function (result) {
@@ -204,8 +206,16 @@ $(function(){
                     '<tr>' +
                     '<td>{{data["id"]}}</td>' +
                     '<td>{{data["patient_name"]}}</td>' +
-                    '<td>{{data["status"]}}</td>' +
-                    '<td><a>下载</a></td>' +
+                    '<td>'+
+                    '{{if data["status"] == 0||data["status"] == 1}}处理中{{/if}}'+
+                    '{{if data["status"] == 2}}待确认{{/if}}'+
+                    '{{if data["status"] == 3}}已处理{{/if}}'+
+                    '</td>'+
+                    '<td>'+
+                    '{{if data["status"] == 0||data["status"] == 1}}<a>修改数据</a>&nbsp&nbsp<a>联系操作员</a>{{/if}}'+
+                    '{{if data["status"] == 2}}<a>下载</a>&nbsp&nbsp<a>修改数据</a>&nbsp&nbsp<a>确认</a>{{/if}}'+
+                    '{{if data["status"] == 3}}<a>查看</a>{{/if}}'+
+                    '</td>'+
                     '</tr>' +
                     '{{/each}}';
 
