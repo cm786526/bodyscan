@@ -8,16 +8,24 @@ $(function() {
     //上传新数据
     $('#upload-btn').bind("click",function(){
         $('.data-div').css("display","none");
+        $('.form-me').css("display","none");
         $('.form-div').css("display","block");
     });
 
+    //个人中心
+    $('#me-btn').bind("click",function(){
+        $('.data-div').css("display","none");
+        $('.form-div').css("display","none");
+        $('.form-me').css("display","block");
+    });
+
     var $formDiv = $('#form-div');
-    //提交表单
+    //提交数据表单
     $formDiv.find('.btn-submit').on('click',function () {
         //通过ajax提交请求
         $.ajax({
             type: 'post',
-            url: '/admin/upload',
+            url: '/common/profile',
             data: {
                 action:"add_analyze_request",
                 patient_name: $formDiv.find('#Input1').val(),
@@ -32,7 +40,7 @@ $(function() {
             success:function (result) {
                 $formDiv.find('.help-block').html('上传成功');
                 if(!result.code){
-                    //注册成功
+                    //上传成功
                     setTimeout(function(){
                         $('.data-div').css("display","block");
                         $('.form-div').css("display","none");
@@ -120,6 +128,37 @@ $(function() {
                 index++;
             }
             /*********************************************尝试分片****************************************/
+        })
+    });
+
+    var $meDiv = $('#form-me');
+    //提交个人中心表单
+    $meDiv.find('.btn-submit-me').on('click',function () {
+        //通过ajax提交请求
+        $.ajax({
+            type: 'post',
+            url: '/admin/me',
+            data: {
+                action:"add_admin_request",
+                admin_name: $meDiv.find('#Me-Input1').val(),
+                admin_idnumber: $meDiv.find('#Me-Input2').val(),
+                admin_sex:$meDiv.find('[value="option"]:checked').val(),
+                admin_affiliation: $meDiv.find('#Me-Input3').val(),
+                admin_describe: $meDiv.find('#Me-Input4').val(),
+                admin_pic:$meDiv.find('#InputPic').val()
+            },
+            dataType:'json',
+            success:function (result) {
+                $meDiv.find('.help-block').html('上传成功');
+                if(!result.code){
+                    //上传成功
+                    setTimeout(function(){
+                        $('.data-div').css("display","block");
+                        $('.form-div').css("display","none");
+                    },1000);
+                    window.location.reload();
+                }
+            }
         })
     });
 });
