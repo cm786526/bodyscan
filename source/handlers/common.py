@@ -275,11 +275,11 @@ class FileUploadHandler(GlobalBaseHandler):
         file_path=path_base+file_name
         try:
             with open(file_path, 'wb') as new_file:
-            for i in range(total_chunk):
-                one_file=temp_path+file_name+'.part'+str(i)
-                with open(one_file,'rb') as chunk_one:
-                    new_file.write(chunk_one.read())
-                chunk_files.append(one_file)
+                for i in range(total_chunk):
+                    one_file=temp_path+file_name+'.part'+str(i)
+                    with open(one_file,'rb') as chunk_one:
+                        new_file.write(chunk_one.read())
+                    chunk_files.append(one_file)
             # 删除碎片文件
             for _file in chunk_files:
                 os.remove(_file)
@@ -293,18 +293,20 @@ class FileDownloadHandler(GlobalBaseHandler):
     @GlobalBaseHandler.check_arguments("filename:str")
     def get(self):
         filename=self.args["filename"]
-        path_base=os.path.abspath(os.path.join(os.path.dirname(__file__),"../utils/uploadfiles/"))
+        path_base=os.path.join(os.path.dirname(__file__),"../utils/uploadfiles/")
         file_path = path_base + filename
+        print(path_base,file_path,os.path.exists(file_path))
         # 判断文件是否存在
-        if os.path.exists(file_path):
+        if not os.path.exists(file_path):
             return self.send_fail("文件不存在")
-
-        def send_chunk():                                       # 流式读取
-            with open(file_path, 'rb') as target_file:
-                while True:
-                    chunk = target_file.read(20 * 1024 * 1024)  # 每次读取20M
-                    if not chunk:
-                        break
-                    yield chunk
-        self.set_header("Content-Type","application/octet-stream")
-        return self.write(send_chunk())
+        self.set_header ('Content-Type', 'application/octet-stream')
+        self.set_header ('Content-Disposition', 'attachment; filename='+filename)
+        # 流式读取
+        with open(file_path, 'rb') as target_file:
+            while True:
+                chunk = target_file.read(10 * 1024 * 1024)  # 每次读取10M
+                if not chunk:
+                    break
+                self.write(chunk)
+        #记得有finish哦
+        return self.finish()
