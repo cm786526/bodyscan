@@ -65,7 +65,7 @@ class Home(AdminBaseHandler):
         session=self.session
         doctor_id=self.args.get("doctor_id",0)
         status=self.args.get("status",0)
-        page=self.args.args["page"]
+        page=self.args["page"]
         page_num=10
         status_list=[]
         if not status:
@@ -78,17 +78,20 @@ class Home(AdminBaseHandler):
         if doctor_id:
             # 获取某个法医上传的数据
             all_records=record_base.filter_by(doctor_id=doctor_id)
+        else:
+            all_records=record_base
         all_records=all_records.offset(page*page_num).limit(page_num).all()
-        data_lis=[]
+        data_list=[]
         for item in all_records:
             record_dict={
                 "id":item.id,
                 "doctor_id":item.doctor_id,
                 "patient_name":item.patient_name,
-                "patinet_idnumber":item.patinet_idnumber,
+                "patinet_idnumber":item.patient_idnumber,
                 "patient_sex_text":item.patient_sex_text,
                 "describe":item.describe,
-                "create_date":item.create_date.strftime("%Y-%m-%d %H:%M:%S")
+                "create_date":item.create_date.strftime("%Y-%m-%d %H:%M:%S"),
+                "status":item.status
             }
             data_list.append(record_dict)
         return self.send_success(data_list=data_list)

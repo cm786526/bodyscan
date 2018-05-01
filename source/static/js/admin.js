@@ -5,12 +5,12 @@ $(function() {
         $(this).addClass('active');
     });
 
-    // //上传新数据
-    // $('#upload-btn').bind("click",function(){
-    //     $('.data-div').css("display","none");
-    //     $('.form-me').css("display","none");
-    //     $('.form-div').css("display","block");
-    // });
+    //上传新数据
+    $('#upload-btn').bind("click",function(){
+        $('.data-div').css("display","none");
+        $('.form-me').css("display","none");
+        $('.form-div').css("display","block");
+    });
 
     //个人中心
     $('#me-btn').bind("click",function(){
@@ -193,7 +193,8 @@ $(function(){
         type: 'post',
         url: '/admin',
         data: {
-            action:"add_analyze_request"
+            action:"get_analyze_list",
+            page:0
         },
         dataType:'json',
         success:function (result) {
