@@ -14,7 +14,8 @@ class Home(AdminBaseHandler):
         if action=="add_record":
             return self.render("admin/add_record.html")
         elif action=="edit_record":
-            return self.render("admin/edit_record.html")
+            data_dict=self.get_record_info_one()
+            return self.render("admin/edit_record.html",data_dict=data_dict)
         else:
             return self.render("admin/HomePage.html")
 
@@ -27,6 +28,11 @@ class Home(AdminBaseHandler):
             return self.get_analyze_list()
         else:
             return self.send_fail(403)
+
+    # 获取一条记录的信息
+    @AdminBaseHandler.check_arguments("record_id:int")
+    def get_record_info_one(self):
+        pass
 
     # 法医添加或者编辑记录
     @AdminBaseHandler.check_arguments("analyze_id?:int","patient_name:str",\

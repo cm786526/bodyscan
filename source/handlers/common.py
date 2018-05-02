@@ -48,7 +48,7 @@ class Profile(_AccountBaseHandler):
 
     def get(self):
         #获取个人信息
-        return self.render("login/login.html")
+        return self.render("common/profile.html")
 
     @_AccountBaseHandler.check_arguments("action:str")
     def post(self):

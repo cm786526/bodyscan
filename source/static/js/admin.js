@@ -1,9 +1,9 @@
 $(function() {
     //切换状态
-    $(".nav-tabs-li").bind("click", function () {
+    $(".nav-tabs-li").on("click", function () {
         $(".nav-tabs-li").removeClass('active');
         $(this).addClass('active');
-        $('#form-div').reload();
+        getResultPage();
     });
 
     var $formDiv = $('#form-div');
@@ -151,6 +151,9 @@ $(function() {
             /*********************************************尝试分片****************************************/
         })
     });
+
+    //加载数据
+    getResultPage();
 });
 
 // 发送文件合并请求
@@ -179,8 +182,8 @@ function Tip(text){
     },2000);
 }
 
-//渲染页面
-$(function(){
+
+function getResultPage(){
     $.ajax({
         type: 'post',
         url: '/admin',
@@ -216,4 +219,4 @@ $(function(){
             }
         }
     })
-});
+}
