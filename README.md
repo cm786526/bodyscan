@@ -23,3 +23,15 @@ operator渲染页面已做好
 ## 现数据缺少的记录
 1.上传机构->在个人中心添加
 2.数据属于哪个操作员（null的时候所有人都能看到，分配后固定给某人）
+
+## 已完成
+完成了edit页面 - 需要传入数据data - 页面：edit_record.html
+```
+<a href="/admin?action=add_record&id={{data["id"]}}">修改数据</a>
+```
+(这里不知道需不需要把id传给你)
+
+完成了个人中心 - 页面：personal.html
+```
+<a href="/admin?action=personal"></a>
+```
