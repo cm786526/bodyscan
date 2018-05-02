@@ -11,7 +11,7 @@ $(function(){
         type: 'post',
         url: '/operator',
         data: {
-            action:"get_analyze_list",
+            action:"get_handler_list",
             page:0
         },
         dataType:'json',

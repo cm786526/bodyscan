@@ -42,11 +42,11 @@ class Home(OperatorBaseHandler):
 
     # 获取所有的操作记录
     @OperatorBaseHandler.check_arguments("operator_id?:int","status?:int","page:int")
-    def get_analyze_list(self):
+    def get_handler_list(self):
         session=self.session
         operator_id=self.args.get("operator_id",0)
         status=self.args.get("status",0)
-        page=self.args.args["page"]
+        page=self.args["page"]
         page_num=10
         status_list=[]
         if not status:
@@ -61,8 +61,10 @@ class Home(OperatorBaseHandler):
         if operator_id:
             # 获取某个法医上传的数据
             all_records=record_base.filter_by(operator_id=operator_id)
+        else:
+            all_records=record_base
         all_records=all_records.offset(page*page_num).limit(page_num).all()
-        data_lis=[]
+        data_list=[]
         for handler,analyze in all_records:
             record_dict={
                 "id":handler.id,
@@ -73,7 +75,8 @@ class Home(OperatorBaseHandler):
                 "describe":analyze.describe,
                 "create_date":analyze.create_date.strftime("%Y-%m-%d %H:%M:%S"),
                 "get_date":handler.get_date.strftime("%Y-%m-%d %H:%M:%S"),
-                "handler_date":handler.create_date.strftime("%Y-%m-%d %H:%M:%S")
+                "handler_date":handler.create_date.strftime("%Y-%m-%d %H:%M:%S"),
+                "admin_affiliation":""
             }
             data_list.append(record_dict)
         return self.send_success(data_list=data_list)
