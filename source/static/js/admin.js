@@ -6,13 +6,6 @@ $(function() {
         $('#form-div').reload();
     });
 
-    //个人中心
-    $('#me-btn').bind("click",function(){
-        $('.data-div').css("display","none");
-        $('.form-me').css("display","block");
-        $('.form-div').css("display","none");
-    });
-
     var $formDiv = $('#form-div');
     //提交表单
     $formDiv.find('#btn-submit').on('click',function () {
@@ -38,7 +31,7 @@ $(function() {
             success:function (result) {
                 $formDiv.find('.help-block').html('上传成功');
                 if(result.success){
-                    //注册成功
+                    //表单提交成功
                     window.location.href = "/admin";
                 }
             }
@@ -60,18 +53,16 @@ $(function() {
                 admin_affiliation: $meDiv.find('#Me-Input3').val(),
                 admin_describe: $meDiv.find('#Me-Input4').val(),
                 admin_pic:$meDiv.find('#InputPic').val()
-
             },
             dataType:'json',
             success:function (result) {
                 $meDiv.find('.help-block').html('上传成功');
                 if(result.success){
-                    //上传成功
+                    //个人资料提交成功
+                    Tip("成功修改个人资料");
                     setTimeout(function(){
-                        $('.data-div').css("display","block");
-                        $('.form-div').css("display","none");
-                    },1000);
-                    window.location.reload();
+                        window.location.href = "/admin";
+                    },2000);
                 }
             }
         })
@@ -212,8 +203,8 @@ $(function(){
                     '{{if data["status"] == 3}}已处理{{/if}}'+
                     '</td>'+
                     '<td>'+
-                    '{{if data["status"] == 0||data["status"] == 1}}<a>修改数据</a>&nbsp&nbsp<a>联系操作员</a>{{/if}}'+
-                    '{{if data["status"] == 2}}<a>下载</a>&nbsp&nbsp<a>修改数据</a>&nbsp&nbsp<a>确认</a>{{/if}}'+
+                    '{{if data["status"] == 0||data["status"] == 1}}<a href="/admin?action=add_record&id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a>联系操作员</a>{{/if}}'+
+                    '{{if data["status"] == 2}}<a>下载</a>&nbsp&nbsp<a href="/admin?action=add_record&id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a>确认</a>{{/if}}'+
                     '{{if data["status"] == 3}}<a>查看</a>{{/if}}'+
                     '</td>'+
                     '</tr>' +
