@@ -32,7 +32,23 @@ class Home(AdminBaseHandler):
     # 获取一条记录的信息
     @AdminBaseHandler.check_arguments("record_id:int")
     def get_record_info_one(self):
-        pass
+        record_id=self.args["record_id"]
+        AnalyzeRequestRecord=models.AnalyzeRequestRecord
+        session=self.session
+        analyze_record=session.query(AnalyzeRequestRecord).filter_by(id=record_id).first()
+        data_dict={
+            "id":analyze_record.id,
+            "patient_name":analyze_record.patient_name,
+            "patient_idnumber":analyze_record.patient_idnumber,
+            "describe":analyze_record.describe,
+            "sex":analyze_record.patient_sex,
+            "file_name":analyze_record.file_name,
+            "measuring_position":analyze_record.measuring_position,
+            "measuring_method":analyze_record.measuring_method,
+            "measuring_date":analyze_record.measuring_date
+        }
+        return data_dict
+
 
     # 法医添加或者编辑记录
     @AdminBaseHandler.check_arguments("analyze_id?:int","patient_name:str",\
@@ -81,7 +97,7 @@ class Home(AdminBaseHandler):
         page=self.args["page"]
         page_num=10
         status_list=[]
-        if not status:
+        if status==-1:
             status_list=[0,1,2,3]
         else:
             status_list.append(status)

@@ -3,7 +3,8 @@ $(function() {
     $(".nav-tabs-li").on("click", function () {
         $(".nav-tabs-li").removeClass('active');
         $(this).addClass('active');
-        getResultPage();
+        status=$('.nav').find('.active').val();
+        getResultPage(status,0);
     });
 
     var $formDiv = $('#form-div');
@@ -153,7 +154,7 @@ $(function() {
     });
 
     //加载数据
-    getResultPage();
+    getResultPage(-1,0);
 });
 
 // 发送文件合并请求
@@ -183,14 +184,14 @@ function Tip(text){
 }
 
 
-function getResultPage(){
+function getResultPage(status,page){
     $.ajax({
         type: 'post',
         url: '/admin',
         data: {
             action:"get_analyze_list",
-            page:0,
-            tab:$('.nav').find('.active').val()
+            page:page,
+            status:status
         },
         dataType:'json',
         success:function (result) {
@@ -201,13 +202,14 @@ function getResultPage(){
                     '<td>{{data["id"]}}</td>' +
                     '<td>{{data["patient_name"]}}</td>' +
                     '<td>'+
-                    '{{if data["status"] == 0||data["status"] == 1}}处理中{{/if}}'+
+                    '{{if data["status"] == 0}}未领取{{/if}}'+
+                    '{{if data["status"] == 1}}处理中{{/if}}'+
                     '{{if data["status"] == 2}}待确认{{/if}}'+
                     '{{if data["status"] == 3}}已处理{{/if}}'+
                     '</td>'+
                     '<td>'+
-                    '{{if data["status"] == 0||data["status"] == 1}}<a href="/admin?action=add_record&id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a>联系操作员</a>{{/if}}'+
-                    '{{if data["status"] == 2}}<a>下载</a>&nbsp&nbsp<a href="/admin?action=add_record&id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a>确认</a>{{/if}}'+
+                    '{{if data["status"] == 0||data["status"] == 1}}<a href="/admin?action=edit_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a>联系操作员</a>{{/if}}'+
+                    '{{if data["status"] == 2}}<a>下载</a>&nbsp&nbsp<a href="/admin?action=add_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a>确认</a>{{/if}}'+
                     '{{if data["status"] == 3}}<a>查看</a>{{/if}}'+
                     '</td>'+
                     '</tr>' +
