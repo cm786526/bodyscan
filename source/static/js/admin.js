@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    //加载数据
+    getResultPage(-1,0);
     //分片上传
     document.getElementById('InputFile').addEventListener('change', function (ev) {
         console.log(ev.target.files);
@@ -80,9 +82,6 @@ $(document).ready(function(){
         }
         /*********************************************尝试分片****************************************/
     });
-
-    //加载数据
-    getResultPage(-1,0);
 }).on('click',".nav-tabs-li",function(){
     //切换状态
     $(".nav-tabs-li").removeClass('active');
