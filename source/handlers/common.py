@@ -48,7 +48,8 @@ class Profile(_AccountBaseHandler):
 
     def get(self):
         #获取个人信息
-        return self.render("common/profile.html")
+        data_dict=self.get_profile_info()
+        return self.render("common/profile.html",data_dict=data_dict)
 
     @_AccountBaseHandler.check_arguments("action:str")
     def post(self):
@@ -65,6 +66,25 @@ class Profile(_AccountBaseHandler):
             return self.change_role()
         else:
             return self.send_fail(404)
+
+    def get_profile_info(self):
+        """ 获取个人信息
+        """
+        session=self.session
+        current_user_id=self.current_user.id
+        AccountInfo=models.Accountinfo
+        account_info=session.query(AccountInfo)\
+                            .filter_by(id=current_user_id)\
+                            .first()
+        account_dict={
+            "id":account_info.id,
+            "sex":account_info.sex,
+            "phone":account_info.phone,
+            "realname":account_info.nickname,
+            "headimgurl":account_info.headimgurl,
+            "sex_text":account_info.sex_text
+        }
+        return account_dict
 
     def get_profile(self):
         """ 获取个人信息
