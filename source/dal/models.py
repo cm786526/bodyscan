@@ -312,8 +312,8 @@ class OperatorHandlerRecord(MapBase,_AccountApi):
     analyze_id=Column(Integer,ForeignKey(AnalyzeRequestRecord.id),nullable=False)             # 操作员处理的记录id
     operator_id=Column(Integer,nullable=False,default=0)                                     # 处理人员id
     get_date=Column(DateTime,nullable=False,default=func.now())                  # 领取时间
-    handler_date=Column(DateTime,nullable=False,default="")                         # 任务处理时间
-    status=Column(TINYINT,nullable=False,default=0)                                 # 记录状态
+    handler_date=Column(DateTime,nullable=True)                         # 任务处理时间
+    status=Column(TINYINT,nullable=False,default=1)                                 # 记录状态 1:处理中 2：已处理
 
 # 验证码用途
 class VerifyCodeUse:

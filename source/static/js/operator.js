@@ -19,7 +19,7 @@ function distribute(obj){
         type: 'post',
         url: '/operator',
         data: {
-            action:"edit_handler",
+            action:"add_handler",
             analyze_id:analyze_id
         },
         dataType:'json',
@@ -51,7 +51,7 @@ function getResultPageAdmin(status,page){
                     '<td>{{data["describe"]}}</td>' +
                     '<td>未分配</td>'+
                     '<td>'+
-                    '<a onclick = "distribute(this)" analyze_id = {{data["id"]}}>分配</a>'+
+                    '<a onclick = "distribute(this)" analyze_id = {{data["id"]}}>领取</a>'+
                     '</td>'+
                     '</tr>' +
                     '{{/each}}';
@@ -91,7 +91,7 @@ function getResultPageOperator(status,page){
                     '</td>'+
                     '<td>'+
                     '{{if data["status"] == 0}}<a>分配</a>{{/if}}'+
-                    '{{if data["status"] == 1 || data["status"] == 2}}<a>下载数据</a>&nbsp&nbsp<a>联系上传人员</a>&nbsp&nbsp<a>上传反馈材料</a>{{/if}}'+
+                    '{{if data["status"] == 1 || data["status"] == 2}}<a href="/filedownload?filename={{data["file_name"]}}" target="_blank">下载数据</a>&nbsp&nbsp<a>联系上传人员</a>&nbsp&nbsp<a>上传反馈材料</a>{{/if}}'+
                     '{{if data["status"] == 3}}<a>查看</a>{{/if}}'+
                     '</td>'+
                     '</tr>' +
