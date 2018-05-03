@@ -35,14 +35,13 @@ body{
     font-size: 16px;
     line-height: 52px;
     border-bottom: 3px solid #fff;
-    color: #9f9f9f;
     cursor: pointer;
 }
 .topic a{
     width: 100px;
     height: 48px;
     display: block;
-
+    color: #9f9f9f;
 }
 .topic-div{
     height: 50px;
@@ -55,6 +54,8 @@ body{
 }
 .topic-focus,.topic:hover{
     border-color: #16344f;
+}
+.topic-focus a,.topic a:hover{
     color: #16344f !important;
 }
 .top-image{

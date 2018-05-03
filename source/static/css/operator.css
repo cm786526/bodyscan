@@ -54,3 +54,15 @@ a{
 .box-admin-right{
     margin-left: 700px;
 }
+.upload-div{
+    height: 300px;
+    width: 600px;
+    background-color: white;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -300px;
+    margin-top: -150px;
+    border: 1px solid #337ab7;
+    display: none;
+}

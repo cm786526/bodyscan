@@ -2,8 +2,54 @@ var _page=0;
 var page_sum=0;
 var type=0;
 var status=0;
+var handlerId='';
 $(document).ready(function(){
-    getResultPageAdmin(0,0)
+    getResultPageAdmin(0,0);
+    document.getElementById('InputFile').addEventListener('change', function (ev) {
+        $.ajax({
+            type: 'post',
+            url: '/fileupload',
+            data: {
+                action: 'upload_feedback',
+                file_name: ev.target.files[0].name
+            },
+            dataType:'json',
+            success:function (res) {
+                if(res.success){
+                    Tip("成功上传文件");
+                }else{
+                    Tip(res.error_text);
+                }
+            }
+        })
+    })
+}).on('click','#btn-submit',function(){
+    var $formDiv = $('#form-div');
+    //提交反馈数据表单
+    $formDiv.find('#btn-submit').on('click',function () {
+        var str = $formDiv.find('#InputFile').val();
+        var index = str.lastIndexOf("\\");
+        str = str.substring(index + 1,str.length);
+        //通过ajax提交请求
+        $.ajax({
+            type: 'post',
+            url: '/operator',
+            data: {
+                action:"upload_feedback",
+                file_name: str,
+                handler_id: handlerId
+            },
+            dataType:'json',
+            success:function (result) {
+                if(result.success){
+                    window.location.href = "/operator";
+                }
+            }
+        })
+    });
+}).on('click','#btn-cancel',function(){
+    //隐藏上传页面
+    $('.upload-div').css("display", "none");
 }).on('click','.pre-page',function(){
     if(_page==0){
         return Tip('没有上一页啦！');
@@ -69,6 +115,7 @@ $(document).ready(function(){
     getResultPageOperator(status, 0);
 });
 
+//领取任务
 function distribute(obj){
     var thisObj = $(obj);
     var analyze_id = thisObj.attr("analyze_id");
@@ -133,6 +180,15 @@ function Tip(text){
     },2000);
 }
 
+//点击上传反馈材料传入handler_id并显示上传窗口
+function uploadFeedback(obj){
+    var thisObj = $(obj);
+    var handler_id = thisObj.attr("handler_id");
+    handlerId = handler_id;
+    $('.upload-div').css("display", "block");
+}
+
+//渲染页面
 function getResultPageOperator(status,page){
     $.ajax({
         type: 'post',
@@ -158,7 +214,7 @@ function getResultPageOperator(status,page){
                     '</td>'+
                     '<td>'+
                     '{{if data["status"] == 0}}<a>分配</a>{{/if}}'+
-                    '{{if data["status"] == 1 || data["status"] == 2}}<a href="/filedownload?filename={{data["file_name"]}}" target="_blank">下载数据</a>&nbsp&nbsp<a>联系上传人员</a>&nbsp&nbsp<a>上传反馈材料</a>{{/if}}'+
+                    '{{if data["status"] == 1 || data["status"] == 2}}<a href="/filedownload?filename={{data["file_name"]}}" target="_blank">下载数据</a>&nbsp&nbsp<a>联系上传人员</a>&nbsp&nbsp<a onclick="uploadFeedback(this)" handler_id={{data["handler_id"]}}>上传反馈材料</a>{{/if}}'+
                     '{{if data["status"] == 3}}<a>查看</a>{{/if}}'+
                     '</td>'+
                     '</tr>' +

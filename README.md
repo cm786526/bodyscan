@@ -46,3 +46,47 @@ operator渲染页面已做好
 ```
 <a href="/admin?action=personal"></a>
 ```
+
+# 2018.5.4修改 by 邹琪珺
+## 问题
+下载数据无法使用
+
+页面显示
+```
+{"error_text": "\u6587\u4ef6\u4e0d\u5b58\u5728", "success": false}
+```
+
+## 已完成
+上传反馈数据：
+
+需要写一下数据上传的接口
+```
+url: '/fileupload',
+            data: {
+                action: 'upload_feedback',
+                file_name: ev.target.files[0].name
+            },
+```
+
+点确认按钮后，已能发输出传表单，要连接端口
+```
+url: '/operator',
+            data: {
+                action:"upload_feedback",
+                file_name: str,
+                handler_id: handlerId
+            },
+```
+
+admin\确认
+```
+url: '/admin',
+        data: {
+            action:"confirm_data"
+        },
+```
+
+## 待完成
+用日历插件选择测量日期
+
+首页的添加数据按钮
