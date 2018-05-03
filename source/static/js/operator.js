@@ -12,6 +12,25 @@ $(document).ready(function(){
     getResultPageOperator(status, 0);
 });
 
+function distribute(obj){
+    var thisObj = $(obj);
+    var analyze_id = thisObj.attr("analyze_id");
+    $.ajax({
+        type: 'post',
+        url: '/operator',
+        data: {
+            action:"edit_handler",
+            analyze_id:analyze_id
+        },
+        dataType:'json',
+        success:function (result) {
+            if(result.success){
+                getResultPageAdmin(0,0)
+            }
+        }
+    })
+}
+
 function getResultPageAdmin(status,page){
     $.ajax({
         type: 'post',
@@ -30,15 +49,9 @@ function getResultPageAdmin(status,page){
                     '<td>{{data["id"]}}</td>' +
                     '<td>{{data["admin_affiliation"]}}</td>' +
                     '<td>{{data["describe"]}}</td>' +
+                    '<td>未分配</td>'+
                     '<td>'+
-                    '{{if data["status"] == 0}}未分配{{/if}}'+
-                    '{{if data["status"] == 1 || data["status"] == 2}}处理中{{/if}}'+
-                    '{{if data["status"] == 3}}已处理{{/if}}'+
-                    '</td>'+
-                    '<td>'+
-                    '{{if data["status"] == 0}}<a>分配</a>{{/if}}'+
-                    '{{if data["status"] == 1 || data["status"] == 2}}<a>下载数据</a>&nbsp&nbsp<a>联系上传人员</a>&nbsp&nbsp<a>上传反馈材料</a>{{/if}}'+
-                    '{{if data["status"] == 3}}<a>查看</a>{{/if}}'+
+                    '<a onclick = "distribute(this)" analyze_id = {{data["id"]}}>分配</a>'+
                     '</td>'+
                     '</tr>' +
                     '{{/each}}';
@@ -50,6 +63,8 @@ function getResultPageAdmin(status,page){
         }
     })
 }
+
+
 
 function getResultPageOperator(status,page){
     $.ajax({
