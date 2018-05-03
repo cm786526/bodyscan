@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{static_url('css/bootstrap.css')}}" type="text/css" />
     <link rel="stylesheet" href="{{static_url('css/bootstrap-theme.css')}}" type="text/css" />
     <link rel="stylesheet" href="{{static_url('css/operator.css')}}" type="text/css" />
+    <link rel="stylesheet" href="{{static_url('css/pagination.css')}}"/>
     <script type="text/javascript" src="{{static_url('common/js/jquery-fastclick-lazyload-template.js')}}"></script>
     <script src="{{static_url('js/jquery-3.3.1.js')}}"></script>
     <script src="{{static_url('js/bootstrap.js')}}"></script>
@@ -27,7 +28,8 @@
     <ul class="nav nav-tabs nav-justified">
         <li class="nav-tabs-li active nav-tabs-admin" value="0"><a>未分配</a></li>
         <li class="nav-tabs-li nav-tabs-operator" value="1"><a>处理中</a></li>
-        <li class="nav-tabs-li nav-tabs-operator" value="2"><a>已处理</a></li>
+        <li class="nav-tabs-li nav-tabs-operator" value="2"><a>待确认</a></li>
+        <li class="nav-tabs-li nav-tabs-operator" value="3"><a>已处理</a></li>
     </ul>
     <table class="table table-striped">
         <thead>
@@ -147,12 +149,17 @@
         </tr>
         </tbody>
     </table>
-    <nav aria-label="...">
-        <ul class="pager">
-            <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> 上一页</a></li>
-            <li class="next"><a href="#">下一页 <span aria-hidden="true">&rarr;</span></a></li>
+    <div class="users-pagination list-pagination group mt10">
+        <ul>
+            <li><a href="javascript:;" class="page-btn pre-page">&nbsp;</a></li>
+            <li>
+                <span class="page-now">1</span>/<span class="page_sum">1</span>
+            </li>
+            <li><a href="javascript:;" class="page-btn next-page">&nbsp;</a></li>
+            <li><input class="input-page form-control" type="text" placeholder="输入页码"/></li>
+            <li><a href="javascript:;" class="jump-to">跳转</a></li>
         </ul>
-    </nav>
+    </div>
 </div>
 
 </body>

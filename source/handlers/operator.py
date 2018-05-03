@@ -29,13 +29,22 @@ class Home(OperatorBaseHandler):
         session=self.session
         analyze_id=self.args["analyze_id"]
         OperatorHandlerRecord=models.OperatorHandlerRecord
+        AnalyzeRequestRecord=models.AnalyzeRequestRecord
+        analyze_record=session.query(AnalyzeRequestRecord).filter_by(id=analyze_id).first()
+        if not analyze_record:
+            return send_fail("任务已经被认领或者不存在")
         if action=="add_handler":
-            analyze_record=OperatorHandlerRecord(analyze_id=analyze_id,\
+            if analyze_record.status!=0:
+                return send_fail("任务已经被认领或者不存在")
+            handler_record=OperatorHandlerRecord(analyze_id=analyze_id,\
                                                 operator_id=current_user_id)
+            session.add(handler_record)
+            analyze_record.status=1
         else:
             handler_id=self.args.get("handler_id")
             status=self.args.get("status",0)
-            analyze_record=session.query(OperatorHandlerRecord).filter_by(id=handler_id).first()
+            handler_record=session.query(OperatorHandlerRecord).filter_by(id=handler_id).first()
+            handler_record.status=status
             analyze_record.status=status
         session.commit()
         return self.send_success()
@@ -65,18 +74,24 @@ class Home(OperatorBaseHandler):
             all_records=record_base
         all_records=all_records.offset(page*page_num).limit(page_num).all()
         data_list=[]
+        page_sum=int(len(all_records)/page_num)
+        if len(all_records)%page_num:
+            page_sum+=1
         for handler,analyze in all_records:
             record_dict={
-                "id":handler.id,
+                "handler_id":handler.id,
+                "id":analyze.id,
                 "doctor_id":analyze.doctor_id,
                 "patient_name":analyze.patient_name,
-                "patinet_idnumber":analyze.patinet_idnumber,
+                "patinet_idnumber":analyze.patient_idnumber,
                 "patient_sex_text":analyze.patient_sex_text,
                 "describe":analyze.describe,
                 "create_date":analyze.create_date.strftime("%Y-%m-%d %H:%M:%S"),
                 "get_date":handler.get_date.strftime("%Y-%m-%d %H:%M:%S"),
-                "handler_date":handler.create_date.strftime("%Y-%m-%d %H:%M:%S"),
-                "admin_affiliation":""
+                "handler_date":handler.handler_date.strftime("%Y-%m-%d %H:%M:%S") if handler.handler_date else "",
+                "admin_affiliation":"",
+                "status":handler.status,
+                "file_name":analyze.file_name
             }
             data_list.append(record_dict)
-        return self.send_success(data_list=data_list)
+        return self.send_success(data_list=data_list,page_sum=page_sum)
