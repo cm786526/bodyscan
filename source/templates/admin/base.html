@@ -5,28 +5,30 @@
     <title>BodyScan</title>
     <link rel="stylesheet" href="{{static_url('css/bootstrap.css')}}" type="text/css" />
     <link rel="stylesheet" href="{{static_url('css/bootstrap-theme.css')}}" type="text/css" />
-    <link rel="stylesheet" href="{{static_url('css/admin.css')}}" type="text/css" />
-    <script type="text/javascript" src="{{static_url('common/js/jquery-fastclick-lazyload-template.js')}}"></script>
+    <link rel="stylesheet" href="{{static_url('css/base.css')}}" type="text/css" />
+    {% block head %}{% end %}
+    <script src="{{static_url('js/base.js')}}"></script>
     <script src="{{static_url('js/jquery-3.3.1.js')}}"></script>
     <script src="{{static_url('js/bootstrap.js')}}"></script>
-    <script src="{{static_url('js/admin.js')}}"></script>
+
 </head>
 <body>
 <div class="div-container">
-    <div class="div-center">
-            <image class="box-image" src="../../../static/images/me.jpg"></image>
-            <div class="box-middle">
-                <h1>欢迎您, 邹琪珺!</h1>
-                <p class="btn"><a href="/admin" class="btn btn-primary btn-lg" id="u" role="button">首页</a></p>
-                <p class="btn"><a href="/admin?action=add_record" class="btn btn-primary btn-lg" id="upload-btn" role="button">上传新数据</a></p>
-                <p class="btn"><a href="/common/profile" class="btn btn-primary btn-lg" id="me-btn" role="button">个人中心</a></p>
-            </div>
-            <div class="box-right">
-                <p>正在处理 2 例</p>
-                <p>本月已处理 2 例</p>
-                <p>总共已处理 2 例</p>
-            </div>
+    <div class="div-top">
+        <div class="topic-div">
+            {% block ul %}
+            <ul>
+                <li class="topic topic-focus"><a href="/admin">首页</a></li>
+                <li class="topic"><a href="/common/profile">个人中心</a></li>
+            </ul>
+            {% end %}
+            <image class="top-image" src="../../../static/images/me.jpg"></image>
+        </div>
     </div>
+
+
+</div>
+<div class="div-center">
     {% block div %}{% end %}
 </div>
 

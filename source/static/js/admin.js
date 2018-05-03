@@ -82,12 +82,12 @@ $(document).ready(function(){
         }
         /*********************************************尝试分片****************************************/
     });
-}).on('click',".nav-tabs-li",function(){
+}).on('click',".nav-tabs-li",function() {
     //切换状态
     $(".nav-tabs-li").removeClass('active');
     $(this).addClass('active');
-    status=$(this).val();
-    getResultPage(status,0);
+    status = $(this).val();
+    getResultPage(status, 0);
 }).on('click','#btn-submit',function(){
     var $formDiv = $('#form-div');
     //提交表单
@@ -174,8 +174,8 @@ function getResultPage(status,page){
                     '{{if data["status"] == 3}}已处理{{/if}}'+
                     '</td>'+
                     '<td>'+
-                    '{{if data["status"] == 0||data["status"] == 1}}<a href="/admin?action=edit_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a>联系操作员</a>{{/if}}'+
-                    '{{if data["status"] == 2}}<a>下载</a>&nbsp&nbsp<a href="/admin?action=add_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a>确认</a>{{/if}}'+
+                    '{{if data["status"] == 0||data["status"] == 1}}<a class="edit" href="/admin?action=edit_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a>联系操作员</a>{{/if}}'+
+                    '{{if data["status"] == 2}}<a>下载</a>&nbsp&nbsp<a class="edit" href="/admin?action=add_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a>确认</a>{{/if}}'+
                     '{{if data["status"] == 3}}<a>查看</a>{{/if}}'+
                     '</td>'+
                     '</tr>' +
