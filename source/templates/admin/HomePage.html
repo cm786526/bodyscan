@@ -21,11 +21,16 @@
 
         </tbody>
     </table>
-    <nav aria-label="...">
-        <ul class="pager">
-            <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> 上一页</a></li>
-            <li class="next"><a href="#">下一页 <span aria-hidden="true">&rarr;</span></a></li>
+    <div class="users-pagination list-pagination group mt10">
+        <ul>
+            <li><a href="javascript:;" class="page-btn pre-page">&nbsp;</a></li>
+            <li>
+                <span class="page-now">1</span>/<span class="page_sum">1</span>
+            </li>
+            <li><a href="javascript:;" class="page-btn next-page">&nbsp;</a></li>
+            <li><input class="input-page form-control" type="text" placeholder="输入页码"/></li>
+            <li><a href="javascript:;" class="jump-to">跳转</a></li>
         </ul>
-    </nav>
+    </div>
 </div>
 {% end %}

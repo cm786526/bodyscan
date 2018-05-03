@@ -74,6 +74,9 @@ class Home(OperatorBaseHandler):
             all_records=record_base
         all_records=all_records.offset(page*page_num).limit(page_num).all()
         data_list=[]
+        page_sum=int(len(all_records)/page_num)
+        if len(all_records)%page_num:
+            page_sum+=1
         for handler,analyze in all_records:
             record_dict={
                 "handler_id":handler.id,
@@ -91,4 +94,4 @@ class Home(OperatorBaseHandler):
                 "file_name":analyze.file_name
             }
             data_list.append(record_dict)
-        return self.send_success(data_list=data_list)
+        return self.send_success(data_list=data_list,page_sum=page_sum)

@@ -1,3 +1,6 @@
+var _page=0;
+var page_sum=0;
+var status=0
 $(document).ready(function(){
     //加载数据
     getResultPage(-1,0);
@@ -82,6 +85,43 @@ $(document).ready(function(){
         }
         /*********************************************尝试分片****************************************/
     });
+}).on('click','.pre-page',function(){
+    if(_page==0){
+        return Tip('没有上一页啦！');
+    }else{
+        _page--;
+        getResultPage(status,_page);
+        $('.page-now').text(_page+1);
+    }
+}).on('click','.next-page',function(){
+    if(_page==(page_sum-1)){
+        return Tip('没有下一页啦！');
+    }else{
+        _page++;
+        getResultPage(status,_page);
+        $('.page-now').text(_page+1);
+    }
+}).on('click','.more-page>li',function(){
+    var page=$.trim($('.input-page').val());
+    var page=Number($(this).text());
+    if(page==$(".page-now").text()){
+        return Tip('当前就在该页哦~');
+    }else{
+        _page=page-1;
+        getResultPage(status,_page);
+        $('.page-now').text(page);
+    }
+    $(".more-page").addClass("hide");
+    ifMorePage();
+}).on('click','.jump-to',function(){
+    jump_page=$(".input-page").val()
+    if(jump_page>page_sum||jump_page<1||isNaN(jump_page)){
+        Tip("页码不正确");
+        return;
+    }
+    _page=jump_page;
+    getResultPage(status,_page-1);
+    $('.page-now').text(_page);
 }).on('click',".nav-tabs-li",function(){
     //切换状态
     $(".nav-tabs-li").removeClass('active');
@@ -145,7 +185,7 @@ function Tip(text){
     var tip = '<div class="zb-tip" id="zb-tip">'+text+'</div>';
     $("body").append(tip);
     zb_timer = setTimeout(function(){
-        $("#zb-tip").css("display","none");
+        $("#zb-tip").empty();
     },2000);
 }
 
@@ -184,6 +224,8 @@ function getResultPage(status,page){
                 var render = template.compile(record_item);
                 var html = render(result);
                 $('.data_list').append(html);
+                page_sum=result.page_sum;
+                $('.page_sum').text(page_sum);
             }
         }
     })

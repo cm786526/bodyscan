@@ -110,6 +110,9 @@ class Home(AdminBaseHandler):
         else:
             all_records=record_base
         all_records=all_records.offset(page*page_num).limit(page_num).all()
+        page_sum=int(len(all_records)/page_num)
+        if len(all_records)%page_num:
+            page_sum+=1
         data_list=[]
         for item in all_records:
             record_dict={
@@ -123,4 +126,4 @@ class Home(AdminBaseHandler):
                 "status":item.status
             }
             data_list.append(record_dict)
-        return self.send_success(data_list=data_list)
+        return self.send_success(data_list=data_list,page_sum=page_sum)

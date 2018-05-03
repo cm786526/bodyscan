@@ -82,23 +82,6 @@ a{
     display: none;
     margin-top: 20px;
 }
-.zb-tip{
-    width: 80%;
-    max-width:600px;
-    position: fixed;
-    left: 50%;
-    top: 0;
-    -webkit-transform:translate(-50%,0);
-    z-index:10000;
-    color: #fff;
-    border-radius: 10px;
-    padding: 10px 8px;
-    text-align: center;
-    font-size: 16px;
-    line-height:26px;
-    background-color: rgba(255,105,105,.8);
-}
-
 .check-box{width: 20px;height: 20px;}
 .thead{background-color: #f4f5f9;}
 .thead>td {height: 40px;line-height: 40px;font-weight: bold;}
