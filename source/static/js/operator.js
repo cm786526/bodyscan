@@ -57,7 +57,8 @@ function getResultPageOperator(status,page){
         url: '/operator',
         data: {
             action:"get_handler_list",
-            page:0
+            page:page,
+            status:status
         },
         dataType:'json',
         success:function (result) {
