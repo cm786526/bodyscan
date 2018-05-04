@@ -79,8 +79,7 @@ class Home(AdminBaseHandler):
                 handler_record.status=3
                 session.commit()
                 return self.send_success()
-        sex=3
-        # sex=int(patient_idnumber[16])
+        sex=int(patient_idnumber[16])
         if sex%2:
             sex=1
         else:
