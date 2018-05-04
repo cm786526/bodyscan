@@ -14,6 +14,7 @@
 
 .form-div{
     margin-top: 20px;
+    height: 480px;
 }
 .form-float{
     float: left;
@@ -36,8 +37,7 @@
     margin-right: 10px;
 }
 .div-form{
-    padding: 0 30px;
-    padding-bottom: 20px;
+    padding: 0 30px 50px 30px;
 }
 .form-me{
     display: none;
@@ -97,6 +97,22 @@
 .table-div{
     margin: 30px;
 }
+.input-file input{
+    height: 28px;
+}
+.input-file td {
+    padding: 10px 20px 10px 0;
+    border: none;
+}
+.table-background{
+    background-color: #f4f5f9;
+    margin: 20px 40px 10px 40px;
+    height: auto;
+    min-height: 400px;
+}
+.table-inner{
+    padding: 10px 0 0 65px;
+}
 .check-box{width: 20px;height: 20px;}
 .thead{background-color: #f4f5f9;}
 .thead>td {height: 40px;line-height: 40px;font-weight: bold;}
@@ -108,4 +124,86 @@
 .tplmsg span{line-height: 40px;}
 .group-list input{margin-left: 20px;}
 .read-all {min-width: 120px;height: 30px !important;margin-top: 20px;background: #48B649;border-radius: 2px;
-            text-align: center;height: 22px;line-height: 30px;margin-left: 20px;color: white;float: right;margin-bottom: 20px;cursor:pointer}
+        text-align: center;height: 22px;line-height: 30px;margin-left: 20px;color: white;float: right;margin-bottom: 20px;cursor:pointer}
+
+.coupon-tb input {
+width: 200px;
+border: 1px solid #e7e7eb;
+height: 28px;
+background-color: #fff;
+text-indent: 8px;
+}
+.ver-top {
+vertical-align: top !important;
+text-align: right;
+}
+.coupon-tb td {
+padding: 10px 20px 10px 0;
+border: none;
+}
+.ver-5 {
+vertical-align: -5px;
+}
+.radio {
+vertical-align: -5px;
+width: 16px;
+height: 15px;
+background: url(../images/radio.png) left center no-repeat;
+background-size: 16px;
+margin: 0 8px 0 0;
+}
+.iblock, .radio {
+display: inline-block;
+}
+.checkbox, .radio {
+position: relative;
+display: block;
+min-height: 20px;
+}
+.radio-active {
+background-image: url(../images/radio_check.png);
+}
+.iblock, .radio {
+display: inline-block;
+}
+.Wdate {
+border: 1px solid #999;
+height: 20px;
+background: url(../datePicker/skin/datePicker.gif) right no-repeat #fff;
+}
+.fixed-btn {
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 9;
+}
+.wrap-pop-btn {
+    z-index: 99!important;
+    background-color: #fbfbfb;
+    border: 1px solid #eee;
+    border-top: none;
+    padding-top: 20px;
+    text-align: center;
+    width: 500px;
+    margin: 0 auto 5px;
+    height: 70px;
+}
+.wrap-pop-btn>a {
+    text-align: center;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 2px;
+    border: 1px solid #999;
+}
+.charge-btn, .wrap-pop-btn>a {
+    width: 90px;
+    display: inline-block;
+}
+.ok-btn {
+    background-color: #337ab7;
+    color: #fff;
+    margin-right: 20px;
+    border-color: #337ab7;
+}

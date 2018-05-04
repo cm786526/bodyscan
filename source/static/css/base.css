@@ -6,6 +6,8 @@ a,a:hover,a:visited,a:link,a:active{
 body{
     background-color: #f6f6f6;
 }
+ul,li,ol{list-style:none;}
+ul{padding-left:0;}
 .div-container{
     height: 51px;
     border-bottom: 1px solid #b9bdb9;
