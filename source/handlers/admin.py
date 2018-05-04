@@ -22,7 +22,7 @@ class Home(AdminBaseHandler):
     @AdminBaseHandler.check_arguments("action:str")
     def post(self):
         action=self.args["action"]
-        if action in ["add_analyze_request","edit_analyze_request"]:
+        if action in ["add_analyze_request","edit_analyze_request","confirm_data"]:
             return self.add_or_edit_analyze(action)
         elif action=="get_analyze_list":
             return self.get_analyze_list()
@@ -51,19 +51,21 @@ class Home(AdminBaseHandler):
 
 
     # 法医添加或者编辑记录
-    @AdminBaseHandler.check_arguments("analyze_id?:int","patient_name:str",\
-                                        "patient_idnumber:str","describe:str",\
-                                        "file_name:str","measuring_position:str",\
-                                        "measuring_method:str","measuring_date:str")
+    @AdminBaseHandler.check_arguments("analyze_id?:int","patient_name?:str",\
+                                        "patient_idnumber?:str","describe?:str",\
+                                        "file_name?:str","measuring_position?:str",\
+                                        "measuring_method?:str","measuring_date?:str")
     def add_or_edit_analyze(self,action):
         current_user_id=self.current_user.id
-        patient_idnumber=self.args["patient_idnumber"]
-        patient_name=self.args["patient_name"]
-        describe=self.args["describe"]
-        file_name=self.args["file_name"]
-        measuring_position=self.args["measuring_position"]
-        measuring_method=self.args["measuring_method"]
-        measuring_date=self.args["measuring_date"]
+        if action in ["add_analyze_request","edit_analyze_request"]:
+            patient_idnumber=self.args["patient_idnumber"]
+            patient_name=self.args["patient_name"]
+            describe=self.args["describe"]
+            file_name=self.args["file_name"]
+            measuring_position=self.args["measuring_position"]
+            measuring_method=self.args["measuring_method"]
+            measuring_date=self.args["measuring_date"]
+        analyze_id=self.args.get("analyze_id",0)
         session=self.session
         AnalyzeRequestRecord=models.AnalyzeRequestRecord
         if action=="add_analyze_request":
@@ -71,8 +73,13 @@ class Home(AdminBaseHandler):
             session.add(analyze_record)
         else:
             analyze_record=session.query(AnalyzeRequestRecord).filter_by(id=analyze_id).first()
-        sex=3
-        # sex=int(patient_idnumber[16])
+            if action=="confirm_data":
+                analyze_record.status=3
+                handler_record=session.query(models.OperatorHandlerRecord).filter_by(analyze_id=analyze_id).first()
+                handler_record.status=3
+                session.commit()
+                return self.send_success()
+        sex=int(patient_idnumber[16])
         if sex%2:
             sex=1
         else:
@@ -84,7 +91,7 @@ class Home(AdminBaseHandler):
         analyze_record.file_name=file_name
         analyze_record.measuring_position=measuring_position
         analyze_record.measuring_method=measuring_method
-        # analyze_record.measuring_date=measuring_date
+        analyze_record.measuring_date=measuring_date
         session.commit()
         return self.send_success()
 

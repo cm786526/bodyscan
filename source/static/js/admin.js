@@ -138,19 +138,47 @@ $(document).ready(function(){
         var str = $uploadTable.find('#InputFile').val();
         var index = str.lastIndexOf("\\");
         str = str.substring(index + 1,str.length);
+        if(str==""){
+            Tip("上传材料不能为空");
+            return;
+        }
+        var patient_name=$uploadTable.find('#Input1').val();
+        if(patient_name==""){
+            Tip("病人姓名不能为空");
+            return;
+        }
+        var patient_idnumber=$uploadTable.find('#Input2').val();
+        if(patient_idnumber==""){
+            Tip("身份证号不能为空");
+            return;
+        }
+        if(!IdentityCodeValid(patient_idnumber)){
+            Tip('身份证错误');
+            return;
+        }
+        var sex=$uploadTable.find('.radio-active').data('id');
+        var describe=$uploadTable.find('#Input3').val();
+        var measuring_position=$uploadTable.find('#Input4').val();
+        var measuring_method=$uploadTable.find('#Input5').val();
+        var measuring_date=$uploadTable.find('#date').val();
+        if(measuring_date==""){
+            Tip("测量日期不能为空");
+            return;
+        }
+
         //通过ajax提交请求
         $.ajax({
             type: 'post',
             url: '/admin',
             data: {
                 action:"add_analyze_request",
-                patient_name: $uploadTable.find('#Input1').val(),
-                patient_idnumber: $uploadTable.find('#Input2').val(),
-                sex:$uploadTable.find('.radio-active').data('id'),
-                describe: $uploadTable.find('#Input3').val(),
-                measuring_position: $uploadTable.find('#Input4').val(),
-                measuring_method: $uploadTable.find('#Input5').val(),
-                measuring_date: $uploadTable.find('#date').val(),
+                patient_name: patient_name,
+                patient_idnumber: patient_idnumber,
+                sex:sex,
+                describe: describe,
+                measuring_position: measuring_position,
+                measuring_method: measuring_method,
+                measuring_date: measuring_date,
                 file_name: str
             },
             dataType:'json',
@@ -225,12 +253,13 @@ function Tip(text){
 }
 
 //确认
-function confirmData(){
+function confirmData(analyze_id){
     $.ajax({
         type: 'post',
         url: '/admin',
         data: {
-            action:"confirm_data"
+            action:"confirm_data",
+            analyze_id:analyze_id
         },
         dataType:'json',
         success:function (result) {
@@ -267,7 +296,7 @@ function getResultPage(status,page){
                     '</td>'+
                     '<td>'+
                     '{{if data["status"] == 0||data["status"] == 1}}<a class="edit" href="/admin?action=edit_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a>联系操作员</a>{{/if}}'+
-                    '{{if data["status"] == 2}}<a href="/filedownload?filename={{data["feedback_name"]}}" target="_blank">下载</a>&nbsp&nbsp<a class="edit" href="/admin?action=add_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a onclick="confirmData()">确认</a>{{/if}}'+
+                    '{{if data["status"] == 2}}<a href="/filedownload?filename={{data["feedback_name"]}}" target="_blank">下载</a>&nbsp&nbsp<a class="edit" href="/admin?action=add_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a onclick="confirmData({{data["id"]}})">确认</a>{{/if}}'+
                     '{{if data["status"] == 3}}<a>查看</a>{{/if}}'+
                     '</td>'+
                     '</tr>' +
@@ -347,4 +376,5 @@ function IdentityCodeValid(code) {
         }
     }
     if(!pass) Tip('身份证格式错误！请重新填写');
+    return pass;
 }

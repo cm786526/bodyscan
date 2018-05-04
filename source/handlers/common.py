@@ -313,6 +313,9 @@ class FileDownloadHandler(GlobalBaseHandler):
     @GlobalBaseHandler.check_arguments("filename:str")
     def get(self):
         filename=self.args["filename"]
+        if not filename:
+            self.set_header("Content-Type","text/html")
+            return self.send_fail("文件不存在，请联系法医")
         path_base=os.path.join(os.path.dirname(__file__),"../utils/uploadfiles/")
         file_path = path_base + filename
         print(path_base,file_path,os.path.exists(file_path))
