@@ -30,7 +30,7 @@ class Home(OperatorBaseHandler):
         analyze_id=self.args["analyze_id"]
         OperatorHandlerRecord=models.OperatorHandlerRecord
         AnalyzeRequestRecord=models.AnalyzeRequestRecord
-        analyze_record=session.query(AnalyzeRequestRecord).filter_by(id=analyze_id).first()
+        analyze_record=session.query(AnalyzeRequestRecord).filter_by(id=analyze_id).with_lockmode("update").first()
         if not analyze_record:
             return send_fail("任务已经被认领或者不存在")
         if action=="add_handler":
@@ -43,13 +43,13 @@ class Home(OperatorBaseHandler):
         else:
             handler_id=self.args.get("handler_id")
             status=self.args.get("status",0)
-            handler_record=session.query(OperatorHandlerRecord).filter_by(id=handler_id).first()
+            handler_record=session.query(OperatorHandlerRecord).filter_by(id=handler_id).with_lockmode("update").first()
             if action=="upload_feedback":
                 file_name=self.args["file_name"]
                 handler_record.file_name=file_name
                 handler_record.handler_date=datetime.datetime.now()
                 handler_record.status=2
-                analyze_record=session.query(models.AnalyzeRequestRecord).filter_by(id=handler_record.analyze_id).first()
+                analyze_record=session.query(models.AnalyzeRequestRecord).filter_by(id=handler_record.analyze_id).with_lockmode("update").first()
                 analyze_record.status=2
                 session.commit()
                 return self.send_success()

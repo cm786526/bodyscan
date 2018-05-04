@@ -72,10 +72,10 @@ class Home(AdminBaseHandler):
             analyze_record=AnalyzeRequestRecord(doctor_id=current_user_id)
             session.add(analyze_record)
         else:
-            analyze_record=session.query(AnalyzeRequestRecord).filter_by(id=analyze_id).first()
+            analyze_record=session.query(AnalyzeRequestRecord).filter_by(id=analyze_id).with_lockmode("update").first()
             if action=="confirm_data":
                 analyze_record.status=3
-                handler_record=session.query(models.OperatorHandlerRecord).filter_by(analyze_id=analyze_id).first()
+                handler_record=session.query(models.OperatorHandlerRecord).filter_by(analyze_id=analyze_id).with_lockmode("update").first()
                 handler_record.status=3
                 session.commit()
                 return self.send_success()
