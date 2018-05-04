@@ -14,36 +14,6 @@
 {% block div %}
 <div class="form-me" id="form-me">
     <form>
-        <div class="form-float">
-            <div class="form-group">
-                <label for="Me-Input1">真实姓名</label>
-                <input type="text" class="form-control" id="Me-Input1" placeholder="姓名" value="{{ data_dict['realname']}}">
-            </div>
-        </div>
-        <div class="form-float">
-            <label>性别</label>
-            <div>
-                <label class="radio-inline">
-                    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option"> 男
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option"> 女
-                </label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <input type="text" class="form-control" id="Me-Input2" placeholder="身份证号">
-        </div>
-
-        <div class="form-group">
-            <label for="Me-Input3">所处机构</label>
-            <input type="text" class="form-control" id="Me-Input3">
-        </div>
-        <div class="form-group">
-            <label>个人签名</label>
-            <textarea class="form-control" rows="3"></textarea>
-        </div>
 
         <div class="form-group">
             <label for="InputPic">上传头像</label>
@@ -57,4 +27,179 @@
         </div>
     </form>
 </div>
+<div class="background">
+    <div class="subnav-box left-align-line">
+        <ul class="subnav group">
+            <li class="active" id="infoSet"><a href="/admin/config/shop">信息设置</a></li>
+            <li class=""><a href="/admin/config?action=cashset">账号设置</a></li>
+
+        </ul>
+    </div>
+    <ul class="info-set-list mt20 font14">
+        <li class="item clearfix">
+            <span class="w1 pull-left set-inl-blo">真实姓名</span>
+            <div class="w2 pull-left">
+                <span class="info_show name">{{ data_dict['realname']}}</span>
+                <input class="info_hide shop_name" type="text" value="{{ data_dict['realname']}}" style="display:none">
+            </div>
+            <div class="pull-right">
+                <a class="info_edit" href="javascript:;">修改</a>
+                <a class="info_sure" href="javascript:;" data-id="name" style="display:none">确定</a>
+            </div>
+        </li>
+        <li class="item clearfix">
+            <span class="w1 pull-left set-inl-blo">身份证号</span>
+            <div class="w2 pull-left">
+                <span class="info_show name">xxxxxx19980604xxxx</span>
+                <input class="info_hide shop_name" type="text" value="xxxxxx19980604xxxx" style="display:none">
+            </div>
+            <div class="pull-right">
+                <a class="info_edit" href="javascript:;">修改</a>
+                <a class="info_sure" href="javascript:;" data-id="name" style="display:none">确定</a>
+            </div>
+        </li>
+        <li class="item clearfix">
+            <span class="w1 pull-left set-inl-blo">所处机构</span>
+            <div class="w2 pull-left">
+                <span class="info_show name">华中科技大学</span>
+                <input class="info_hide shop_name" type="text" value="华中科技大学" style="display:none">
+            </div>
+            <div class="pull-right">
+                <a class="info_edit" href="javascript:;">修改</a>
+                <a class="info_sure" href="javascript:;" data-id="name" style="display:none">确定</a>
+            </div>
+        </li>
+        <li class="item clearfix">
+            <span class="w1 pull-left set-inl-blo">工作邮箱</span>
+            <div class="w2 pull-left">
+                <span class="info_show name">945159252@qq.com</span>
+                <input class="info_hide shop_name" type="text" value="945159252@qq.com" style="display:none">
+            </div>
+            <div class="pull-right">
+                <a class="info_edit" href="javascript:;">修改</a>
+                <a class="info_sure" href="javascript:;" data-id="name" style="display:none">确定</a>
+            </div>
+        </li>
+        <li class="item clearfix">
+            <span class="w1 pull-left set-inl-blo">电话号码</span>
+            <div class="w2 pull-left">
+                <span class="info_show name">15827705529</span>
+                <input class="info_hide shop_name" type="text" value="15827705529" style="display:none">
+            </div>
+            <div class="pull-right">
+                <a class="info_edit" href="javascript:;">修改</a>
+                <a class="info_sure" href="javascript:;" data-id="name" style="display:none">确定</a>
+            </div>
+        </li>
+        <li class="item clearfix">
+            <span class="w1 pull-left set-inl-blo">微信</span>
+            <div class="w2 pull-left">
+                <span class="info_show name">zqjloven</span>
+                <input class="info_hide shop_name" type="text" value="zqjloven" style="display:none">
+            </div>
+            <div class="pull-right">
+                <a class="info_edit" href="javascript:;">修改</a>
+                <a class="info_sure" href="javascript:;" data-id="name" style="display:none">确定</a>
+            </div>
+        </li>
+        <li class="item clearfix">
+            <span class="w1 pull-left set-inl-blo">QQ</span>
+            <div class="w2 pull-left">
+                <span class="info_show name">945159252</span>
+                <input class="info_hide shop_name" type="text" value="945159252" style="display:none">
+            </div>
+            <div class="pull-right">
+                <a class="info_edit" href="javascript:;">修改</a>
+                <a class="info_sure" href="javascript:;" data-id="name" style="display:none">确定</a>
+            </div>
+        </li>
+
+        <li class="item clearfix">
+            <span class="w1 pull-left set-inl-blo">工作地址</span>
+            <div class="address-start">
+                <div class="pull-right">
+                    <a class="info_edit show" href="javascript:;" id="edit-address">修改</a>
+                </div>
+                <p class="info_show address" id="info_address" data-lng="116.39564503788" data-lat="39.92998577808">北京市  湖北</p>
+            </div>
+            <div class="wrap-shop-address hidden" style="padding-left: 20%;">
+                <div class="w2 pull-left" style="width: 100%;">
+                    <div class="info_hide group admin-address-dropdown" style="position:relative;">
+                        <div class="group">
+                            <div class="dropdown slide-down-select select-provience pull-left set-right10 province_select" data-toggle="modal" data-target="#provinceList">
+                                <button class="btn btn-default dropdown-toggle address-dropdown-btn province_select" type="button" data-toggle="dropdown" id="dropdownMenu1">
+                                    <span id="provinceAddress" data-code="110000" class="reProvince pull-left">北京市</span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right address-list-ul provinceList" role="menu" aria-labelledby="dropdownMenu1" id="currentShopChange1">
+                                </ul>
+                            </div>
+                            <div class="dropdown slide-down-select select-city pull-left set-right10 city_select" data-toggle="modal" data-target="#cityList">
+                                <button class="btn btn-default dropdown-toggle address-dropdown-btn" type="button" data-toggle="dropdown" id="dropdownMenu2">
+                                    <span id="cityAddress" data-code="110100" class="reCity pull-left">北京市</span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right address-list-ul cityList" role="menu" aria-labelledby="dropdownMenu2" id="currentShopChange2"><li data-code="110100"><span class="name">北京市</span><span class="num"></span></li><li data-code="110200"><span class="name">县</span><span class="num"></span></li></ul>
+                            </div>
+                            <div class="dropdown pull-left select-city set-right10 county_select" data-toggle="modal" data-target="#countyList">
+                                <button class="btn btn-default dropdown-toggle address-dropdown-btn" type="button" data-toggle="dropdown" id="dropdownMenu3">
+                                    <span id="countyAddress" data-code="110102" class="reCounty pull-left"></span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right address-list-ul countyList" role="menu" aria-labelledby="dropdownMenu3" id="currentShopChange3"><li data-code="110101"><span class="name">东城区</span><span class="num"></span></li><li data-code="110102"><span class="name">西城区</span><span class="num"></span></li><li data-code="110105"><span class="name">朝阳区</span><span class="num"></span></li><li data-code="110106"><span class="name">丰台区</span><span class="num"></span></li><li data-code="110107"><span class="name">石景山区</span><span class="num"></span></li><li data-code="110108"><span class="name">海淀区</span><span class="num"></span></li><li data-code="110109"><span class="name">门头沟区</span><span class="num"></span></li><li data-code="110111"><span class="name">房山区</span><span class="num"></span></li><li data-code="110112"><span class="name">通州区</span><span class="num"></span></li><li data-code="110113"><span class="name">顺义区</span><span class="num"></span></li><li data-code="110114"><span class="name">昌平区</span><span class="num"></span></li><li data-code="110115"><span class="name">大兴区</span><span class="num"></span></li><li data-code="110116"><span class="name">怀柔区</span><span class="num"></span></li><li data-code="110117"><span class="name">平谷区</span><span class="num"></span></li><li data-code="110199"><span class="name">其它区</span><span class="num"></span></li></ul>
+                            </div>
+                        </div>
+                        <div class="mt10">
+                            <input type="text" class="input-box pull-left input1 input-address-search" placeholder="请填写详细地址，最多50个字符" id="addressDetail" value="湖北">
+                            <input type="button" class="pull-left search-lbs" id="search-lbs" value="地图搜索">
+                            <div class="pull-right">
+                                <input type="hidden" value="39.92998577808" id="lat">
+                                <input type="hidden" value="116.39564503788" id="lon">
+                                <a class="info_sure address-sure" href="javascript:;" data-id="address" id="save-lbs">保存</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="w1 pull-left set-inl-blo">&nbsp;</span>
+            <div class="w2 pull-right wrap-bmap-box">
+                <div class="map-operate-box hidden" id="map_operate_box">
+                    <span class="locate-cur-place" id="locate_cur_place"></span>
+                    <span class="shrink-map" id="shrink_map"></span>
+                    <span class="enlarge-map" id="enlarge_map"></span>
+                </div>
+                <div class="wrap-bmap" id="bmap" style="overflow: hidden; position: relative; z-index: 0; background-color: rgb(243, 241, 236); color: rgb(0, 0, 0); text-align: left;"><div style="overflow: visible; position: absolute; z-index: 0; left: 0px; top: 0px; cursor: url(&quot;https://api.map.baidu.com/images/openhand.cur&quot;) 8 8, default;"><div class="BMap_mask" style="position: absolute; left: 0px; top: 0px; z-index: 9; overflow: hidden; user-select: none; width: 730px; height: 498px;"></div><div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 200;"><div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 800;"></div><div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 700;"></div><div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 600;"></div><div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 500;"></div><div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 400;"></div><div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 300;"></div><div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 201;"></div><div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 200;"></div></div><div style="position: absolute; overflow: visible; top: 0px; left: 0px; z-index: 1;"><div style="position: absolute; overflow: visible; z-index: -100; left: 365px; top: 249px; display: block; transform: translate3d(0px, 0px, 0px);"><img src="https://gss0.bdstatic.com/8bo_dTSlRMgBo1vgoIiO_jowehsv/tile/?qt=tile&amp;x=25307&amp;y=9429&amp;z=17&amp;styles=pl&amp;scaler=1&amp;udt=20180426" style="position: absolute; border: none; width: 256px; height: 256px; left: -30px; top: -34px; max-width: none; opacity: 1;"><img src="https://gss0.bdstatic.com/8bo_dTSlRcgBo1vgoIiO_jowehsv/tile/?qt=tile&amp;x=25308&amp;y=9429&amp;z=17&amp;styles=pl&amp;scaler=1&amp;udt=20180426" style="position: absolute; border: none; width: 256px; height: 256px; left: 226px; top: -34px; max-width: none; opacity: 1;"><img src="https://gss0.bdstatic.com/8bo_dTSlR1gBo1vgoIiO_jowehsv/tile/?qt=tile&amp;x=25306&amp;y=9429&amp;z=17&amp;styles=pl&amp;scaler=1&amp;udt=20180426" style="position: absolute; border: none; width: 256px; height: 256px; left: -286px; top: -34px; max-width: none; opacity: 1;"><img src="https://gss0.bdstatic.com/8bo_dTSlR1gBo1vgoIiO_jowehsv/tile/?qt=tile&amp;x=25307&amp;y=9428&amp;z=17&amp;styles=pl&amp;scaler=1&amp;udt=20180426" style="position: absolute; border: none; width: 256px; height: 256px; left: -30px; top: 222px; max-width: none; opacity: 1;"><img src="https://gss0.bdstatic.com/8bo_dTSlRcgBo1vgoIiO_jowehsv/tile/?qt=tile&amp;x=25307&amp;y=9430&amp;z=17&amp;styles=pl&amp;scaler=1&amp;udt=20180426" style="position: absolute; border: none; width: 256px; height: 256px; left: -30px; top: -290px; max-width: none; opacity: 1;"><img src="https://gss0.bdstatic.com/8bo_dTSlQ1gBo1vgoIiO_jowehsv/tile/?qt=tile&amp;x=25305&amp;y=9429&amp;z=17&amp;styles=pl&amp;scaler=1&amp;udt=20180426" style="position: absolute; border: none; width: 256px; height: 256px; left: -542px; top: -34px; max-width: none; opacity: 1;"><img src="https://gss0.bdstatic.com/8bo_dTSlQ1gBo1vgoIiO_jowehsv/tile/?qt=tile&amp;x=25306&amp;y=9428&amp;z=17&amp;styles=pl&amp;scaler=1&amp;udt=20180426" style="position: absolute; border: none; width: 256px; height: 256px; left: -286px; top: 222px; max-width: none; opacity: 1;"><img src="https://gss0.bdstatic.com/8bo_dTSlRsgBo1vgoIiO_jowehsv/tile/?qt=tile&amp;x=25308&amp;y=9430&amp;z=17&amp;styles=pl&amp;scaler=1&amp;udt=20180426" style="position: absolute; border: none; width: 256px; height: 256px; left: 226px; top: -290px; max-width: none; opacity: 1;"><img src="https://gss0.bdstatic.com/8bo_dTSlRMgBo1vgoIiO_jowehsv/tile/?qt=tile&amp;x=25306&amp;y=9430&amp;z=17&amp;styles=pl&amp;scaler=1&amp;udt=20180426" style="position: absolute; border: none; width: 256px; height: 256px; left: -286px; top: -290px; max-width: none; opacity: 1;"><img src="https://gss0.bdstatic.com/8bo_dTSlRMgBo1vgoIiO_jowehsv/tile/?qt=tile&amp;x=25308&amp;y=9428&amp;z=17&amp;styles=pl&amp;scaler=1&amp;udt=20180426" style="position: absolute; border: none; width: 256px; height: 256px; left: 226px; top: 222px; max-width: none; opacity: 1;"><img src="https://gss0.bdstatic.com/8bo_dTSlR1gBo1vgoIiO_jowehsv/tile/?qt=tile&amp;x=25305&amp;y=9430&amp;z=17&amp;styles=pl&amp;scaler=1&amp;udt=20180426" style="position: absolute; border: none; width: 256px; height: 256px; left: -542px; top: -290px; max-width: none; opacity: 1;"><img src="https://gss0.bdstatic.com/8bo_dTSlRsgBo1vgoIiO_jowehsv/tile/?qt=tile&amp;x=25305&amp;y=9428&amp;z=17&amp;styles=pl&amp;scaler=1&amp;udt=20180426" style="position: absolute; border: none; width: 256px; height: 256px; left: -542px; top: 222px; max-width: none; opacity: 1;"></div></div><div style="position: absolute; overflow: visible; top: 0px; left: 0px; z-index: 2; display: none;"><div style="position: absolute; overflow: visible; top: 0px; left: 0px; z-index: 0; display: none;"></div><div style="position: absolute; overflow: visible; top: 0px; left: 0px; z-index: 10; display: none;"></div></div><div style="position: absolute; overflow: visible; top: 0px; left: 0px; z-index: 3;"></div></div><div class="pano_close" title="退出全景" style="z-index: 1201; display: none;"></div><a class="pano_pc_indoor_exit" title="退出室内景" style="z-index: 1201; display: none;"><span style="float:right;margin-right:12px;">出口</span></a><div id="zoomer" style="position:absolute;z-index:0;top:0px;left:0px;overflow:hidden;visibility:hidden;cursor:url(https://api.map.baidu.com/images/openhand.cur) 8 8,default"><div class="BMap_zoomer" style="top:0;left:0;"></div><div class="BMap_zoomer" style="top:0;right:0;"></div><div class="BMap_zoomer" style="bottom:0;left:0;"></div><div class="BMap_zoomer" style="bottom:0;right:0;"></div></div><div class=" anchorBL" style="height: 32px; position: absolute; z-index: 30; text-size-adjust: none; bottom: 20px; right: auto; top: auto; left: 1px;"><a title="到百度地图查看此区域" target="_blank" href="http://map.baidu.com/?sr=1" style="outline: none;"><img style="border:none;width:77px;height:32px" src="https://api.map.baidu.com/images/copyright_logo.png"></a></div><div id="zoomer" style="position:absolute;z-index:0;top:0px;left:0px;overflow:hidden;visibility:hidden;cursor:url(https://api.map.baidu.com/images/openhand.cur) 8 8,default"><div class="BMap_zoomer" style="top:0;left:0;"></div><div class="BMap_zoomer" style="top:0;right:0;"></div><div class="BMap_zoomer" style="bottom:0;left:0;"></div><div class="BMap_zoomer" style="bottom:0;right:0;"></div></div><div unselectable="on" class=" BMap_scaleCtrl BMap_noprint anchorBR" style="bottom: 10px; right: 15px; top: auto; left: auto; width: 71px; position: absolute; z-index: 10; text-size-adjust: none;"><div class="BMap_scaleTxt" unselectable="on" style="background-color: transparent; color: black;">100&nbsp;米</div><div class="BMap_scaleBar BMap_scaleHBar" style="background-color: black;"><img style="border:none" src="https://api.map.baidu.com/images/mapctrls.png"></div><div class="BMap_scaleBar BMap_scaleLBar" style="background-color: black;"><img style="border:none" src="https://api.map.baidu.com/images/mapctrls.png"></div><div class="BMap_scaleBar BMap_scaleRBar" style="background-color: black;"><img style="border:none" src="https://api.map.baidu.com/images/mapctrls.png"></div></div><div unselectable="on" class=" BMap_cpyCtrl BMap_noprint anchorBL" style="cursor: default; white-space: nowrap; color: black; background: none; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 11px; line-height: 15px; font-family: arial, sans-serif; bottom: 2px; right: auto; top: auto; left: 2px; position: absolute; z-index: 10; text-size-adjust: none;"><span _cid="1" style="display: inline;"><span style="background: rgba(255, 255, 255, 0.701961);padding: 0px 1px;line-height: 16px;display: inline;height: 16px;">©&nbsp;2018 Baidu - GS(2016)2089号 - 甲测资字1100930 - 京ICP证030173号 - Data © 长地万方</span></span></div></div>
+                <span class="map-center"></span>
+                <div class="map-check hidden map_check">
+                    <p class="map-title map_title">是否将以下地址设为门店地址？</p>
+                    <div class="map-text map_text"></div>
+                    <div class="map-address map_address">确定</div>
+                    <div class="map-ba map_ba"></div>
+                </div>
+            </div>
+        </li>
+        <li class="item clearfix">
+            <span class="w1 pull-left set-inl-blo">个人签名</span>
+            <div class="w2 pull-left">
+                <span class="info_show name">欲戴其冠先承其重</span>
+                <input class="info_hide shop_name" type="text" value="欲戴其冠先承其重" style="display:none">
+            </div>
+            <div class="pull-right">
+                <a class="info_edit" href="javascript:;">修改</a>
+                <a class="info_sure" href="javascript:;" data-id="name" style="display:none">确定</a>
+            </div>
+        </li>
+        <li class="item clearfix" id="upload-area" style="position: relative;">
+            <span class="w1 pull-left set-inl-blo">个人头像</span>
+            <div class="w2 pull-left logo-box" id="upload-picture" style="z-index: 1;">
+                <img src="/static/images/shop_picture.png?imageView2/1/w/100/h/100" id="logoImg">
+                <span class="title set-inl-blo text-white text-center">点击修改</span>
+            </div>
+            <span style="clear:both"></span>
+        </li>
+
+
+    </ul>
+</div>
+
 {% end %}

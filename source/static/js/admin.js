@@ -162,6 +162,37 @@ $(document).ready(function(){
             }
         })
     });
+}).on('click','#edit-submit',function(){
+    var $uploadTable = $('#upload-table');
+    //提交修改数据表单
+    $('.table-inner').find('#btn-submit').on('click',function () {
+        var str = $uploadTable.find('#InputFile').val();
+        var index = str.lastIndexOf("\\");
+        str = str.substring(index + 1,str.length);
+        //通过ajax提交请求
+        $.ajax({
+            type: 'post',
+            url: '/admin',
+            data: {
+                action:"edit_analyze_request",
+                patient_name: $uploadTable.find('#Input1').val(),
+                patient_idnumber: $uploadTable.find('#Input2').val(),
+                sex:$uploadTable.find('.radio-active').data('id'),
+                describe: $uploadTable.find('#Input3').val(),
+                measuring_position: $uploadTable.find('#Input4').val(),
+                measuring_method: $uploadTable.find('#Input5').val(),
+                measuring_date: $uploadTable.find('#date').val(),
+                file_name: str
+            },
+            dataType:'json',
+            success:function (result) {
+                if(result.success){
+                    //表单提交成功
+                    window.location.href = "/admin";
+                }
+            }
+        })
+    });
 }).on('blur','#Input2',function(){
     IdentityCodeValid($('#Input2').val())
 });
