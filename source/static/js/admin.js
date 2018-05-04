@@ -134,56 +134,54 @@ $(document).ready(function(){
 }).on('click','#btn-submit',function(){
     var $uploadTable = $('#upload-table');
     //提交表单
-    $('.table-inner').find('#btn-submit').on('click',function () {
-        var str = $uploadTable.find('#InputFile').val();
-        var index = str.lastIndexOf("\\");
-        str = str.substring(index + 1,str.length);
-        if(str==""){
-            Tip("上传材料不能为空");
-            return;
-        }
-        var patient_name=$uploadTable.find('#Input1').val();
-        if(patient_name==""){
-            Tip("病人姓名不能为空");
-            return;
-        }
-        var patient_idnumber=$uploadTable.find('#Input2').val();
-        if(patient_idnumber==""){
-            Tip("身份证号不能为空");
-            return;
-        }
-        var sex=$uploadTable.find('.radio-active').data('id');
-        var describe=$uploadTable.find('#Input3').val();
-        var measuring_position=$uploadTable.find('#Input4').val();
-        var measuring_method=$uploadTable.find('#Input5').val();
-        var measuring_date=$uploadTable.find('#date').val();
-        if(measuring_date==""){
-            Tip("测量日期不能为空");
-            return;
-        }
-        //通过ajax提交请求
-        $.ajax({
-            type: 'post',
-            url: '/admin',
-            data: {
-                action:"add_analyze_request",
-                patient_name: patient_name,
-                patient_idnumber: patient_idnumber,
-                sex:sex,
-                describe: describe,
-                measuring_position: measuring_position,
-                measuring_method: measuring_method,
-                measuring_date: measuring_date,
-                file_name: str
-            },
-            dataType:'json',
-            success:function (result) {
-                if(result.success){
-                    //表单提交成功
-                    window.location.href = "/admin";
-                }
+    var str = $uploadTable.find('#InputFile').val();
+    var index = str.lastIndexOf("\\");
+    str = str.substring(index + 1,str.length);
+    if(str==""){
+        Tip("上传材料不能为空");
+        return;
+    }
+    var patient_name=$uploadTable.find('#Input1').val();
+    if(patient_name==""){
+        Tip("病人姓名不能为空");
+        return;
+    }
+    var patient_idnumber=$uploadTable.find('#Input2').val();
+    if(!IdentityCodeValid(patient_idnumber)){
+        Tip("身份证号格式不对");
+        return;
+    }
+    var sex=$uploadTable.find('.radio-active').data('id');
+    var describe=$uploadTable.find('#Input3').val();
+    var measuring_position=$uploadTable.find('#Input4').val();
+    var measuring_method=$uploadTable.find('#Input5').val();
+    var measuring_date=$uploadTable.find('#date').val();
+    if(measuring_date==""){
+        Tip("测量日期不能为空");
+        return;
+    }
+    //通过ajax提交请求
+    $.ajax({
+        type: 'post',
+        url: '/admin',
+        data: {
+            action:"add_analyze_request",
+            patient_name: patient_name,
+            patient_idnumber: patient_idnumber,
+            sex:sex,
+            describe: describe,
+            measuring_position: measuring_position,
+            measuring_method: measuring_method,
+            measuring_date: measuring_date,
+            file_name: str
+        },
+        dataType:'json',
+        success:function (result) {
+            if(result.success){
+                //表单提交成功
+                window.location.href = "/admin";
             }
-        })
+        }
     });
 }).on('blur','#Input2',function(){
     IdentityCodeValid($('#Input2').val())
