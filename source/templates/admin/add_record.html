@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="{{static_url('css/admin.css')}}" type="text/css" />
 <script type="text/javascript" src="{{static_url('common/js/jquery-fastclick-lazyload-template.js')}}"></script>
 <script src="{{static_url('js/admin.js')}}"></script>
+<script src="{{static_url('datePicker/WdatePicker.js')}}"></script>
 {% end %}
 {% block div %}
 <div class="breadcrumb-div">
@@ -12,57 +13,71 @@
         <li><text>新建数据</text></li>
     </ol>
 </div>
-<div class="form-div" id="form-div">
-    <form class="data-form">
-        <div class="form-float">
-            <div class="form-group">
-                <label for="Input1">测量对象</label>
-                <input type="text" class="form-control" id="Input1" placeholder="姓名">
+<div class="form-div">
+    <div class="table-background">
+        <div class="table-inner">
+            <table id="upload-table">
+                <colgroup>
+                    <col width="14%">
+                    <col width="86%">
+                </colgroup>
+                <thead class="coupon-tb">
+                <tr>
+                    <td class="ver-top"><span class="ver-5">姓名</span></td>
+                    <td><input type="text" class="mr10 get_rule" id="Input1"></td>
+                </tr>
+                <tr class="activity-type ">
+                    <td class="ver-top"><span class="ver-5">性别</span></td>
+                    <td class="radio-list visible-choose">
+                        <a href="javascript:;" class="radio radio-active table-radio" data-id="1"></a><span>男</span>
+                        <a href="javascript:;" class="radio table-radio" data-id="2"></a><span>女</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="ver-top"><span class="ver-5">身份证号</span></td>
+                    <td><input type="text" class="mr10 get_rule" id="Input2"></td>
+                </tr>
+                <tr>
+                    <td class="ver-top"><span class="ver-5">基本概述</span></td>
+                    <td><input type="text" class="mr10 get_rule" id="Input3"></td>
+                </tr>
+                <tr>
+                    <td class="ver-top"><span class="ver-5">测量部位</span></td>
+                    <td><input type="text" class="mr10 get_rule" id="Input4"></td>
+                </tr>
+                <tr>
+                    <td class="ver-top"><span class="ver-5">测量方法</span></td>
+                    <td><input type="text" class="mr10 get_rule" id="Input5"></td>
+                </tr>
+                <tr>
+                    <td class="ver-top"><span class="ver-5">测量日期</span></td>
+                    <td>
+                        <div class="">
+                            <input type="text" class="Wdate from_get_date" id="date" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+                        </div>
+                    </td>
+                </tr>
+                </thead>
+                <tbody class="coupon1" data-id="0">
+
+                <tr class="input-file">
+                    <td class="ver-top"><span class="ver-5">上传文件</span></td>
+                    <td>
+                        <input type="file" id="InputFile">
+                        <p class="help-block">包括STL文件、照片和描述文件的压缩包</p>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+            <div class="fixed-btn">
+                <div class="wrap-pop-btn wrap-edit-item">
+                    <a href="javascript:;" class="ok-btn ok-coupon" data-flag="on"  id="btn-submit">确定</a>
+                    <a href="javascript:;" class="cancel-btn cancel-edit-goods">取消</a>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label>性别</label>
-            <div>
-                <label class="radio-inline">
-                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1" checked> 男
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2"> 女
-                </label>
-            </div>
-        </div>
+    </div>
 
-        <div class="form-group">
-            <input type="text" class="form-control" id="Input2" placeholder="身份证号">
-        </div>
-
-        <div class="form-group">
-            <label for="Input3">基本情况</label>
-            <input type="text" class="form-control" id="Input3">
-        </div>
-        <div class="form-group">
-            <label for="Input4">测量部位</label>
-            <input type="text" class="form-control" id="Input4">
-        </div>
-        <div class="form-group">
-            <label for="Input5">测量方法</label>
-            <input type="text" class="form-control" id="Input5">
-        </div>
-        <div class="form-group">
-            <label for="Input6">测量日期</label>
-            <input type="text" class="form-control" id="Input6">
-        </div>
-
-        <div class="form-group">
-            <label for="InputFile">上传文件</label>
-            <input type="file" id="InputFile">
-            <p class="help-block">包括STL文件、照片和描述文件的压缩包</p>
-        </div>
-        <div class="btn-div">
-            <button type="button" class="btn btn-default" id="btn-submit">确认</button>
-            <button type="reset" class="btn btn-default">重置</button>
-            <button type="submit" class="btn btn-default">取消</button>
-        </div>
-    </form>
 </div>
 {% end %}
