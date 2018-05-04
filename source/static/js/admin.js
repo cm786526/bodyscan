@@ -194,12 +194,13 @@ function Tip(text){
 }
 
 //确认
-function confirmData(){
+function confirmData(analyze_id){
     $.ajax({
         type: 'post',
         url: '/admin',
         data: {
-            action:"confirm_data"
+            action:"confirm_data",
+            analyze_id:analyze_id
         },
         dataType:'json',
         success:function (result) {
@@ -236,7 +237,7 @@ function getResultPage(status,page){
                     '</td>'+
                     '<td>'+
                     '{{if data["status"] == 0||data["status"] == 1}}<a class="edit" href="/admin?action=edit_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a>联系操作员</a>{{/if}}'+
-                    '{{if data["status"] == 2}}<a href="/filedownload?filename={{data["feedback_name"]}}" target="_blank">下载</a>&nbsp&nbsp<a class="edit" href="/admin?action=add_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a onclick="confirmData()">确认</a>{{/if}}'+
+                    '{{if data["status"] == 2}}<a href="/filedownload?filename={{data["feedback_name"]}}" target="_blank">下载</a>&nbsp&nbsp<a class="edit" href="/admin?action=add_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a onclick="confirmData({{data["id"]}})">确认</a>{{/if}}'+
                     '{{if data["status"] == 3}}<a>查看</a>{{/if}}'+
                     '</td>'+
                     '</tr>' +

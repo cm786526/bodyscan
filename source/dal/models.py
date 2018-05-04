@@ -290,7 +290,7 @@ class AnalyzeRequestRecord(MapBase,_AccountApi):
     doctor_id=Column(Integer, ForeignKey(Accountinfo.id),nullable=False,default=0)            # 法医id
     patient_name=Column(String(128),nullable=False,default="")                      # 病人姓名
     patient_sex=Column(TINYINT,nullable=False,default=0)                            # 病人性别
-    patient_idnumber=Column(String(16),nullable=False,default="")                   # 病人身份证号
+    patient_idnumber=Column(String(50),nullable=False,default="")                   # 病人身份证号
     describe=Column(String(128),nullable=False,default="")                          # 情况描述
     file_name=Column(String(128),nullable=False,default="")                          # 文件名称
     measuring_position=Column(String(128),nullable=False,default="")                 # 测量位置
@@ -314,6 +314,7 @@ class OperatorHandlerRecord(MapBase,_AccountApi):
     get_date=Column(DateTime,nullable=False,default=func.now())                  # 领取时间
     handler_date=Column(DateTime,nullable=True)                         # 任务处理时间
     status=Column(TINYINT,nullable=False,default=1)                                 # 记录状态 1:处理中 2：已处理
+    file_name=Column(String(128),nullable=False,default="")                          # 文件名称
 
 # 验证码用途
 class VerifyCodeUse:

@@ -15,16 +15,16 @@ class Home(OperatorBaseHandler):
     @OperatorBaseHandler.check_arguments("action:str")
     def post(self):
         action=self.args["action"]
-        if action in ["add_handler","edit_handler"]:
-            return self.add_or_edit_analyze(action)
+        if action in ["add_handler","edit_handler","upload_feedback"]:
+            return self.add_or_edit_handler(action)
         elif action=="get_handler_list":
             return self.get_handler_list()
         else:
             return self.send_fail(403)
 
     # 操作员添加检测记录　对应操作员认领任务,编辑任务状态等
-    @OperatorBaseHandler.check_arguments("handler_id?:int","analyze_id:int","status?:int")
-    def add_or_edit_analyze(self,action):
+    @OperatorBaseHandler.check_arguments("handler_id?:int","analyze_id:int","status?:int","file_name?:str")
+    def add_or_edit_handler(self,action):
         current_user_id=self.current_user.id
         session=self.session
         analyze_id=self.args["analyze_id"]
@@ -44,6 +44,15 @@ class Home(OperatorBaseHandler):
             handler_id=self.args.get("handler_id")
             status=self.args.get("status",0)
             handler_record=session.query(OperatorHandlerRecord).filter_by(id=handler_id).first()
+            if action=="upload_feedback":
+                file_name=self.args["file_name"]
+                handler_record.file_name=file_name
+                handler_record.handler_date=datetime.datetime.now()
+                handler_record.status=2
+                analyze_record=session.query(models.AnalyzeRequestRecord).filter_by(id=handler_record.analyze_id).first()
+                analyze_record.status=2
+                session.commit()
+                return self.send_success()
             handler_record.status=status
             analyze_record.status=status
         session.commit()

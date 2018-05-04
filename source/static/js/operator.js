@@ -3,6 +3,7 @@ var page_sum=0;
 var type=0;
 var status=0;
 var handlerId='';
+var analyze_id='';
 $(document).ready(function(){
     getResultPageAdmin(0,0);
     document.getElementById('InputFile').addEventListener('change', function (ev) {
@@ -24,28 +25,26 @@ $(document).ready(function(){
         })
     })
 }).on('click','#btn-submit',function(){
-    var $formDiv = $('#form-div');
     //提交反馈数据表单
-    $formDiv.find('#btn-submit').on('click',function () {
-        var str = $formDiv.find('#InputFile').val();
-        var index = str.lastIndexOf("\\");
-        str = str.substring(index + 1,str.length);
-        //通过ajax提交请求
-        $.ajax({
-            type: 'post',
-            url: '/operator',
-            data: {
-                action:"upload_feedback",
-                file_name: str,
-                handler_id: handlerId
-            },
-            dataType:'json',
-            success:function (result) {
-                if(result.success){
-                    window.location.href = "/operator";
-                }
+    var str = $('#InputFile').val();
+    var index = str.lastIndexOf("\\");
+    str = str.substring(index + 1,str.length);
+    //通过ajax提交请求
+    $.ajax({
+        type: 'post',
+        url: '/operator',
+        data: {
+            action:"upload_feedback",
+            file_name: str,
+            handler_id: handlerId,
+            analyze_id: analyze_id
+        },
+        dataType:'json',
+        success:function (result) {
+            if(result.success){
+                window.location.href = "/operator";
             }
-        })
+        }
     });
 }).on('click','#btn-cancel',function(){
     //隐藏上传页面
@@ -185,6 +184,7 @@ function uploadFeedback(obj){
     var thisObj = $(obj);
     var handler_id = thisObj.attr("handler_id");
     handlerId = handler_id;
+    analyze_id = thisObj.attr("analyze_id");
     $('.upload-div').css("display", "block");
 }
 
@@ -214,7 +214,7 @@ function getResultPageOperator(status,page){
                     '</td>'+
                     '<td>'+
                     '{{if data["status"] == 0}}<a>分配</a>{{/if}}'+
-                    '{{if data["status"] == 1 || data["status"] == 2}}<a href="/filedownload?filename={{data["file_name"]}}" target="_blank">下载数据</a>&nbsp&nbsp<a>联系上传人员</a>&nbsp&nbsp<a onclick="uploadFeedback(this)" handler_id={{data["handler_id"]}}>上传反馈材料</a>{{/if}}'+
+                    '{{if data["status"] == 1 || data["status"] == 2}}<a href="/filedownload?filename={{data["file_name"]}}" target="_blank">下载数据</a>&nbsp&nbsp<a>联系上传人员</a>&nbsp&nbsp<a onclick="uploadFeedback(this)" handler_id={{data["handler_id"]}} analyze_id={{data["id"]}}>上传反馈材料</a>{{/if}}'+
                     '{{if data["status"] == 3}}<a>查看</a>{{/if}}'+
                     '</td>'+
                     '</tr>' +
