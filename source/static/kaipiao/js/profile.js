@@ -21,7 +21,10 @@ $(document).ready(function(){
     getVerifyCode($(this), $phone, $code);
 }).on("click",".about_senguo",function(){
     window.location.href="https://i.senguo.cc/msadmin/about?type=pf";
-});
+}).on("click",'.info_edit',function(){
+    $(this).css('display','none');
+    $(this).parent().find('.info_sure').css('display','block');
+})
 
 function changePhone($obj){
     if($obj.hasClass("forbid")){
