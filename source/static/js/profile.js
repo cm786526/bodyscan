@@ -2,6 +2,7 @@ $(document).ready(function(){
     getResultPage();
 }).on('click','.info_edit',function(){
     $(this).css('display','none');
+    $(this).parent().parent().find('input').val($(this).parent().parent().find('.info_show').text());
     $(this).parent().parent().find('.info_show').css('display','none');
     $(this).parent().find('.info_sure').css('display','block');
     $(this).parent().parent().find('input').css('display','block');
@@ -12,25 +13,27 @@ $(document).ready(function(){
         var index = str.lastIndexOf("\\");
         str = str.substring(index + 1,str.length);
     }
+    $(this).parent().parent().find('.info_show').text($(this).parent().parent().find('input').val());
     $.ajax({
         type: 'post',
         url: '/common/profile',
         data: {
             action:"edit_profile",
-            realname: $list.find('#Me-Input1').val(),
-            id_number: $list.find('#Me-Input2').val(),
-            organization: $list.find('#Me-Input3').val(),
-            email: $list.find('#Me-Input4').val(),
-            phone:$list.find('#Me-Input5').val(),
-            wx_number:$list.find('#Me-Input6').val(),
-            qq_number:$list.find('#Me-Input7').val(),
-            signature:$list.find('#Me-Input8').val(),
+            realname: $('.realname').text(),
+            id_number: $('.id_number').text(),
+            organization: $('.organization').text(),
+            email: $('.email').text(),
+            phone: $('.phone').text(),
+            wx_number: $('.wx_number').text(),
+            qq_number: $('.qq_number').text(),
+            signature: $('.signature').text(),
             headimgurl:str
         },
         dataType:'json',
         success:function (result) {
             if(result.success){
                 window.location.reload();
+
                 $(this).css('display','none');
                 $(this).parent().parent().find('.info_show').css('display','block');
                 $(this).parent().find('.info_edit').css('display','block');

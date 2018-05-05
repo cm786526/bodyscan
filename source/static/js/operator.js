@@ -26,9 +26,13 @@ $(document).ready(function(){
     })
 }).on('click','#btn-submit',function(){
     //提交反馈数据表单
-    var str = $('#InputFile').val();
+    var str = $('#myModalLabel').val();
     var index = str.lastIndexOf("\\");
     str = str.substring(index + 1,str.length);
+    if(str==""){
+        Tip("上传材料不能为空");
+        return;
+    }
     //通过ajax提交请求
     $.ajax({
         type: 'post',
@@ -46,9 +50,6 @@ $(document).ready(function(){
             }
         }
     });
-}).on('click','#btn-cancel',function(){
-    //隐藏上传页面
-    $('.upload-div').css("display", "none");
 }).on('click','.pre-page',function(){
     if(_page==0){
         return Tip('没有上一页啦！');
@@ -112,12 +113,22 @@ $(document).ready(function(){
     $(this).addClass('active');
     status = $(this).val();
     getResultPageOperator(status, 0);
-});
-
-//领取任务
-function distribute(obj){
-    var thisObj = $(obj);
-    var analyze_id = thisObj.attr("analyze_id");
+}).on('change','#myModalLabel',function(ev){
+    //上传反馈材料
+    var file = ev.target.files[0];
+    var filename = file.name;
+    var formData = new FormData();
+    formData.append("file",file,filename);
+    var xhr = new XMLHttpRequest();
+    url = 'http://bodyscan.com.cn:9999/fileupload?action=upload_img';
+    xhr.open('post', url, true);
+    xhr.send(formData);
+    xhr.onload = function()
+    {
+        edit_headimg(filename);
+    };
+}).on('click','#confirmModalButton',function(){
+    //领取任务-点击确认
     $.ajax({
         type: 'post',
         url: '/operator',
@@ -128,10 +139,18 @@ function distribute(obj){
         dataType:'json',
         success:function (result) {
             if(result.success){
+                $('#confirmModal').modal('hide');
                 getResultPageAdmin(0,0)
             }
         }
     })
+});
+
+//领取任务-弹出模块框
+function distribute(obj){
+    $('#confirmModal').modal('show')
+    var thisObj = $(obj);
+    analyze_id = thisObj.attr("analyze_id");
 }
 
 function getResultPageAdmin(status,page){
@@ -154,7 +173,8 @@ function getResultPageAdmin(status,page){
                     '<td>{{data["describe"]}}</td>' +
                     '<td>未分配</td>'+
                     '<td>'+
-                    '<a onclick = "distribute(this)" analyze_id = {{data["id"]}}>领取</a>'+
+
+                    '<a onclick="distribute(this)" analyze_id = {{data["id"]}}>领取</a>'+
                     '</td>'+
                     '</tr>' +
                     '{{/each}}';
@@ -182,10 +202,8 @@ function Tip(text){
 //点击上传反馈材料传入handler_id并显示上传窗口
 function uploadFeedback(obj){
     var thisObj = $(obj);
-    var handler_id = thisObj.attr("handler_id");
-    handlerId = handler_id;
+    handlerId = thisObj.attr("handler_id");
     analyze_id = thisObj.attr("analyze_id");
-    $('.upload-div').css("display", "block");
 }
 
 //渲染页面

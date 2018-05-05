@@ -17,7 +17,7 @@
     <div class="div-top">
         <div class="topic-div">
             <ul>
-                <li class="topic topic-focus"><a href="/admin">首页</a></li>
+                <li class="topic topic-focus"><a href="/operator">首页</a></li>
                 <li class="topic"><a href="/common/profile">个人中心</a></li>
             </ul>
             <a class="add-btn" href="/admin">管理员页面</a>
@@ -77,6 +77,21 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button type="button" class="btn btn-primary" id="btn-submit">提交</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="confirmModalLabel">是否确认领取</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="confirmModalButton">确认</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->

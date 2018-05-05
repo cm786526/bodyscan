@@ -16,8 +16,8 @@
 <div class="background">
     <div class="subnav-box left-align-line">
         <ul class="subnav group">
-            <li class="active" id="infoSet"><a href="/admin/config/shop">信息设置</a></li>
-            <li class=""><a href="/admin/config?action=cashset">账号设置</a></li>
+            <li class="active" id="infoSet"><a href="/common/profile">信息设置</a></li>
+            <li class=""><a>账号设置</a></li>
 
         </ul>
     </div>
@@ -25,8 +25,8 @@
         <li class="item clearfix">
             <span class="w1 pull-left set-inl-blo">真实姓名</span>
             <div class="w2 pull-left">
-                <span class="info_show name realname"></span>
-                <input class="info_hide shop_name" type="text" value="{{ data_dict['realname']}}" style="display:none" id="Me-Input1">
+                <span class="info_show name realname">{{ data_dict['realname']}}</span>
+                <input class="info_hide shop_name" type="text" style="display:none" id="Me-Input1">
             </div>
             <div class="pull-right">
                 <a class="info_edit" href="javascript:;">修改</a>

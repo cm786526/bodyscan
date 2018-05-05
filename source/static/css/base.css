@@ -16,6 +16,8 @@ ul{padding-left:0;}
 .div-top{
     top: 0;
     display: block;
+    background-color: #337ab7;
+
 }
 .div-body{
     background-color: #f9f9f9;
@@ -36,14 +38,15 @@ ul{padding-left:0;}
     height: 48px;
     font-size: 16px;
     line-height: 52px;
-    border-bottom: 3px solid #fff;
+    border-bottom: 3px solid #337ab7;
     cursor: pointer;
+
 }
 .topic a{
     width: 100px;
     height: 48px;
     display: block;
-    color: #9f9f9f;
+    color: #d2d2d2;
 }
 .topic-div{
     height: 50px;
@@ -51,14 +54,14 @@ ul{padding-left:0;}
     margin-top: -10px;
     margin-left: auto;
     margin-right: auto;
-    background-color: white;
+    background-color: #337ab7;
     position: relative;
 }
 .topic-focus,.topic:hover{
-    border-color: #337ab7;
+    border-color: white;
 }
 .topic-focus a,.topic a:hover{
-    color: #337ab7 !important;
+    color: white !important;
 }
 .top-image{
     border-radius:50%;

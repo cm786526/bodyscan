@@ -8,6 +8,13 @@
 <script src="{{static_url('datePicker/WdatePicker.js')}}"></script>
 <script src="{{static_url('js/jquery.lineProgressbar.js')}}"></script>
 {% end %}
+{% block ul %}
+<ul>
+    <li class="topic"><a href="/admin">首页</a></li>
+    <li class="topic"><a href="/common/profile">个人中心</a></li>
+    <li class="topic topic-focus"><a href="/admin?action=add_record">新建数据</a></li>
+</ul>
+{% end %}
 {% block div %}
 <div class="breadcrumb-div">
     <ol class="breadcrumb">
