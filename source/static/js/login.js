@@ -75,7 +75,7 @@ $(function(){
         $.ajax({
             url:'/logout',
             success:function(result){
-                if(!result.code){
+                if(result.success){
                     window.location.reload();
                 }
             }
