@@ -55,8 +55,9 @@ $(document).ready(function(){
             }
         }
     });
+    xhr.send(formData);
     var fil = this.files[0];
-    var reader = new FileReader();
+    reader = new FileReader();
     reader.readAsDataURL(fil);
     reader.onload = function()
     {
@@ -99,15 +100,4 @@ function getResultPage(){
             }
         }
     })
-}
-
-function changeToop(){
-    var file = $("#InputPic");
-    if(file.val()==''){
-        //设置默认图片
-        $("#logoImg").src='../../static/images/me.jpg';
-    }else{
-        $("#logoImg").src=$("#InputPic").val();
-        Tip('123');
-    }
 }

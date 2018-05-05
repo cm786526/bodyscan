@@ -2,9 +2,11 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{static_url('css/admin.css')}}" type="text/css" />
+<link rel="stylesheet" href="{{static_url('css/jquery.lineProgressbar.css')}}" type="text/css">
 <script type="text/javascript" src="{{static_url('common/js/jquery-fastclick-lazyload-template.js')}}"></script>
 <script src="{{static_url('js/admin.js')}}"></script>
 <script src="{{static_url('datePicker/WdatePicker.js')}}"></script>
+<script src="{{static_url('js/jquery.lineProgressbar.js')}}"></script>
 {% end %}
 {% block div %}
 <div class="breadcrumb-div">
@@ -76,6 +78,7 @@
                     <td>
                         <input type="file" id="InputFile">
                         <p class="help-block">包括STL文件、照片和描述文件的压缩包</p>
+                        <div id="progressbar"></div>
                     </td>
 
                 </tr>
