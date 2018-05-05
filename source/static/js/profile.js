@@ -8,10 +8,6 @@ $(document).ready(function(){
 }).on('click','.info_sure',function(){
     var $list = $('.info-set-list');
     var str = $("#logoImg")[0].src;
-    if(str!=""){
-        var index = str.lastIndexOf("\\");
-        str = str.substring(index + 1,str.length);
-    }
     $.ajax({
         type: 'post',
         url: '/common/profile',
