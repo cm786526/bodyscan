@@ -56,6 +56,7 @@ $(document).ready(function() {
         formData.append("total", totalPieces);  //总片数
         formData.append("index", sliceIndex);   //当前是第几片
         var xhr = new XMLHttpRequest();
+
         //上传文件进度条
         xhr.upload.addEventListener("progress", function (e) {
             if (e.total > 0) {
@@ -67,7 +68,13 @@ $(document).ready(function() {
                     e.percent = 100;
                 }
                 console.log(e.percent);
-                console.log('----进度-----')
+                console.log('----进度-----');
+                $('#progressbar').LineProgressbar({
+                    percentage: e.percent,
+                    fillBackgroundColor: '#337ab7',
+                    height: '20px',
+                    radius: '50px'
+                });
             }
         }, false);
         url = 'http://bodyscan.com.cn:9999/fileupload?action=chunk_upload';

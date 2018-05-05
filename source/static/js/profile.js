@@ -36,24 +36,33 @@ $(document).ready(function(){
         }
     })
 }).on('change','#InputPic',function(ev){
-    $.ajax({
-        type: 'post',
-        url: '/common/profile',
-        data: {
-            action: 'upload_picture',
-            file_name: ev.target.files[0].name
-        },
-        dataType:'json',
-        success:function (res) {
-            if(res.success){
-                Tip("成功上传文件");
-            }else{
-                // Tip(res.error_text);
-            }
+    var file = ev.target.files[0];
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    var url = window.URL.createObjectURL(file);
+    var img = new Image;
+    img.src = url;
+    var filename = file.name;
+    var formData = new FormData();
+    formData.append("file", filename);
+    var xhr = new XMLHttpRequest();
+    url = 'http://bodyscan.com.cn:9999/fileupload?action=chunk_upload';
+    xhr.open('post', url, true);
+    url = "/common/profile";
+    var args = {
+        action: 'upload_picture',
+        file_name: filename
+    };
+    $.post(url, args, function(res){
+        if(res.success){
+            Tip("成功上传文件");
+        }else{
+            Tip(res.error_text);
         }
     });
+    xhr.send(formData);
     var fil = this.files[0];
-    var reader = new FileReader();
+    reader = new FileReader();
     reader.readAsDataURL(fil);
     reader.onload = function()
     {
@@ -87,15 +96,4 @@ function getResultPage(){
             }
         }
     })
-}
-
-function changeToop(){
-    var file = $("#InputPic");
-    if(file.val()==''){
-        //设置默认图片
-        $("#logoImg").src='../../static/images/me.jpg';
-    }else{
-        $("#logoImg").src=$("#InputPic").val();
-        Tip('123');
-    }
 }
