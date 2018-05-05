@@ -104,3 +104,7 @@ ul{padding-left:0;}
 .div-form{
     padding: 0 30px 50px 30px;
 }
+#InputFile{
+    margin: 20px 0 25px 190px;
+    font-size: 16px;
+}
