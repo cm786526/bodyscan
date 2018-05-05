@@ -56,6 +56,8 @@ class Profile(_AccountBaseHandler):
         action=self.args["action"]
         if action=="get_profile":
             return self.get_profile()
+        elif action=="edit_profile":
+            return self.edit_profile()
         elif action=="set_password":
             return self.set_password()
         elif action=="modify_password":
@@ -97,13 +99,45 @@ class Profile(_AccountBaseHandler):
                             .first()
         account_dict={
             "id":account_info.id,
-            "staff_id":account_info.id,
             "phone":account_info.phone,
-            "realname":account_info.nickname,
+            "realname":account_info.realname,
             "headimgurl":account_info.headimgurl,
-            "sex_text":account_info.sex_text
+            "sex_text":account_info.sex_text,
+            "qq_number":account_info.qq_number,
+            "wx_number":account_info.wx_number,
+            "organization":account_info.organization,
+            "signature":account_info.signature,
+            "email":account_info.email,
+            "id_number":account_info.id_number
         }
         return self.send_success(data_dict=account_dict)
+
+    @_AccountBaseHandler.check_arguments("phone:str","realname:str","headimgurl:str","qq_number:str",\
+                                        "wx_number:str","organization:str","signature:str","email:str","id_number:str")
+    def edit_profile(self):
+        phone=self.args["phone"]
+        realname=self.args["realname"]
+        headimgurl=self.args["headimgurl"]
+        qq_number=self.args["qq_number"]
+        wx_number=self.args["wx_number"]
+        organization=self.args["organization"]
+        signature=self.args["signature"]
+        email=self.args["email"]
+        id_number=self.args["id_number"]
+        current_user_id=self.current_user.id
+        session=self.session
+        account_info=session.query(models.Accountinfo).filter_by(id=current_user_id).with_lockmode('update').first()
+        account_info.phone=phone
+        account_info.realname=realname
+        account_info.headimgurl=headimgurl
+        account_info.qq_number=qq_number
+        account_info.wx_number=wx_number
+        account_info.organization=organization
+        account_info.signature=signature
+        account_info.email=email
+        account_info.id_number=id_number
+        session.commit()
+        return self.send_success()
 
     @_AccountBaseHandler.check_arguments("password:str")
     def set_password(self):
@@ -262,8 +296,27 @@ class FileUploadHandler(GlobalBaseHandler):
             return self.chunk_upload(path_base,temp_path)
         elif action=="merge_file":
             return self.merge_file(path_base,temp_path)
+        elif action=="upload_img":
+            return self.upload_img()
         else:
             return self.send_fail(403)
+
+    def upload_img(self):
+        file_metas = self.request.files.get('file', None)  # 提取表单中‘name’为‘file’的文件元数据
+        if not file_metas:
+            return  self.send_fail("缺少图片文件")
+        # 获取上级目录
+        path_base=os.path.join(os.path.dirname(__file__),"../static/images/headimg/")
+        for meta in file_metas:
+            # 实际上只运行一次 只有一个文件
+            filename =meta["filename"]
+            file_path = path_base+filename
+            # 判断文件是否存在
+            if os.path.exists(file_path):
+                return self.send_fail("文件已经上传，请勿重复操作")
+            with  open(file_path, 'wb') as new_file:
+                new_file.write(meta['body'])
+        return self.send_success()
 
     def chunk_upload(self,path_base,temp_path):
         # 分片上传 暂时存入临时文件夹中

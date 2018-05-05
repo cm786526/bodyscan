@@ -127,6 +127,11 @@ class Accountinfo(MapBase, _AccountApi):
 
     beta_code = Column(String(32), unique = True)                     # 内测码
     create_time = Column(DateTime,nullable=False, default=func.now()) # 创建时间
+    organization = Column(String(64),nullable=False,default="")       # 组织机构
+    wx_number    = Column(String(64),nullable=False,default="")       # 微信号
+    qq_number = Column(String(32),nullable=False,default="")          # qq号
+    signature =Column(String(512),nullable=False,default="")          # 个人签名
+    id_number = Column(String(64),nullable=False,default="")          # 身份证
 
     @property
     def sex_text(self):
