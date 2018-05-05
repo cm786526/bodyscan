@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>BodyScan</title>
+    <script src="{{static_url('js/jquery-3.3.1.js')}}"></script>
     <link rel="stylesheet" href="{{static_url('css/bootstrap.css')}}" type="text/css" />
     <link rel="stylesheet" href="{{static_url('css/bootstrap-theme.css')}}" type="text/css" />
     <link rel="stylesheet" href="{{static_url('css/base.css')}}" type="text/css" />
     {% block head %}{% end %}
-    <script src="{{static_url('js/base.js')}}"></script>
-    <script src="{{static_url('js/jquery-3.3.1.js')}}"></script>
     <script src="{{static_url('js/bootstrap.js')}}"></script>
 
 </head>
@@ -27,8 +26,6 @@
             <image class="top-image" src="../../../static/images/me.jpg"></image>
         </div>
     </div>
-
-
 </div>
 <div class="div-center">
     {% block div %}{% end %}

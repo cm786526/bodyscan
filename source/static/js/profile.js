@@ -1,31 +1,101 @@
 $(document).ready(function(){
-
-}).on('click','#btn-submit-me',function(){
-    //提交个人中心表单
-    var $meDiv = $('#form-me');
-    //通过ajax提交请求
+    getResultPage();
+}).on('click','.info_edit',function(){
+    $(this).css('display','none');
+    $(this).parent().parent().find('.info_show').css('display','none');
+    $(this).parent().find('.info_sure').css('display','block');
+    $(this).parent().parent().find('input').css('display','block');
+}).on('click','.info_sure',function(){
+    var $list = $('.info-set-list');
+    var str = $('#InputFile').val();
+    var index = str.lastIndexOf("\\");
+    str = str.substring(index + 1,str.length);
     $.ajax({
         type: 'post',
         url: '/common/profile',
         data: {
-            action:"add_admin_request",
-            admin_name: $meDiv.find('#Me-Input1').val(),
-            admin_idnumber: $meDiv.find('#Me-Input2').val(),
-            admin_sex:$meDiv.find('[value="option"]:checked').val(),
-            admin_affiliation: $meDiv.find('#Me-Input3').val(),
-            admin_describe: $meDiv.find('#Me-Input4').val(),
-            admin_pic:$meDiv.find('#InputPic').val()
+            action:"set_profile",
+            admin_name: $list.find('#Me-Input1').val(),
+            admin_idnumber: $list.find('#Me-Input2').val(),
+            admin_affiliation: $list.find('#Me-Input3').val(),
+            admin_email: $list.find('#Me-Input4').val(),
+            admin_tel:$list.find('#Me-Input5').val(),
+            admin_wx:$list.find('#Me-Input6').val(),
+            admin_qq:$list.find('#Me-Input7').val(),
+            admin_description:$list.find('#Me-Input8').val(),
+            admin_pic:str
         },
         dataType:'json',
         success:function (result) {
-            $meDiv.find('.help-block').html('上传成功');
             if(result.success){
-                //个人资料提交成功
-                Tip("成功修改个人资料");
-                setTimeout(function(){
-                    window.location.href = "/admin";
-                },2000);
+                $(this).css('display','none');
+                $(this).parent().parent().find('.info_show').css('display','block');
+                $(this).parent().find('.info_edit').css('display','block');
+                $(this).parent().parent().find('input').css('display','none');
             }
         }
     })
-})
+}).on('change','#InputPic',function(ev){
+    $.ajax({
+        type: 'post',
+        url: '/common/profile',
+        data: {
+            action: 'upload_picture',
+            file_name: ev.target.files[0].name
+        },
+        dataType:'json',
+        success:function (res) {
+            if(res.success){
+                Tip("成功上传文件");
+            }else{
+                // Tip(res.error_text);
+            }
+        }
+    });
+    var fil = this.files[0];
+    var reader = new FileReader();
+    reader.readAsDataURL(fil);
+    reader.onload = function()
+    {
+        $("#logoImg").attr('src',reader.result);
+    };
+});
+
+//提示框
+function Tip(text){
+    var tip = '<div class="zb-tip" id="zb-tip">'+text+'</div>';
+    $("body").append(tip);
+    zb_timer = setTimeout(function(){
+        $("#zb-tip").remove();
+    },2000);
+}
+
+//获取页面数据
+function getResultPage(){
+    $.ajax({
+        type: 'post',
+        url: '/common/profile',
+        data: {
+            action: 'upload_data'
+        },
+        dataType:'json',
+        success:function (res) {
+            if(res.success){
+                Tip("成功上传文件");
+            }else{
+                // Tip(res.error_text);
+            }
+        }
+    })
+}
+
+function changeToop(){
+    var file = $("#InputPic");
+    if(file.val()==''){
+        //设置默认图片
+        $("#logoImg").src='../../static/images/me.jpg';
+    }else{
+        $("#logoImg").src=$("#InputPic").val();
+        Tip('123');
+    }
+}

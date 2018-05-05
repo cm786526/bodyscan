@@ -14,47 +14,52 @@
 </head>
 <body>
 <div class="div-container">
-    <div class="div-center">
-        <image class="box-image" src="../../../static/images/me.jpg"></image>
-        <div class="box-middle">
-            <h1 style="margin-top: 43px">欢迎您, 邹琪珺!</h1>
-        </div>
-        <div class="box-right">
-            <p>正在处理 2 例</p>
-            <p>本月已处理 2 例</p>
-            <p>总共已处理 2 例</p>
+    <div class="div-top">
+        <div class="topic-div">
+            <ul>
+                <li class="topic topic-focus"><a href="/admin">首页</a></li>
+                <li class="topic"><a href="/common/profile">个人中心</a></li>
+            </ul>
+            <a class="add-btn" href="/admin">管理员页面</a>
+            <image class="top-image" src="../../../static/images/me.jpg"></image>
         </div>
     </div>
-    <ul class="nav nav-tabs nav-justified">
-        <li class="nav-tabs-li active nav-tabs-admin" value="0"><a>未分配</a></li>
-        <li class="nav-tabs-li nav-tabs-operator" value="1"><a>处理中</a></li>
-        <li class="nav-tabs-li nav-tabs-operator" value="2"><a>待确认</a></li>
-        <li class="nav-tabs-li nav-tabs-operator" value="3"><a>已处理</a></li>
-    </ul>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <td style="width: 150px">编号</td>
-            <td style="width: 200px">上传机构</td>
-            <td style="width: 200px">案例描述</td>
-            <td style="width: 180px">状态</td>
-            <td style="width: 200px">操作</td>
-        </tr>
-        </thead>
-        <tbody class="data_list">
-
-        </tbody>
-    </table>
-    <div class="users-pagination list-pagination group mt10">
-        <ul>
-            <li><a href="javascript:;" class="page-btn pre-page">&nbsp;</a></li>
-            <li>
-                <span class="page-now">1</span>/<span class="page_sum">1</span>
-            </li>
-            <li><a href="javascript:;" class="page-btn next-page">&nbsp;</a></li>
-            <li><input class="input-page form-control" type="text" placeholder="输入页码"/></li>
-            <li><a href="javascript:;" class="jump-to">跳转</a></li>
+</div>
+<div class="div-center">
+    <div class="data-div">
+        <ul class="nav nav-tabs nav-justified">
+            <li class="nav-tabs-li active nav-tabs-admin" value="0"><a>未分配</a></li>
+            <li class="nav-tabs-li nav-tabs-operator" value="1"><a>处理中</a></li>
+            <li class="nav-tabs-li nav-tabs-operator" value="2"><a>待确认</a></li>
+            <li class="nav-tabs-li nav-tabs-operator" value="3"><a>已处理</a></li>
         </ul>
+        <div class="div-form">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <td style="width: 150px">编号</td>
+                    <td style="width: 200px">上传机构</td>
+                    <td style="width: 200px">案例描述</td>
+                    <td style="width: 180px">状态</td>
+                    <td style="width: 200px">操作</td>
+                </tr>
+                </thead>
+                <tbody class="data_list">
+
+                </tbody>
+            </table>
+            <div class="users-pagination list-pagination group mt10">
+                <ul>
+                    <li><a href="javascript:;" class="page-btn pre-page">&nbsp;</a></li>
+                    <li>
+                        <span class="page-now">1</span>/<span class="page_sum">1</span>
+                    </li>
+                    <li><a href="javascript:;" class="page-btn next-page">&nbsp;</a></li>
+                    <li><input class="input-page form-control" type="text" placeholder="输入页码"/></li>
+                    <li><a href="javascript:;" class="jump-to">跳转</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
 <div class="upload-div">
