@@ -58,6 +58,8 @@ class Profile(_AccountBaseHandler):
             return self.get_profile()
         elif action=="edit_profile":
             return self.edit_profile()
+        elif action=="edit_headimg":
+            return self.edit_headimg()
         elif action=="set_password":
             return self.set_password()
         elif action=="modify_password":
@@ -136,6 +138,16 @@ class Profile(_AccountBaseHandler):
         account_info.signature=signature
         account_info.email=email
         account_info.id_number=id_number
+        session.commit()
+        return self.send_success()
+
+    @_AccountBaseHandler.check_arguments("headimgurl:str")
+    def edit_headimg(self):
+        headimgurl=self.args["headimgurl"]
+        current_user_id=self.current_user.id
+        session=self.session
+        account_info=session.query(models.Accountinfo).filter_by(id=current_user_id).with_lockmode('update').first()
+        account_info.headimgurl=headimgurl
         session.commit()
         return self.send_success()
 

@@ -39,29 +39,17 @@ $(document).ready(function(){
         }
     })
 }).on('change','#InputPic',function(ev){
-    $.ajax({
-        type: 'post',
-        url: '/common/profile',
-        data: {
-            action: 'upload_picture',
-            file_name: ev.target.files[0].name
-        },
-        dataType:'json',
-        success:function (res) {
-            if(res.success){
-                Tip("成功上传文件");
-            }else{
-                Tip(res.error_text);
-            }
-        }
-    });
+    var file = ev.target.files[0];
+    var filename = file.name;
+    var formData = new FormData();
+    formData.append("file",file,filename);
+    var xhr = new XMLHttpRequest();
+    url = 'http://bodyscan.com.cn:9999/fileupload?action=upload_img';
+    xhr.open('post', url, true);
     xhr.send(formData);
-    var fil = this.files[0];
-    reader = new FileReader();
-    reader.readAsDataURL(fil);
-    reader.onload = function()
+    xhr.onload = function()
     {
-        $("#logoImg").attr('src',reader.result);
+        edit_headimg(filename);
     };
 });
 
@@ -99,5 +87,27 @@ function getResultPage(){
                 // Tip(res.error_text);
             }
         }
-    })
+    });
+}
+
+// 编辑头像
+function edit_headimg(filename){
+    var img_url="../../../static/images/headimg/"+filename;
+    $.ajax({
+        type: 'post',
+        url: '/common/profile',
+        data: {
+            action: 'edit_headimg',
+            headimgurl:img_url
+        },
+        dataType:'json',
+        success:function (res) {
+            if(res.success){
+               Tip("成功编辑头像");
+               $("#logoImg").attr('src',img_url);
+            }else{
+                Tip(res.error_text);
+            }
+        }
+    });
 }
