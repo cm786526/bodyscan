@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{{static_url('css/base.css')}}" type="text/css" />
     {% block head %}{% end %}
     <script src="{{static_url('js/bootstrap.js')}}"></script>
+    <script src="{{static_url('js/base.js')}}"></script>
+    <script type="text/javascript" src="{{static_url('common/js/template.js')}}"></script>
 
 </head>
 <body>
@@ -23,8 +25,17 @@
             </ul>
             <a class="add-btn" href="/operator">操作员页面</a>
             {% end %}
+            <div class="image-div">
+                <img class="top-image" id="logoImg">
+                <span class="image-span">▼</span>
+            </div>
+            <div class="nav-my-hidden" id="nav-my-hidden">
+                <ul>
+                    <li><a href="/common/profile">个人中心</a></li>
+                    <li><a href="/logout">退出</a></li>
+                </ul>
+            </div>
 
-            <image class="top-image" src="../../../static/images/me.jpg"></image>
         </div>
     </div>
 </div>

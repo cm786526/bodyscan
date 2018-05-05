@@ -67,7 +67,36 @@ ul{padding-left:0;}
     border-radius:50%;
     height: 40px;
     width: 40px;
+    float: left;
+    margin-top: 5px;
+
+}
+.image-div{
     float: right;
     margin-right: 100px;
-    margin-top: 5px;
+    height: 50px;
+    width: 80px;
+    padding-left: 10px;
+}
+.nav-my-hidden{
+    z-index: 10001;
+    position: absolute;
+    padding: 8px;
+    border-width: 0px 1px 1px 1px;
+    border-style: solid;
+    border-color: #EEE;
+    background: #FFF;
+    top: 51px;
+    right: 100px;
+    width: 80px;
+    color: #6C6C6C;
+    line-height: 28px;
+    display: none;
+}
+.image-span{
+    color: white;
+    font-size: 18px;
+    float: left;
+    line-height: 50px;
+    padding-left: 5px;
 }
