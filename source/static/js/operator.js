@@ -8,7 +8,7 @@ $(document).ready(function(){
     getResultPageAdmin(0,0);
 }).on('click','#btn-submit',function(){
     //提交反馈数据表单
-    var str = $('#myModalLabel').val();
+    var str = $('#InputFile').val();
     var index = str.lastIndexOf("\\");
     str = str.substring(index + 1,str.length);
     if(str==""){
@@ -20,7 +20,7 @@ $(document).ready(function(){
         type: 'post',
         url: '/operator',
         data: {
-            action:"upload_pdf",
+            action:"upload_feedback",
             file_name: str,
             handler_id: handlerId,
             analyze_id: analyze_id
@@ -95,20 +95,6 @@ $(document).ready(function(){
     $(this).addClass('active');
     status = $(this).val();
     getResultPageOperator(status, 0);
-}).on('change','#myModalLabel',function(ev){
-    //上传反馈材料
-    var file = ev.target.files[0];
-    var filename = file.name;
-    var formData = new FormData();
-    formData.append("file",file,filename);
-    var xhr = new XMLHttpRequest();
-    url = 'http://bodyscan.com.cn:9999/fileupload?action=upload_img';
-    xhr.open('post', url, true);
-    xhr.send(formData);
-    xhr.onload = function()
-    {
-        edit_headimg(filename);
-    };
 }).on('click','#confirmModalButton',function(){
     //领取任务-点击确认
     $.ajax({
@@ -132,7 +118,7 @@ $(document).ready(function(){
     var formData = new FormData();
     formData.append("file",file,filename);
     var xhr = new XMLHttpRequest();
-    url = 'http://bodyscan.com.cn:9999/fileupload?action=chunk_upload';
+    url = 'http://bodyscan.com.cn:9999/fileupload?action=upload_pdf';
     xhr.open('post', url, true);
     xhr.send(formData);
 });
@@ -218,7 +204,8 @@ function getResultPageOperator(status,page){
                     '<td>{{data["describe"]}}</td>' +
                     '<td>'+
                     '{{if data["status"] == 0}}未分配{{/if}}'+
-                    '{{if data["status"] == 1 || data["status"] == 2}}处理中{{/if}}'+
+                    '{{if data["status"] == 1}}处理中{{/if}}'+
+                    '{{if data["status"] == 2}}待确认{{/if}}'+
                     '{{if data["status"] == 3}}已处理{{/if}}'+
                     '</td>'+
                     '<td>'+

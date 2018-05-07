@@ -3,6 +3,7 @@ var page_sum=0;
 var status=0;
 var uncheckUrl = '../../static/images/unchecked.png';
 var checkUrl = '../../static/images/checked.png';
+var filename = new Array();
 $(document).ready(function() {
     getResultPage(-1, 0);
 }).on('click','.next-page',function() {
@@ -73,7 +74,20 @@ $(document).ready(function() {
         $(this).attr("src",checkUrl);
         $(".check-img").attr("src",checkUrl);
     }
-});
+}).on('click','#upload-btn',function(){
+    //批量上传
+    var imgLength = $('.check-img').length;
+    var checkLength = 0;
+    filename = [];
+    for (var i = 0; i <= imgLength; i++) {
+        if($('.check-img').eq(i).attr("src") == checkUrl){
+            filename.push($('.check-img').eq(i).attr("file_name"))
+        }
+    }
+}).on('click','#delete-btn',function(){
+    //批量删除
+
+})
 //提示框
 function Tip(text){
     var tip = '<div class="zb-tip" id="zb-tip">'+text+'</div>';
@@ -98,7 +112,7 @@ function getResultPage(status,page){
                 $('.data_list').empty();
                 var record_item = '{{each data_list as data}}'+
                     '<tr>' +
-                    '<th><img class="check-img" src="../../static/images/unchecked.png"></th>' +
+                    '<th><img class="check-img" src="../../static/images/unchecked.png" file_name={{data["file_name"]}}></th>' +
                     '<th>{{data["id"]}}</th>' +
                     '<th>{{data["admin_affiliation"]}}</th>' +
                     '<th>'+
