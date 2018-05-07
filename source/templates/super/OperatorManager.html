@@ -1,0 +1,52 @@
+{% extends 'super_base.html' %}
+
+{% block main %}
+<span class="right-title">
+数据管理
+    <a class="add-btn ml20">批量下载</a>
+    <a class="add-btn ml20">批量删除</a>
+</span>
+<div class="status-div">
+    <ul class="subnav">
+        <li class="subnav-li active" value="-1"><a>全部</a></li>
+        <li class="subnav-li" value="0"><a>未领取</a></li>
+        <li class="subnav-li" value="1"><a>处理中</a></li>
+        <li class="subnav-li" value="2"><a>待确认</a></li>
+        <li class="subnav-li" value="3"><a>已处理</a></li>
+    </ul>
+</div>
+<div class="staff-list-box" id="staff_list_box">
+    <table class="staff-data-table data-table">
+        <colgroup>
+            <col width="15%">
+            <col width="20%">
+            <col width="20%">
+            <col width="25%">
+            <col width="20%">
+        </colgroup>
+        <thead class="staff_list_data_box">
+            <tr>
+                <th>全选<img id="select-all" src="../../static/images/unchecked.png"></th>
+                <th>编号</th>
+                <th>上传机构</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody class="staff-list-item data_list">
+
+        </tbody>
+    </table>
+    <div class="users-pagination list-pagination group mt10">
+        <ul>
+            <li><a href="javascript:;" class="page-btn pre-page">&nbsp;</a></li>
+            <li>
+                <span class="page-now">1</span>/<span class="page_sum">1</span>
+            </li>
+            <li><a href="javascript:;" class="page-btn next-page">&nbsp;</a></li>
+            <li><input class="input-page form-control" type="text" placeholder="输入页码"/></li>
+            <li><a href="javascript:;" class="jump-to">跳转</a></li>
+        </ul>
+    </div>
+</div>
+{% end %}
