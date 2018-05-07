@@ -110,7 +110,6 @@ function getResultPage(status,page){
                     '<th><a>删除</a></th>' +
                     '</tr>' +
                     '{{/each}}';
-
                 var render = template.compile(record_item);
                 var html = render(result);
                 $('.data_list').append(html);

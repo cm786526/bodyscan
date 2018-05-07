@@ -25,7 +25,7 @@ function getPage(){
         success:function (res) {
             if(res.success){
                 data_dict=res.data_dict;
-                $("#logoImg").attr("src",data_dict["headimgurl"]);
+                $("#Img").attr("src",data_dict["headimgurl"]);
             }else{
                 // Tip(res.error_text);
             }

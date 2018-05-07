@@ -6,24 +6,6 @@ var handlerId='';
 var analyze_id='';
 $(document).ready(function(){
     getResultPageAdmin(0,0);
-    document.getElementById('InputFile').addEventListener('change', function (ev) {
-        $.ajax({
-            type: 'post',
-            url: '/fileupload',
-            data: {
-                action: 'upload_feedback',
-                file_name: ev.target.files[0].name
-            },
-            dataType:'json',
-            success:function (res) {
-                if(res.success){
-                    Tip("成功上传文件");
-                }else{
-                    Tip(res.error_text);
-                }
-            }
-        })
-    })
 }).on('click','#btn-submit',function(){
     //提交反馈数据表单
     var str = $('#myModalLabel').val();
@@ -38,7 +20,7 @@ $(document).ready(function(){
         type: 'post',
         url: '/operator',
         data: {
-            action:"upload_feedback",
+            action:"upload_pdf",
             file_name: str,
             handler_id: handlerId,
             analyze_id: analyze_id
@@ -144,6 +126,15 @@ $(document).ready(function(){
             }
         }
     })
+}).on('change','#InputFile',function(ev){
+    var file = ev.target.files[0];
+    var filename = file.name;
+    var formData = new FormData();
+    formData.append("file",file,filename);
+    var xhr = new XMLHttpRequest();
+    url = 'http://bodyscan.com.cn:9999/fileupload?action=chunk_upload';
+    xhr.open('post', url, true);
+    xhr.send(formData);
 });
 
 //领取任务-弹出模块框
@@ -232,7 +223,7 @@ function getResultPageOperator(status,page){
                     '</td>'+
                     '<td>'+
                     '{{if data["status"] == 0}}<a>分配</a>{{/if}}'+
-                    '{{if data["status"] == 1 || data["status"] == 2}}<a href="/filedownload?filename={{data["file_name"]}}" target="_blank">下载数据</a>&nbsp&nbsp<a>联系上传人员</a>&nbsp&nbsp<a onclick="uploadFeedback(this)"  data-toggle="modal" data-target="#myModal" handler_id={{data["handler_id"]}} analyze_id={{data["id"]}}>上传反馈材料</a>{{/if}}'+
+                    '{{if data["status"] == 1}}<a href="/filedownload?filename={{data["file_name"]}}" target="_blank">下载数据</a>&nbsp&nbsp<a>联系上传人员</a>&nbsp&nbsp<a onclick="uploadFeedback(this)"  data-toggle="modal" data-target="#myModal" handler_id={{data["handler_id"]}} analyze_id={{data["id"]}}>上传反馈材料</a>{{/if}}'+
                     '{{if data["status"] == 3}}<a>查看</a>{{/if}}'+
                     '</td>'+
                     '</tr>' +

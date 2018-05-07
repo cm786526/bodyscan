@@ -33,7 +33,6 @@ $(document).ready(function(){
         success:function (result) {
             if(result.success){
                 window.location.reload();
-
                 $(this).css('display','none');
                 $(this).parent().parent().find('.info_show').css('display','block');
                 $(this).parent().find('.info_edit').css('display','block');
