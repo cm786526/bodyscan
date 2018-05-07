@@ -310,10 +310,29 @@ class FileUploadHandler(GlobalBaseHandler):
             return self.merge_file(path_base,temp_path)
         elif action=="upload_img":
             return self.upload_img()
+        elif action=="upload_pdf":
+            return self.upload_pdf()
         else:
             return self.send_fail(403)
 
     def upload_img(self):
+        file_metas = self.request.files.get('file', None)  # 提取表单中‘name’为‘file’的文件元数据
+        if not file_metas:
+            return  self.send_fail("缺少图片文件")
+        # 获取上级目录
+        path_base=os.path.join(os.path.dirname(__file__),"../util/uploadfiles/uploadpdf")
+        for meta in file_metas:
+            # 实际上只运行一次 只有一个文件
+            filename =meta["filename"]
+            file_path = path_base+filename
+            # 判断文件是否存在
+            if os.path.exists(file_path):
+                return self.send_fail("文件已经上传，请勿重复操作")
+            with  open(file_path, 'wb') as new_file:
+                new_file.write(meta['body'])
+        return self.send_success()
+
+    def upload_pdf(self):
         file_metas = self.request.files.get('file', None)  # 提取表单中‘name’为‘file’的文件元数据
         if not file_metas:
             return  self.send_fail("缺少图片文件")
@@ -329,6 +348,7 @@ class FileUploadHandler(GlobalBaseHandler):
             with  open(file_path, 'wb') as new_file:
                 new_file.write(meta['body'])
         return self.send_success()
+
 
     def chunk_upload(self,path_base,temp_path):
         # 分片上传 暂时存入临时文件夹中
