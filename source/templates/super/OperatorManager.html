@@ -1,10 +1,27 @@
 {% extends 'super_base.html' %}
 
+{% block nav %}
+<ul class="nav common-left-nav">
+    <li class="data">
+        <span>
+            <img src="../../static/images/data-manager.png">数据</img>
+        </span>
+        <a class="nav-a" href="/super?action=manage_data">数据管理</a>
+    </li>
+    <li class="people">
+        <span>
+            <img src="../../static/images/people-manager.png">人员管理</img>
+        </span>
+        <a class="nav-a" href="/super?action=manage_admin">管理员</a>
+        <a class="nav-a active" href="/super?action=manage_operator">操作员</a>
+    </li>
+</ul>
+{% end %}
+
 {% block main %}
 <span class="right-title">
-数据管理
-    <a class="add-btn ml20">批量下载</a>
-    <a class="add-btn ml20">批量删除</a>
+人员管理
+    <a class="add-btn ml20">新建操作员</a>
 </span>
 <div class="status-div">
     <ul class="subnav">

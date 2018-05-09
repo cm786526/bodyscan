@@ -73,7 +73,6 @@ ul{padding-left:0;}
 }
 .image-div{
     float: right;
-    margin-right: 100px;
     height: 50px;
     width: 80px;
     padding-left: 10px;
@@ -87,7 +86,7 @@ ul{padding-left:0;}
     border-color: #EEE;
     background: #FFF;
     top: 51px;
-    right: 100px;
+    right: 0;
     width: 80px;
     color: #6C6C6C;
     line-height: 28px;
