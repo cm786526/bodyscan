@@ -15,6 +15,7 @@ class Home(AdminBaseHandler):
             return self.render("admin/add_record.html")
         elif action=="edit_record":
             data_dict=self.get_record_info_one()
+            print(data_dict)
             return self.render("admin/edit_record.html",data_dict=data_dict)
         else:
             return self.render("admin/HomePage.html")
