@@ -125,7 +125,7 @@ $(document).ready(function(){
 
 //领取任务-弹出模块框
 function distribute(obj){
-    $('#confirmModal').modal('show')
+    $('#confirmModal').modal('show');
     var thisObj = $(obj);
     analyze_id = thisObj.attr("analyze_id");
 }
@@ -203,13 +203,11 @@ function getResultPageOperator(status,page){
                     '<td>{{data["admin_affiliation"]}}</td>' +
                     '<td>{{data["describe"]}}</td>' +
                     '<td>'+
-                    '{{if data["status"] == 0}}未分配{{/if}}'+
                     '{{if data["status"] == 1}}处理中{{/if}}'+
                     '{{if data["status"] == 2}}待确认{{/if}}'+
                     '{{if data["status"] == 3}}已处理{{/if}}'+
                     '</td>'+
                     '<td>'+
-                    '{{if data["status"] == 0}}<a>分配</a>{{/if}}'+
                     '{{if data["status"] == 1}}<a href="/filedownload?filename={{data["file_name"]}}" target="_blank">下载数据</a>&nbsp&nbsp<a>联系上传人员</a>&nbsp&nbsp<a onclick="uploadFeedback(this)"  data-toggle="modal" data-target="#myModal" handler_id={{data["handler_id"]}} analyze_id={{data["id"]}}>上传反馈材料</a>{{/if}}'+
                     '{{if data["status"] == 3}}<a>查看</a>{{/if}}'+
                     '</td>'+

@@ -1,6 +1,7 @@
 var _page=0;
 var page_sum=0;
 var status=0;
+var analyze_id='';
 $(document).ready(function() {
     //加载数据
     getResultPage(-1, 0);
@@ -244,6 +245,23 @@ $(document).ready(function() {
     })
 }).on('blur','#Input2',function(){
     IdentityCodeValid($('#Input2').val())
+}).on('click','#confirmModalButton',function(){
+    //确认
+    $.ajax({
+        type: 'post',
+        url: '/admin',
+        data: {
+            action:"confirm_data",
+            analyze_id:analyze_id
+        },
+        dataType:'json',
+        success:function (result) {
+            if(result.success){
+                //确认成功
+                getResultPage(-1,_page)
+            }
+        }
+    })
 });
 
 
@@ -273,20 +291,47 @@ function Tip(text){
     },2000);
 }
 
-//确认
-function confirmData(analyze_id){
+//确认-弹出模块框
+function confirmData(obj){
+    $('#confirmModal').modal('show');
+    analyze_id = $(obj).attr("analyze_id");
+}
+
+function contactOperator(id){
+    $('#myModal').modal('show');
     $.ajax({
         type: 'post',
         url: '/admin',
         data: {
-            action:"confirm_data",
-            analyze_id:analyze_id
+            action:"get_operator_data",
+            id:id
         },
         dataType:'json',
         success:function (result) {
             if(result.success){
-                //确认成功
-                getResultPage(status,_page)
+                $('#myModal').modal('show');
+                $('#contact-operator').empty();
+                var record_item = '<tr>' +
+                    '<td>{{data["id"]}}</td>' +
+                    '<td>{{data["patient_name"]}}</td>' +
+                    '<td>'+
+                    '{{if data["status"] == 0}}未领取{{/if}}'+
+                    '{{if data["status"] == 1}}处理中{{/if}}'+
+                    '{{if data["status"] == 2}}待确认{{/if}}'+
+                    '{{if data["status"] == 3}}已处理{{/if}}'+
+                    '</td>'+
+                    '<td>'+
+                    '{{if data["status"] == 0||data["status"] == 1}}<a class="edit" href="/admin?action=edit_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a onclick="contactOperator({{data["id"]}})">联系操作员</a>{{/if}}'+
+                    '{{if data["status"] == 2}}<a href="/filedownload?filename={{data["file_name"]}}" target="_blank">下载反馈材料</a>&nbsp&nbsp<a class="edit" href="/admin?action=add_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a onclick="confirmData({{data["id"]}})">确认</a>{{/if}}'+
+                    '{{if data["status"] == 3}}<a>查看</a>{{/if}}'+
+                    '</td>'+
+                    '</tr>';
+
+                var render = template.compile(record_item);
+                var html = render(result);
+                $('.data_list').append(html);
+                page_sum=result.page_sum;
+                $('.page_sum').text(page_sum);
             }
         }
     })
@@ -316,8 +361,8 @@ function getResultPage(status,page){
                     '{{if data["status"] == 3}}已处理{{/if}}'+
                     '</td>'+
                     '<td>'+
-                    '{{if data["status"] == 0||data["status"] == 1}}<a class="edit" href="/admin?action=edit_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a>联系操作员</a>{{/if}}'+
-                    '{{if data["status"] == 2}}<a href="/filedownload?filename={{data["file_name"]}}" target="_blank">下载</a>&nbsp&nbsp<a class="edit" href="/admin?action=add_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a onclick="confirmData({{data["id"]}})">确认</a>{{/if}}'+
+                    '{{if data["status"] == 0||data["status"] == 1}}<a class="edit" href="/admin?action=edit_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a onclick="contactOperator({{data["id"]}})">联系操作员</a>{{/if}}'+
+                    '{{if data["status"] == 2}}<a href="/filedownload?filename={{data["file_name"]}}" target="_blank">下载反馈材料</a>&nbsp&nbsp<a class="edit" href="/admin?action=add_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a onclick="confirmData({{data["id"]}})">确认</a>{{/if}}'+
                     '{{if data["status"] == 3}}<a>查看</a>{{/if}}'+
                     '</td>'+
                     '</tr>' +
