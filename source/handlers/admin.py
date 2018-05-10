@@ -110,20 +110,29 @@ class Home(AdminBaseHandler):
             status_list.append(status)
         AnalyzeRequestRecord=models.AnalyzeRequestRecord
         OperatorHandlerRecord=models.OperatorHandlerRecord
-        record_base=session.query(AnalyzeRequestRecord,OperatorHandlerRecord.file_name)\
-                            .join(OperatorHandlerRecord,AnalyzeRequestRecord.id==OperatorHandlerRecord.analyze_id)\
+        record_base=session.query(AnalyzeRequestRecord)\
                             .filter(AnalyzeRequestRecord.status.in_(status_list))
         if doctor_id:
             # 获取某个法医上传的数据
             all_records=record_base.filter_by(doctor_id=doctor_id)
         else:
             all_records=record_base
-        all_records=all_records.offset(page*page_num).limit(page_num).all()
-        page_sum=int(len(all_records)/page_num)
-        if len(all_records)%page_num:
+        _temp_records=all_records.all()
+        page_sum=int(len(_temp_records)/page_num)
+        if len(_temp_records)%page_num:
             page_sum+=1
+        all_records=all_records.offset(page*page_num).limit(page_num).all()
+        analyze_ids=[x.id for x in all_records]
+        all_handler_records=session.query(OperatorHandlerRecord)\
+                                    .filter(OperatorHandlerRecord.analyze_id.in_(analyze_ids),\
+                                            OperatorHandlerRecord.status.in_([2,3]))\
+                                    .all()
+        analyze_feedback_file={}
+        for item in all_handler_records:
+            analyze_feedback_file[item.analyze_id]=item.file_name
         data_list=[]
-        for item,file_name in all_records:
+        for item in all_records:
+            file_name=analyze_feedback_file.get(item.id,"")
             record_dict={
                 "id":item.id,
                 "doctor_id":item.doctor_id,

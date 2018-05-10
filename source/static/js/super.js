@@ -86,7 +86,6 @@ $(document).ready(function() {
     }
 }).on('click','#delete-btn',function(){
     //批量删除
-
 })
 //提示框
 function Tip(text){
