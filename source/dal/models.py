@@ -311,15 +311,15 @@ class AnalyzeRequestRecord(MapBase,_AccountApi):
 
 # 处理员处理的检测记录
 class OperatorHandlerRecord(MapBase,_AccountApi):
-
     __tablename__="operator_handler_record"
+
     id = Column(Integer, primary_key=True, nullable=False,autoincrement=True)
-    analyze_id=Column(Integer,ForeignKey(AnalyzeRequestRecord.id),nullable=False)             # 操作员处理的记录id
-    operator_id=Column(Integer,nullable=False,default=0)                                     # 处理人员id
-    get_date=Column(DateTime,nullable=False,default=func.now())                  # 领取时间
-    handler_date=Column(DateTime,nullable=True)                         # 任务处理时间
-    status=Column(TINYINT,nullable=False,default=1)                                 # 记录状态 1:处理中 2：已处理
-    file_name=Column(String(128),nullable=False,default="")                          # 文件名称
+    analyze_id=Column(Integer,ForeignKey(AnalyzeRequestRecord.id),nullable=False)        # 操作员处理的记录id
+    operator_id=Column(Integer,nullable=False,default=0)                                 # 处理人员id
+    get_date=Column(DateTime,nullable=False,default=func.now())                          # 领取时间
+    handler_date=Column(DateTime,nullable=True)                                          # 任务处理时间
+    status=Column(TINYINT,nullable=False,default=1)                                      # 记录状态 1:处理中 2：已处理
+    file_name=Column(String(128),nullable=False,default="")                              # 文件名称
 
 # 验证码用途
 class VerifyCodeUse:

@@ -109,7 +109,9 @@ class Home(AdminBaseHandler):
         else:
             status_list.append(status)
         AnalyzeRequestRecord=models.AnalyzeRequestRecord
-        record_base=session.query(AnalyzeRequestRecord)\
+        OperatorHandlerRecord=models.OperatorHandlerRecord
+        record_base=session.query(AnalyzeRequestRecord,OperatorHandlerRecord.file_name)\
+                            .join(OperatorHandlerRecord,AnalyzeRequestRecord.id==OperatorHandlerRecord.analyze_id)\
                             .filter(AnalyzeRequestRecord.status.in_(status_list))
         if doctor_id:
             # 获取某个法医上传的数据
@@ -121,7 +123,7 @@ class Home(AdminBaseHandler):
         if len(all_records)%page_num:
             page_sum+=1
         data_list=[]
-        for item in all_records:
+        for item,file_name in all_records:
             record_dict={
                 "id":item.id,
                 "doctor_id":item.doctor_id,
@@ -130,7 +132,8 @@ class Home(AdminBaseHandler):
                 "patient_sex_text":item.patient_sex_text,
                 "describe":item.describe,
                 "create_date":item.create_date.strftime("%Y-%m-%d %H:%M:%S"),
-                "status":item.status
+                "status":item.status,
+                "file_name":file_name
             }
             data_list.append(record_dict)
         return self.send_success(data_list=data_list,page_sum=page_sum)

@@ -28,7 +28,7 @@ $(document).ready(function(){
         dataType:'json',
         success:function (result) {
             if(result.success){
-                window.location.href = "/operator";
+                // window.location.href = "/operator";
             }
         }
     });
