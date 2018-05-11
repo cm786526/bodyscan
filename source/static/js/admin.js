@@ -1,7 +1,7 @@
 var _page=0;
 var page_sum=0;
-var status=0;
 var analyze_id='';
+var status=-1;
 $(document).ready(function() {
     //加载数据
     getResultPage(-1, 0);
@@ -362,7 +362,7 @@ function getResultPage(status,page){
                     '</td>'+
                     '<td>'+
                     '{{if data["status"] == 0||data["status"] == 1}}<a class="edit" href="/admin?action=edit_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a onclick="contactOperator({{data["id"]}})">联系操作员</a>{{/if}}'+
-                    '{{if data["status"] == 2}}<a href="/filedownload?filename={{data["file_name"]}}" target="_blank">下载反馈材料</a>&nbsp&nbsp<a class="edit" href="/admin?action=add_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a onclick="confirmData({{data["id"]}})">确认</a>{{/if}}'+
+                    '{{if data["status"] == 2}}<a href="/filedownload?action=get_feedback_pdf&filename={{data["file_name"]}}" target="_blank">下载</a>&nbsp&nbsp<a class="edit" href="/admin?action=add_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a onclick="confirmData({{data["id"]}})">确认</a>{{/if}}'+
                     '{{if data["status"] == 3}}<a>查看</a>{{/if}}'+
                     '</td>'+
                     '</tr>' +

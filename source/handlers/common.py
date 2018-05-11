@@ -320,7 +320,7 @@ class FileUploadHandler(GlobalBaseHandler):
         if not file_metas:
             return  self.send_fail("缺少图片文件")
         # 获取上级目录
-        path_base=os.path.join(os.path.dirname(__file__),"../util/uploadfiles/uploadpdf")
+        path_base=os.path.join(os.path.dirname(__file__),"../static/images/headimg/")
         for meta in file_metas:
             # 实际上只运行一次 只有一个文件
             filename =meta["filename"]
@@ -337,11 +337,12 @@ class FileUploadHandler(GlobalBaseHandler):
         if not file_metas:
             return  self.send_fail("缺少图片文件")
         # 获取上级目录
-        path_base=os.path.join(os.path.dirname(__file__),"../static/images/headimg/")
+        path_base=os.path.join(os.path.dirname(__file__),"../utils/uploadfiles/uploadpdf/")
         for meta in file_metas:
             # 实际上只运行一次 只有一个文件
             filename =meta["filename"]
             file_path = path_base+filename
+            print(file_path)
             # 判断文件是否存在
             if os.path.exists(file_path):
                 return self.send_fail("文件已经上传，请勿重复操作")
@@ -395,14 +396,18 @@ class FileUploadHandler(GlobalBaseHandler):
 
 
 class FileDownloadHandler(GlobalBaseHandler):
-    @GlobalBaseHandler.check_arguments("filename:str")
+    @GlobalBaseHandler.check_arguments("filename:str","action:str")
     def get(self):
         filename=self.args["filename"]
+        action=self.args["action"]
+        print(filename)
         if not filename:
             return self.send_fail("文件不存在，请联系法医")
-        path_base=os.path.join(os.path.dirname(__file__),"../utils/uploadfiles/")
+        if action=="get_feedback_pdf":
+            path_base=os.path.join(os.path.dirname(__file__),"../utils/uploadfiles/uploadpdf/")
+        elif action=="get_upload_file":
+            path_base=os.path.join(os.path.dirname(__file__),"../utils/uploadfiles/")
         file_path = path_base + filename
-        print(path_base,file_path,os.path.exists(file_path))
         # 判断文件是否存在
         if not os.path.exists(file_path):
             return self.send_fail("文件不存在")
@@ -417,3 +422,11 @@ class FileDownloadHandler(GlobalBaseHandler):
                 self.write(chunk)
         #记得有finish哦
         return self.finish()
+
+class AccountManage(_AccountBaseHandler):
+    @_AccountBaseHandler.check_arguments("action?:str")
+    def get(self):
+        pass
+
+    def post(self):
+        action=self.args["action"]

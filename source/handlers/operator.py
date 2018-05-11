@@ -49,7 +49,10 @@ class Home(OperatorBaseHandler):
                 handler_record.file_name=file_name
                 handler_record.handler_date=datetime.datetime.now()
                 handler_record.status=2
-                analyze_record=session.query(models.AnalyzeRequestRecord).filter_by(id=handler_record.analyze_id).with_lockmode("update").first()
+                analyze_record=session.query(models.AnalyzeRequestRecord)\
+                                        .filter_by(id=handler_record.analyze_id)\
+                                        .with_lockmode("update")\
+                                        .first()
                 analyze_record.status=2
                 session.commit()
                 return self.send_success()

@@ -74,8 +74,8 @@ $(document).ready(function() {
         $(this).attr("src",checkUrl);
         $(".check-img").attr("src",checkUrl);
     }
-}).on('click','#upload-btn',function(){
-    //批量上传
+}).on('click','#download-btn',function(){
+    //批量下载
     var imgLength = $('.check-img').length;
     var checkLength = 0;
     filename = [];
@@ -86,7 +86,6 @@ $(document).ready(function() {
     }
 }).on('click','#delete-btn',function(){
     //批量删除
-
 })
 //提示框
 function Tip(text){
