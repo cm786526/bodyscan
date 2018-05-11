@@ -77,16 +77,59 @@ $(document).ready(function() {
 }).on('click','#download-btn',function(){
     //批量下载
     var imgLength = $('.check-img').length;
-    var checkLength = 0;
     filename = [];
     for (var i = 0; i <= imgLength; i++) {
         if($('.check-img').eq(i).attr("src") == checkUrl){
             filename.push($('.check-img').eq(i).attr("file_name"))
         }
     }
+    $.ajax({
+        type: 'post',
+        url: '/super',
+        data: {
+            action: 'download',
+            file_name:filename
+        },
+        dataType:'json',
+        success:function (res) {
+            if(res.success){
+                Tip('已经开始下载');
+            }else{
+                Tip(res.error_text);
+            }
+        }
+    });
 }).on('click','#delete-btn',function(){
+    $('#confirmModal').modal('show');
     //批量删除
-})
+
+}).on('click','#confirmModalButton',function(){
+    var imgLength = $('.check-img').length;
+    filename = [];
+    for (var i = 0; i <= imgLength; i++) {
+        if($('.check-img').eq(i).attr("src") == checkUrl){
+            filename.push($('.check-img').eq(i).attr("file_name"))
+        }
+    }
+    $.ajax({
+        type: 'post',
+        url: '/super',
+        data: {
+            action: 'delete',
+            file_name:filename
+        },
+        dataType:'json',
+        success:function (res) {
+            if(res.success){
+                Tip('已删除所选文件');
+                getResultPage(status,page);
+            }else{
+                Tip(res.error_text);
+            }
+        }
+    });
+});
+
 //提示框
 function Tip(text){
     var tip = '<div class="zb-tip" id="zb-tip">'+text+'</div>';

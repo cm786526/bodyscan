@@ -211,10 +211,6 @@ $(document).ready(function() {
         Tip("身份证号格式不对");
         return;
     }
-    var sex=$uploadTable.find('.radio-active').data('id');
-    var describe=$uploadTable.find('#Input3').val();
-    var measuring_position=$uploadTable.find('#Input4').val();
-    var measuring_method=$uploadTable.find('#Input5').val();
     var measuring_date=$uploadTable.find('#date').val();
     if(measuring_date==""){
         Tip("测量日期不能为空");
@@ -307,31 +303,34 @@ function contactOperator(id){
             id:id
         },
         dataType:'json',
-        success:function (result) {
-            if(result.success){
+        success:function (res) {
+            if(res.success){
+                data_dict=res.data_dict;
                 $('#myModal').modal('show');
                 $('#contact-operator').empty();
-                var record_item = '<tr>' +
-                    '<td>{{data["id"]}}</td>' +
-                    '<td>{{data["patient_name"]}}</td>' +
-                    '<td>'+
-                    '{{if data["status"] == 0}}未领取{{/if}}'+
-                    '{{if data["status"] == 1}}处理中{{/if}}'+
-                    '{{if data["status"] == 2}}待确认{{/if}}'+
-                    '{{if data["status"] == 3}}已处理{{/if}}'+
-                    '</td>'+
-                    '<td>'+
-                    '{{if data["status"] == 0||data["status"] == 1}}<a class="edit" href="/admin?action=edit_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a onclick="contactOperator({{data["id"]}})">联系操作员</a>{{/if}}'+
-                    '{{if data["status"] == 2}}<a href="/filedownload?filename={{data["file_name"]}}" target="_blank">下载反馈材料</a>&nbsp&nbsp<a class="edit" href="/admin?action=add_record&record_id={{data["id"]}}">修改数据</a>&nbsp&nbsp<a onclick="confirmData({{data["id"]}})">确认</a>{{/if}}'+
-                    '{{if data["status"] == 3}}<a>查看</a>{{/if}}'+
-                    '</td>'+
-                    '</tr>';
-
+                var record_item = '<img class="operator-image" id="operator-img" src={{data_dict["headimgurl"]}}>' +
+                    '<div class="operator-div">' +
+                    '<h2 class="operator-h2">{{data_dict["realname"]}}</h2>' +
+                    '<div class="operator-img-div">' +
+                    '<div>' +
+                    '<img src="../../static/images/tel.png" class="operator-img"><span>{{data_dict["phone"]}}</span>' +
+                    '</div>' +
+                    '<div style="margin-top: 10px">' +
+                    '<img src="../../static/images/wx.png" class="operator-img"><span>{{data_dict["wx_number"]}}</span>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="operator-img-div">' +
+                    '<div>' +
+                    '<img src="../../static/images/email.png" class="operator-img"><span>{{data_dict["email"]}}</span>' +
+                    '</div>' +
+                    '<div style="margin-top: 10px">' +
+                    '<img src="../../static/images/QQ.png" class="operator-img"><span>{{data_dict["qq_number"]}}</span>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
                 var render = template.compile(record_item);
-                var html = render(result);
-                $('.data_list').append(html);
-                page_sum=result.page_sum;
-                $('.page_sum').text(page_sum);
+                var html = render(res);
+                $('#contact-operator').append(html);
             }
         }
     })
