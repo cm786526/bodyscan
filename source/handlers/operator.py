@@ -103,7 +103,7 @@ class Home(OperatorBaseHandler):
                 "handler_date":handler.handler_date.strftime("%Y-%m-%d %H:%M:%S") if handler.handler_date else "",
                 "admin_affiliation":"",
                 "status":handler.status,
-                "file_name":analyze.file_name
+                "file_name":"/filedownload?action=get_upload_file&filename="+analyze.file_name
             }
             data_list.append(record_dict)
         return self.send_success(data_list=data_list,page_sum=page_sum)

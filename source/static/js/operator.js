@@ -210,7 +210,7 @@ function getResultPageOperator(status,page){
                     '<td>'+
 
                     '{{if data["status"] == 0}}<a>分配</a>{{/if}}'+
-                    '{{if data["status"] == 1}}<a href="/filedownload?action=get_upload_file&filename={{data["file_name"]}}" target="_blank">下载数据</a>&nbsp&nbsp<a>联系上传人员</a>&nbsp&nbsp<a onclick="uploadFeedback(this)"  data-toggle="modal" data-target="#myModal" handler_id={{data["handler_id"]}} analyze_id={{data["id"]}}>上传反馈材料</a>{{/if}}'+
+                    '{{if data["status"] == 1}}<a href="{{data["file_name"]}}" target="_blank">下载数据</a>&nbsp&nbsp<a>联系上传人员</a>&nbsp&nbsp<a onclick="uploadFeedback(this)"  data-toggle="modal" data-target="#myModal" handler_id={{data["handler_id"]}} analyze_id={{data["id"]}}>上传反馈材料</a>{{/if}}'+
                     '{{if data["status"] == 3}}<a>查看</a>{{/if}}'+
                     '</td>'+
                     '</tr>' +

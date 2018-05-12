@@ -77,33 +77,27 @@ $(document).ready(function() {
 }).on('click','#download-btn',function(){
     //批量下载
     var imgLength = $('.check-img').length;
-    filename = [];
+    file_url = [];
     for (var i = 0; i <= imgLength; i++) {
         if($('.check-img').eq(i).attr("src") == checkUrl){
-            filename.push($('.check-img').eq(i).attr("file_name"))
+            file_name=$('.check-img').eq(i).attr("file_name");
+            if(file_name.replace("/filedownload?action=get_feedback_pdf&filename=","")==""){
+                Tip('第'+(i+1)+'项文件为空，下载失败');
+                continue;
+            }
+            file_url.push(file_name)
         }
     }
-    $.ajax({
-        type: 'post',
-        url: '/super',
-        data: {
-            action: 'download',
-            file_name:filename
-        },
-        dataType:'json',
-        success:function (res) {
-            if(res.success){
-                Tip('已经开始下载');
-            }else{
-                Tip(res.error_text);
-            }
-        }
-    });
+    if(file_url.length==0){
+        Tip('请选择下载内容');
+        return false;
+    }
+    for(var index = 0; index < file_url.length; index++){
+        href=file_url[index]
+        name=href.replace("/filedownload?action=get_feedback_pdf&filename=","")
+        download(name,href);
+    }
 }).on('click','#delete-btn',function(){
-    $('#confirmModal').modal('show');
-    //批量删除
-
-}).on('click','#confirmModalButton',function(){
     var imgLength = $('.check-img').length;
     filename = [];
     for (var i = 0; i <= imgLength; i++) {
@@ -111,6 +105,15 @@ $(document).ready(function() {
             filename.push($('.check-img').eq(i).attr("file_name"))
         }
     }
+    if(filename.length==0){
+        Tip('请选择删除内容');
+        return false;
+    }
+    $('#confirmModal').modal('show');
+    //批量删除
+
+}).on('click','#confirmModalButton',function(){
+
     $.ajax({
         type: 'post',
         url: '/super',
@@ -174,4 +177,13 @@ function getResultPage(status,page){
             }
         }
     })
+}
+
+function download(name, href) {
+  var a = document.createElement("a"), //创建a标签
+      e = document.createEvent("MouseEvents"); //创建鼠标事件对象
+  e.initEvent("click", false, false); //初始化事件对象
+  a.href = href; //设置下载地址
+  a.download = name; //设置下载文件名
+  a.dispatchEvent(e); //给指定的元素，执行事件click事件
 }
