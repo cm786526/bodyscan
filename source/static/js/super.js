@@ -113,12 +113,22 @@ $(document).ready(function() {
     //批量删除
 
 }).on('click','#confirmModalButton',function(){
-
+    var imgLength = $('.check-img').length;
+    filename = [];
+    for (var i = 0; i <= imgLength; i++) {
+        if($('.check-img').eq(i).attr("src") == checkUrl){
+            filename.push($('.check-img').eq(i).attr("file_name").replace(""))
+        }
+    }
+    if(filename.length==0){
+        Tip('请选择删除内容');
+        return false;
+    }
     $.ajax({
         type: 'post',
         url: '/super',
         data: {
-            action: 'delete',
+            action: 'delete_files',
             file_name:filename
         },
         dataType:'json',

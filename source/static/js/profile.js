@@ -53,6 +53,15 @@ $(document).ready(function(){
     {
         edit_headimg(filename);
     };
+}).on('click','#back_home',function(){
+    user_role=parseInt(getCookie("user_role"));
+    if(user_role==1){
+        window.location.href="/super";
+    }else if(user_role==2){
+        window.location.href="/admin";
+    }else if(user_role==3){
+        window.location.href="/operator";
+    }
 });
 
 //提示框
@@ -84,9 +93,14 @@ function getResultPage(){
                 $('.wx_number').text(data_dict["wx_number"]);
                 $('.qq_number').text(data_dict["qq_number"]);
                 $('.signature').text(data_dict["signature"]);
-                $("#logoImg").attr("src",data_dict["headimgurl"]);
+                headimgurl=data_dict["headimgurl"];
+                if(headimgurl==null){
+                    headimgurl="/static/images/me.jpg";
+                }
+                $("#logoImg").attr("src",headimgurl);
+                $("#Img").attr("src",headimgurl);
             }else{
-                // Tip(res.error_text);
+                Tip(res.error_text);
             }
         }
     });
@@ -107,9 +121,19 @@ function edit_headimg(filename){
             if(res.success){
                Tip("成功编辑头像");
                $("#logoImg").attr('src',img_url);
+               $("#Img").attr("src",img_url);
             }else{
                 Tip(res.error_text);
             }
         }
     });
+}
+
+
+function getCookie(name){
+    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+    if(arr=document.cookie.match(reg))
+    return unescape(arr[2]);
+    else
+    return "";
 }

@@ -143,7 +143,8 @@ class Home(AdminBaseHandler):
                 "describe":item.describe,
                 "create_date":item.create_date.strftime("%Y-%m-%d %H:%M:%S"),
                 "status":item.status,
-                "file_name":"/filedownload?action=get_feedback_pdf&filename="+file_name
+                "feedback_file_name":"/filedownload?action=get_feedback_pdf&filename="+file_name,
+                "upload_file_name":"/filedownload?action=get_upload_file&filename="+item.file_name
             }
             data_list.append(record_dict)
         return self.send_success(data_list=data_list,page_sum=page_sum)

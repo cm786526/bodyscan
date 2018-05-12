@@ -139,6 +139,7 @@ class Login(_AccountBaseHandler):
         role=3
         if userRole[0]:
             role=userRole[0]
+        self.set_cookie("user_role",str(role))
         return self.send_success(role=role)
 
     @_AccountBaseHandler.check_arguments("phone:str","code:str")
@@ -327,14 +328,11 @@ class Login(_AccountBaseHandler):
         session.add(account_info)
         session.flush()
         self.set_current_user(account_info,domain=ROOT_HOST_NAME)
+        # 增加用户角色默认为操作员
+        new_user_role=models.UserRole(user_id=account_info.id,role=3)
+        session.add(new_user_role)
         session.commit()
-        # 判断用户角色
-        userRole=session.query(func.min(models.UserRole.role)).filter_by(user_id=account_info.id)\
-                                                .first()
-        role=3
-        if userRole:
-            role=userRole[0]
-        return self.send_success(role=role)
+        return self.send_success(role=3)
 
 
 class PhoneBind(_AccountBaseHandler):

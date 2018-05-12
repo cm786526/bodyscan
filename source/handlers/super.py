@@ -15,5 +15,7 @@ class Home(AdminBaseHandler):
             return self.render("super/AdminManager.html")
         elif action=="manage_operator":
             return self.render("super/OperatorManager.html")
+        elif action=="delete_files":
+            return self.delete_files()
         else:
             return self.send_fail(403)

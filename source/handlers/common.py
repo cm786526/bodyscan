@@ -400,9 +400,8 @@ class FileDownloadHandler(GlobalBaseHandler):
     def get(self):
         filename=self.args["filename"]
         action=self.args["action"]
-        print(filename)
         if not filename:
-            return self.send_fail("文件不存在，请联系法医")
+            return self.write("文件不存在，请联系法医或者技术人员")
         if action=="get_feedback_pdf":
             path_base=os.path.join(os.path.dirname(__file__),"../utils/uploadfiles/uploadpdf/")
         elif action=="get_upload_file":
@@ -410,7 +409,7 @@ class FileDownloadHandler(GlobalBaseHandler):
         file_path = path_base + filename
         # 判断文件是否存在
         if not os.path.exists(file_path):
-            return self.send_fail("文件不存在")
+            return self.write("文件不存在，请联系法医或者技术人员")
         self.set_header ('Content-Type', 'application/octet-stream')
         self.set_header ('Content-Disposition', 'attachment; filename='+filename)
         # 流式读取

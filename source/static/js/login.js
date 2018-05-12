@@ -30,12 +30,12 @@ $(function(){
             dataType:'json',
             success:function (result) {
                 $registerBox.find('.colWarning').html(result.message);
-                if(!result.code){
+                if(result.success){
                     //注册成功
-                    setTimeout(function(){
-                        $loginBox.show();
-                        $registerBox.hide();
-                    },1000);
+                    window,location.href='/operator';
+                }
+                else{
+                    Tip(result.error_text);
                 }
             }
         });
@@ -61,10 +61,10 @@ $(function(){
                         window.location.href="/super";
                     }
                     else if(result.role===2) {
-                        window.location.href = "/operator";
+                        window.location.href = "/admin";
                     }
                     else if(result.role===3) {
-                        window.location.href = "/admin";
+                        window.location.href = "/operator";
                     }
                 }
             }
@@ -83,3 +83,12 @@ $(function(){
     })
 
 });
+
+//提示框
+function Tip(text){
+    var tip = '<div class="zb-tip" id="zb-tip">'+text+'</div>';
+    $("body").append(tip);
+    zb_timer = setTimeout(function(){
+        $("#zb-tip").remove();
+    },2000);
+}
