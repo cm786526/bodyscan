@@ -9,8 +9,10 @@ class Home(AdminBaseHandler):
     @AdminBaseHandler.check_arguments("action?:str")
     def get(self):
         action=self.args.get("action","")
-        if action=="manage_data":
-            return self.render("super/DataManager.html")
+        if action=="manage_data_admin":
+            return self.render("super/DataManagerAdmin.html")
+        elif action=="manage_data_operator":
+                    return self.render("super/DataManagerOperator.html")
         elif action=="manage_admin":
             return self.render("super/AdminManager.html")
         elif action=="manage_operator":

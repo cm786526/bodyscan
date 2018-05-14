@@ -55,12 +55,12 @@ $(document).ready(function(){
     };
 }).on('click','#back_home',function(){
     user_role=parseInt(getCookie("user_role"));
-    if(user_role==1){
-        window.location.href="/super";
-    }else if(user_role==2){
+    if(user_role===1){
+        window.location.href="/super?action=manage_data_admin";
+    }else if(user_role===2){
         window.location.href="/admin";
-    }else if(user_role==3){
-        window.location.href="/operator";
+    }else if(user_role===3) {
+        window.location.href = "/operator";
     }
 });
 
