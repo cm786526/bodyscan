@@ -6,8 +6,17 @@
 
 {% block ul %}
 <ul>
+    {% if role==2%}
+    <li class="topic"><a href="/admin">首页</a></li>
+    <li class="topic topic-focus"><a href="/common/profile">个人中心</a></li>
+    <li class="topic"><a href="/admin?action=add_record">新建数据</a></li>
+    <li class="topic"><a href="/operator">操作员页面</a></li>
+    <li class="topic"><a href="/super?action=manage_data_admin">超管页面</a></li>
+    {% elif role==3%}
     <li class="topic"><a href="javascript:;" id="back_home">首页</a></li>
     <li class="topic topic-focus"><a href="/common/profile">个人中心</a></li>
+    <li class="topic"><a href="/admin">管理员页面</a></li>
+    {% end %}
 </ul>
 {% end %}
 

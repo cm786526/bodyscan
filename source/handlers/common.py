@@ -49,7 +49,13 @@ class Profile(_AccountBaseHandler):
     def get(self):
         #获取个人信息
         data_dict=self.get_profile_info()
-        return self.render("common/profile.html",data_dict=data_dict)
+         # 判断用户角色
+        userRole=self.session.query(func.min(models.UserRole.role)).filter_by(user_id=data_dict["id"])\
+                                                .first()
+        role=3
+        if userRole:
+            role=userRole[0]
+        return self.render("common/profile.html",data_dict=data_dict,role=role)
 
     @_AccountBaseHandler.check_arguments("action:str")
     def post(self):
