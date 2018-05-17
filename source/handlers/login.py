@@ -20,13 +20,20 @@ class Login(_AccountBaseHandler):
         if self._action == "login":
             data_dict={}
             if self.current_user:
-                Accountinfo=models.Accountinfo
-                account_info = self.session.query(Accountinfo).filter_by(id = self.current_user.id).first()
-                data_dict={
-                    "usename":"",
-                    "isAdmin":True,
-                    "id":""
-                }
+                # 判断用户角色
+                userRole=self.session.query(func.min(models.UserRole.role))\
+                                     .filter_by(user_id=self.current_user.id)\
+                                     .first()
+                role=3
+                if userRole:
+                    role=userRole[0]
+                self.set_cookie("user_role",str(role))
+                if role==1:
+                    return self.redirect("/super")
+                elif role==2:
+                    return self.redirect("/admin")
+                else:
+                    return self.redirect("/operator")
             else:
                 data_dict={
                     "usename":"",
@@ -332,7 +339,11 @@ class Login(_AccountBaseHandler):
         new_user_role=models.UserRole(user_id=account_info.id,role=3)
         session.add(new_user_role)
         session.commit()
-        return self.send_success(role=3)
+        # 判断用户角色
+        userRole=self.session.query(func.min(models.UserRole.role))\
+                             .filter_by(user_id=new_user_role.id)\
+                             .first()
+        return self.send_success(role=new_user_role.role)
 
 
 class PhoneBind(_AccountBaseHandler):

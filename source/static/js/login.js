@@ -31,8 +31,17 @@ $(function(){
             success:function (result) {
                 $registerBox.find('.colWarning').html(result.message);
                 if(result.success){
+                    var role=result.role;
                     //注册成功
-                    window.location.href='/operator';
+                    if(role==1){
+                        window.location.href="/super";
+                    }
+                    else if(role==2){
+                        window.location.href="/admin";
+                    }
+                    else{
+                        window.location.href="/operator";
+                    }
                 }
                 else{
                     Tip(result.error_text);

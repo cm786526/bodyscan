@@ -6,6 +6,7 @@ import handlers.admin
 import handlers.operator
 # urls.py
 handlers = [
+    (r"/",handlers.login.Login,{"action":"login"},"Login"),
     # 登录
     (r"/login", handlers.login.Login, {"action":"login"}, "Login"),                                        # 登录
     (r"/logout", handlers.login.Login, {"action":"logout"}, "Logout"),                                     # 退出

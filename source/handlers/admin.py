@@ -147,4 +147,4 @@ class Home(AdminBaseHandler):
                 "upload_file_name":"/filedownload?action=get_upload_file&filename="+item.file_name
             }
             data_list.append(record_dict)
-        return self.send_success(data_list=data_list,page_sum=page_sum)
+        return self.send_success(data_list=data_list,page_sum=page_sum if page_sum else 1)
