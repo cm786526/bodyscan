@@ -25,7 +25,8 @@ $(function(){
                 action:"usename_regist",
                 username:$registerBox.find('[name="username"]').val(),
                 password:$registerBox.find('[name="password"]').val(),
-                repassword:$registerBox.find('[name="repassword"]').val()
+                repassword:$registerBox.find('[name="repassword"]').val(),
+                email:$registerBox.find('[name="email"]').val()
             },
             dataType:'json',
             success:function (result) {
@@ -34,7 +35,7 @@ $(function(){
                     var role=result.role;
                     //注册成功
                     if(role==1){
-                        window.location.href="/super";
+                        window.location.href="/super?action=manage_data_admin";
                     }
                     else if(role==2){
                         window.location.href="/admin";

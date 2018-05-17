@@ -37,6 +37,7 @@ $(document).ready(function() {
     var index = 0;
     var filesize = blob.size;
     var filename = blob.name;
+    var percent = 0;
 
     //计算文件切片总数
     totalPieces = Math.ceil(filesize / bytesPerPiece);
@@ -60,29 +61,17 @@ $(document).ready(function() {
         var xhr = new XMLHttpRequest();
 
         //上传文件进度条
-        xhr.upload.addEventListener("progress", function (e) {
-            if (e.total > 0) {
-                console.log('----进度-----');
-                //e.percent = Math.round(e.loaded / e.total * 100);
-                //(e.loaded当前片文件上传的上传的进度 start是前面分片已经上传完成的文件大小
-                e.percent = 100 * (e.loaded + start) / file.size;
-                if (e.percent > 100) {
-                    e.percent = 100;
-                }
-                console.log(e.percent);
-                console.log('----进度-----');
-                $('#progressbar').LineProgressbar({
-                    percentage: e.percent,
-                    fillBackgroundColor: '#337ab7',
-                    height: '20px',
-                    radius: '50px'
-                });
-            }
-        }, false);
         url = '/fileupload?action=chunk_upload';
         xhr.open('post', url, true);
         xhr.onload = function () {
+            percent = 100 * sended_num / filesize;
             sended_num++;
+            $('#progressbar').LineProgressbar({
+                percentage: percent,
+                fillBackgroundColor: '#337ab7',
+                height: '20px',
+                radius: '50px'
+            });
             if (sended_num === totalPieces) {
                 // 给后台发送合并文件请求
                 merge_file(filename, totalPieces);
