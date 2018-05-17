@@ -32,7 +32,7 @@ $(function(){
                 $registerBox.find('.colWarning').html(result.message);
                 if(result.success){
                     //注册成功
-                    window,location.href='/operator';
+                    window.location.href='/operator';
                 }
                 else{
                     Tip(result.error_text);
@@ -58,7 +58,7 @@ $(function(){
                 if(result.success){
                     //登录成功
                     if(result.role===1){
-                        window.location.href="/super";
+                        window.location.href="/super?action=manage_data_admin";
                     }
                     else if(result.role===2) {
                         window.location.href = "/admin";

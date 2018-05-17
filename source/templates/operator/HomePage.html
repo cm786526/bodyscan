@@ -16,12 +16,23 @@
 <div class="div-container">
     <div class="div-top">
         <div class="topic-div">
+
+
             <ul>
                 <li class="topic topic-focus"><a href="/operator">首页</a></li>
                 <li class="topic"><a href="/common/profile">个人中心</a></li>
+                <li class="topic"><a href="/admin">管理员页面</a></li>
             </ul>
-            <a class="add-btn" href="/admin">管理员页面</a>
-            <image class="top-image" src="../../../static/images/me.jpg"></image>
+            <div class="image-div">
+                <img class="top-image" id="Img">
+                <span class="image-span">▼</span>
+            </div>
+            <div class="nav-my-hidden" id="nav-my-hidden">
+                <ul>
+                    <li><a href="/common/profile">个人中心</a></li>
+                    <li><a href="/logout">退出</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

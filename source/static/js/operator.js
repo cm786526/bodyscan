@@ -6,6 +6,7 @@ var handlerId=0;
 var analyze_id=0;
 $(document).ready(function(){
     getResultPageAdmin(0,0);
+    getImage()
 }).on('click','#btn-submit',function(){
     //提交反馈数据表单
     var str = $('#InputFile').val();
@@ -122,6 +123,18 @@ $(document).ready(function(){
     url = '/fileupload?action=upload_pdf';
     xhr.open('post', url, true);
     xhr.send(formData);
+}).on('mouseover','.image-div',function(){
+    $('#nav-my-hidden').css('display','block');
+    $('.image-div').css('background-color','#16344f');
+}).on('mouseleave','#nav-my-hidden',function(){
+    $('#nav-my-hidden').css('display','none');
+    $('.image-div').css('background-color','#337ab7');
+}).on('mouseover','#nav-my-hidden',function(){
+    $('#nav-my-hidden').css('display','block');
+    $('.image-div').css('background-color','#16344f');
+}).on('mouseleave','.image-div',function(){
+    $('#nav-my-hidden').css('display','none');
+    $('.image-div').css('background-color','#337ab7');
 });
 
 //领取任务-弹出模块框
@@ -224,4 +237,23 @@ function getResultPageOperator(status,page){
             }
         }
     })
+}
+//获取头像
+function getImage(){
+    $.ajax({
+        type: 'post',
+        url: '/common/profile',
+        data: {
+            action: 'get_profile'
+        },
+        dataType:'json',
+        success:function (res) {
+            if(res.success){
+                data_dict=res.data_dict;
+                $("#Img").attr("src",data_dict["headimgurl"]);
+            }else{
+                // Tip(res.error_text);
+            }
+        }
+    });
 }

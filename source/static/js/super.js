@@ -30,7 +30,7 @@ $(document).ready(function() {
     $(".more-page").addClass("hide");
     ifMorePage();
 }).on('click','.jump-to',function(){
-    jump_page=$(".input-page").val()
+    jump_page=$(".input-page").val();
     if(jump_page>page_sum||jump_page<1||isNaN(jump_page)){
         Tip("页码不正确");
         return;
