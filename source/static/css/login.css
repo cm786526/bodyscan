@@ -36,6 +36,7 @@ a,a:hover,a:visited,a:link,a:active{
     width: 340px;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 30px;
 }
 .button-login{
     margin-top: 30px;
@@ -61,7 +62,6 @@ a,a:hover,a:visited,a:link,a:active{
     border-radius: 10px;
     background-color:rgba(0,0,0,0.3);
     width: 420px;
-    height: 350px;
     margin-top: 100px;
     text-align: center;
 }

@@ -339,10 +339,6 @@ class Login(_AccountBaseHandler):
         new_user_role=models.UserRole(user_id=account_info.id,role=3)
         session.add(new_user_role)
         session.commit()
-        # 判断用户角色
-        userRole=self.session.query(func.min(models.UserRole.role))\
-                             .filter_by(user_id=new_user_role.id)\
-                             .first()
         return self.send_success(role=new_user_role.role)
 
 
