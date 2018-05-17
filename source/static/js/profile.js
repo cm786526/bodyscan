@@ -46,7 +46,7 @@ $(document).ready(function(){
     var formData = new FormData();
     formData.append("file",file,filename);
     var xhr = new XMLHttpRequest();
-    url = 'http://bodyscan.com.cn:9999/fileupload?action=upload_img';
+    url = '/fileupload?action=upload_img';
     xhr.open('post', url, true);
     xhr.send(formData);
     xhr.onload = function()

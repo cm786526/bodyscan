@@ -79,7 +79,7 @@ $(document).ready(function() {
                 });
             }
         }, false);
-        url = 'http://bodyscan.com.cn:9999/fileupload?action=chunk_upload';
+        url = '/fileupload?action=chunk_upload';
         xhr.open('post', url, true);
         xhr.onload = function () {
             sended_num++;
